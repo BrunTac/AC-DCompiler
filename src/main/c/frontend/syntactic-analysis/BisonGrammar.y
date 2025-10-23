@@ -26,7 +26,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %union {
 	/** Terminals. */
 
-	signed double integer;
+ 	double real;
 	TokenLabel token;
 
 	/** Non-terminals. */
