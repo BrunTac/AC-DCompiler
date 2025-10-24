@@ -72,8 +72,8 @@ UNIT_PATTERN        (?:GIGA|giga|G|MEGA|mega|M|KILO|kilo|K|BASE|base|MILLI|milli
 "("                                     { return ParenthesisLexemeAction(OPEN_PARENTHESIS); }
 ")"                                     { return ParenthesisLexemeAction(CLOSE_PARENTHESIS); }
 
-"{"                                     { return BraceLexemeAction(OPEN_BRACKET); }
-"}"                                     { return BraceLexemeAction(CLOSE_BRACKET); }
+"{"                                     { return BraceLexemeAction(OPEN_BRACE); }
+"}"                                     { return BraceLexemeAction(CLOSE_BRACE); }
 
 ","                                     { return CommaLexemeAction(); }
 
