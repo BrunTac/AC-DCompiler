@@ -43,6 +43,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
     Branch * branch;
     BranchList * branchList;
     Parallel * parallel;
+    Polarity * polarity;
 }
 
 /**
@@ -104,6 +105,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %type <branch> branch
 %type <branchList> branchList
 %type <parallel> parallel
+%type <polarity> polarity
 
 %%
 
@@ -179,9 +181,13 @@ parameterList: parameter                                        { $$ = NewParams
 parameter: 
       VALUE                                         { $$ = ParamValueSemanticAction($1); }
     | UNIT                                          { $$ = ParamUnitSemanticAction($1); }
-    | POLARITY                                      { $$ = ParamPolaritySemanticAction($1); }
+    | polarity                                      { $$ = ParamPolaritySemanticAction($1); }
     | CURRENT_TYPE                                  { $$ = ParamCurrentTypeSemanticAction($1); }
     ;
+
+polarity:
+      POSITIVE                                      { $$ = PositivePolaritySemanticAction($1); }
+    | NEGATIVE                                      { $$ = NegativePolaritySemanticAction($1); }
 
 /* Identifier (names of circuits/branches/components/connections) */
 identifier: ID                                            { $$ = IdentifierSemanticAction($1); }
