@@ -86,7 +86,7 @@ UNIT_PATTERN        (?:GIGA|giga|G|MEGA|mega|M|KILO|kilo|K|BASE|base|MILLI|milli
 "Resistance"                             { return KeywordLexemeAction(RESISTANCE); }
 "Capacitor"                              { return KeywordLexemeAction(CAPACITOR); }
 "Connection"                             { return KeywordLexemeAction(CONNECTION); }
-"Voltimeter"                             { return KeywordLexemeAction(VOLTIMETER); }
+"Voltmeter"                             { return KeywordLexemeAction(VOLTMETER); }
 "Amperimeter"                            { return KeywordLexemeAction(AMPERIMETER); }
 "Inductance"                             { return KeywordLexemeAction(INDUCTANCE); }
 "Switch"                                 { return KeywordLexemeAction(SWITCH); }

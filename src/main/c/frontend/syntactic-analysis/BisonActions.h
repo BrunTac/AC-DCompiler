@@ -16,11 +16,24 @@ ModuleDestructor initializeBisonActionsModule();
  * Bison semantic actions.
  */
 
-Constant * IntegerConstantSemanticAction(const int value);
-Expression * ArithmeticExpressionSemanticAction(Expression * leftExpression, Expression * rightExpression, ExpressionType type);
-Expression * FactorExpressionSemanticAction(Factor * factor);
-Factor * ConstantFactorSemanticAction(Constant * constant);
-Factor * ExpressionFactorSemanticAction(Expression * expression);
-Program * ExpressionProgramSemanticAction(Expression * expression);
+Program * ProgramSemanticAction(CircuitList * circuitList);
+CircuitList * NewCircuitListSemanticAction(Circuit * circuit);
+CircuitList * AppendCircuitSemanticAction(CircuitList * circuitList, Circuit * circuit);
+Circuit * CircuitSemanticAction(Identifier * identifier, ElementList * elementList);
+ElementList * EmptyElementListSemanticAction();
+ElementList * NewElementListSemanticAction(Element * element);
+ElementList * AppendElementSemanticAction(ElementList * elementList, Element * element);
+Element * ComponentElementSemanticAction(Component * component);
+Element * ParallelElementSemanticAction(Parallel * parallel);
+Parallel * ParallelSemanticAction(BranchList * branchList);
+BranchList * NewBranchListSemanticAction(Branch * leftBranch, Branch * rightBranch);
+BranchList * AppendBranchSemanticAction(BranchList * branchList, Branch * branch);
+Branch * BranchSemanticAction(Identifier * identifier, ElementList * elementList);
+Component * SourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
+Component * ResistanceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
+Component * VoltmeterComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
+Component * SourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
+
+
 
 #endif
