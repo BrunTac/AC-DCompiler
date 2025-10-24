@@ -91,7 +91,8 @@ struct Circuit {
 };
 
 struct CircuitList {
-	Circuit ** circuits;
+	Circuit * current;
+	CircuitList * next;
 };
 
 struct Element {
