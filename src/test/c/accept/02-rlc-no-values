@@ -1,0 +1,6 @@
+Circuit rlc_no_values {
+    Resistance R1 (),
+    Capacitor C1 (),
+    Inductance L1 (),
+    Resistance R2 ()
+}

@@ -1,0 +1,5 @@
+Circuit switch_example {
+    Source E1 (12, base, -|+),
+    Switch S1 (closed),
+    Resistance R1 (100, base)
+}

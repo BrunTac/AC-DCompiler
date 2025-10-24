@@ -26,7 +26,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %union {
 	/** Terminals. */
 
- 	double real;
 	TokenLabel token;
     Unit unit;
 
@@ -77,7 +76,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> CIRCUIT
 %token <token> PARALLEL
 %token <token> BRANCH
-%token <token> BATTERY
+%token <token> SOURCE
 %token <token> RESISTANCE
 %token <token> CAPACITOR
 %token <token> INDUCTANCE
@@ -92,7 +91,9 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> ALTERNATING
 
 %token <unit> UNIT
-%token <real> VALUE
+%token <polarity> POLARITY
+%token <current> CURRENT
+%token <token> VALUE
 
 %token <token> OPEN_PARENTHESIS
 %token <token> CLOSE_PARENTHESIS
@@ -168,7 +169,7 @@ branch:
 
 /* Components: can have parenthesis, parameters (posibles parámetros) o no */
 component:
-      BATTERY identifier componentParamsOpt        { $$ = BatteryComponentSemanticAction($2, $3); }
+      SOURCE identifier componentParamsOpt        { $$ = SourceComponentSemanticAction($2, $3); }
     | RESISTANCE identifier componentParamsOpt     { $$ = ResistanceComponentSemanticAction($2, $3); }
     | VOLTIMETER identifier componentParamsOpt     { $$ = VoltmeterComponentSemanticAction($2, $3); }
     | AMPERIMETER identifier componentParamsOpt    { $$ = AmperimeterComponentSemanticAction($2, $3); }

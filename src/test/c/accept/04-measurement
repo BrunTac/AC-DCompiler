@@ -1,0 +1,12 @@
+Circuit measurement {
+    Parallel {
+        Branch b1 {
+            Voltimeter V1 ()
+        },
+        Branch b2 {
+            Source E_ac (220, base, AC, -|+),
+            Resistance R1 (),
+            Amperimeter A1 ()
+        }
+    }
+}
