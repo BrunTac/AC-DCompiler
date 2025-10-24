@@ -1,0 +1,3 @@
+Circuit bad_source {
+    Source E1 (12, base, AC, -|+)
+}

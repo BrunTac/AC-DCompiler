@@ -1,0 +1,11 @@
+Circuit branch_rc {
+    Source E1 (5, base, -|+),
+    Parallel {
+        Branch b1 {
+            Resistance R1 (100, base)
+        },
+        Branch b2 {
+            Capacitor C1 (10, micro)
+        }
+    }
+}

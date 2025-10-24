@@ -14,16 +14,18 @@
  * @see https://westes.github.io/flex/manual/Definitions-Section.html#Definitions-Section
  */
 
-extern CompilationStatus ArithmeticOperatorLexemeAction(TokenLabel label);
-extern CompilationStatus EnterImportExpressionLexemeAction(FlexContext context);
 extern CompilationStatus EnterMultilineCommentLexemeAction(FlexContext context);
 extern CompilationStatus EOFLexemeAction();
 extern CompilationStatus IgnoredLexemeAction();
-extern CompilationStatus IntegerLexemeAction();
-extern CompilationStatus LeaveImportExpressionLexemeAction();
+extern CompilationStatus ValueLexemeAction();
 extern CompilationStatus LeaveMultilineCommentLexemeAction();
 extern CompilationStatus ParenthesisLexemeAction(TokenLabel label);
-extern CompilationStatus SubexpressionLexemeAction();
+extern CompilationStatus BraceLexemeAction(TokenLabel label);
+extern CompilationStatus CommaLexemeAction();
+extern CompilationStatus KeywordLexemeAction(TokenLabel label);
+extern CompilationStatus IdentifierLexemeAction(TokenLabel label);
+extern CompilationStatus UnitLexemeAction(TokenLabel label);
+extern CompilationStatus PolarityLexemeAction(TokenLabel label);
 extern CompilationStatus UnknownLexemeAction();
 
 %}
@@ -33,7 +35,7 @@ extern CompilationStatus UnknownLexemeAction();
  *
  * @see https://westes.github.io/flex/manual/Start-Conditions.html
  */
-%x IMPORT_EXPRESSION
+
 %x MULTILINE_COMMENT
 
 /**
@@ -42,42 +44,64 @@ extern CompilationStatus UnknownLexemeAction();
  * @see https://westes.github.io/flex/manual/Matching.html
  * @see https://westes.github.io/flex/manual/Patterns.html
  */
-whitespace			[[:space:]]+
+
+/* Reusable patterns */
+DIGIT               [0-9]
+INTEGER             {DIGIT}+
+FRAC                \.{DIGIT}+
+EXP                 ([eE][+-]?{DIGIT}+)
+NUMBER              {DIGIT}+({FRAC})?({EXP})?
+
+IMAG_UNIT           [ij]
+SIGN                [+-]
+
+IMAG_PART1          ({NUMBER}?{IMAG_UNIT})
+COMPLEX_PART1       ({NUMBER}([[:space:]]*{SIGN}[[:space:]]*{NUMBER}?{IMAG_UNIT})?)
+COMPLEX_PART2       ({IMAG_PART1}([[:space:]]*{SIGN}[[:space:]]*{NUMBER})?)
+
+VALUE_PATTERN       ({COMPLEX_PART1}|{COMPLEX_PART2})
+UNIT_PATTERN        (?:GIGA|giga|G|MEGA|mega|M|KILO|kilo|K|BASE|base|MILLI|milli|m|MICRO|micro|[uµμ]|NANO|nano|n)
 
 %%
 
-%{
+"/*"                                    { return EnterMultilineCommentLexemeAction(MULTILINE_COMMENT); }
+<MULTILINE_COMMENT>"*/"                 { return LeaveMultilineCommentLexemeAction(); }
+<MULTILINE_COMMENT>[^*]+                { return IgnoredLexemeAction(); }
+<MULTILINE_COMMENT>.                    { return IgnoredLexemeAction(); }
 
-/**
- * @see https://westes.github.io/flex/manual/Rules-Section.html#Rules-Section
- */
+"("                                     { return ParenthesisLexemeAction(OPEN_PARENTHESIS); }
+")"                                     { return ParenthesisLexemeAction(CLOSE_PARENTHESIS); }
 
-%}
+"{"                                     { return BraceLexemeAction(OPEN_BRACKET); }
+"}"                                     { return BraceLexemeAction(CLOSE_BRACKET); }
 
-"{"									{ return EnterImportExpressionLexemeAction(IMPORT_EXPRESSION); }
-<IMPORT_EXPRESSION>[^{}]+			{ return SubexpressionLexemeAction(); }
-<IMPORT_EXPRESSION>"}"				{ return LeaveImportExpressionLexemeAction(); }
-<IMPORT_EXPRESSION>.				{ return UnknownLexemeAction(); }
+","                                     { return CommaLexemeAction(); }
 
-"/*"								{ return EnterMultilineCommentLexemeAction(MULTILINE_COMMENT); }
-<MULTILINE_COMMENT>"*/"				{ return LeaveMultilineCommentLexemeAction(); }
-<MULTILINE_COMMENT>[^*]+			{ return IgnoredLexemeAction(); }
-<MULTILINE_COMMENT>.				{ return IgnoredLexemeAction(); }
+{VALUE_PATTERN}                         { return ValueLexemeAction(); }
 
-"-"									{ return ArithmeticOperatorLexemeAction(SUB); }
-"*"									{ return ArithmeticOperatorLexemeAction(MUL); }
-"/"									{ return ArithmeticOperatorLexemeAction(DIV); }
-"+"									{ return ArithmeticOperatorLexemeAction(ADD); }
+"Circuit"                                { return KeywordLexemeAction(CIRCUIT); }
+"Parallel"                               { return KeywordLexemeAction(PARALLEL); }
+"Branch"                                 { return KeywordLexemeAction(BRANCH); }
+"Source"                                 { return KeywordLexemeAction(SOURCE); }
+"Resistance"                             { return KeywordLexemeAction(RESISTANCE); }
+"Capacitor"                              { return KeywordLexemeAction(CAPACITOR); }
+"Connection"                             { return KeywordLexemeAction(CONNECTION); }
+"Voltimeter"                             { return KeywordLexemeAction(VOLTIMETER); }
+"Amperimeter"                            { return KeywordLexemeAction(AMPERIMETER); }
+"Inductance"                             { return KeywordLexemeAction(INDUCTANCE); }
+"Switch"                                 { return KeywordLexemeAction(SWITCH); }
 
-"("									{ return ParenthesisLexemeAction(OPEN_PARENTHESIS); }
-")"									{ return ParenthesisLexemeAction(CLOSE_PARENTHESIS); }
+(AC|DC)                                  { return KeywordLexemeAction(CURRENT_TYPE); }
 
-[[:digit:]]+						{ return IntegerLexemeAction(); }
+{UNIT_PATTERN}                           { return UnitLexemeAction(UNIT); }
+{POLARITY_PATTERN}                       { return PolarityLexemeAction(POLARITY); }
 
-{whitespace}						{ return IgnoredLexemeAction(); }
-.									{ return UnknownLexemeAction(); }
+{IDENT}                                  { return IdentifierLexemeAction(ID); }
 
-<<EOF>>								{ return EOFLexemeAction(); }
+{WHITESPACE}                             { return IgnoredLexemeAction(); }
+.                                        { return UnknownLexemeAction(); }
+
+<<EOF>>                                  { return EOFLexemeAction(); }
 
 %%
 

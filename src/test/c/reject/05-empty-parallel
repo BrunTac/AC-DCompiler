@@ -1,0 +1,4 @@
+Circuit empty_parallel {
+    Source E1 (9, base, -|+),
+    Parallel {},
+}

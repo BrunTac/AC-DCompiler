@@ -1,0 +1,6 @@
+Circuit resist_types {
+    Resistance R_fixed (),
+    Resistance R_lamp (lamp),
+    Resistance R_thermistor (thermistor),
+    Resistance R_var (variable)
+}
