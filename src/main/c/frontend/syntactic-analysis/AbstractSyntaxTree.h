@@ -104,7 +104,8 @@ struct Element {
 };
 
 struct ElementList {
-	Element ** elements;
+	Element * current;
+	ElementList * next;
 };
 
 struct Component {
@@ -115,20 +116,21 @@ struct Component {
 
 struct Parameter {
 	union {
-		double value;
-		Unit unit;
-		Polarity polarity;
-		Current current;
+		double * value;
+		Unit * unit;
+		Polarity * polarity;
+		Current * current;
 	};
 	ParameterType type;
 };
 
 struct ParameterList { 
-	Parameter ** parameters;
+	Parameter * current;
+	ParameterList * next;
 };
 
 struct Identifier {
-	char * id;
+	char ** id;
 };
 
 struct Branch {
@@ -137,7 +139,8 @@ struct Branch {
 };
 
 struct BranchList {
-	Branch ** branches;
+	Branch * current;
+	BranchList * next;
 };
 
 struct Parallel {
@@ -159,6 +162,8 @@ void destroyBranchList(BranchList*);
 void destroyComponent(Component*);
 void destroyParameter(Parameter*);
 void destroyParameterList(ParameterList*);
+void destroyPolarity(Polarity*);
+void destroyCurrent(Current*);
 void destroyIdentifier(Identifier*);
 
 #endif

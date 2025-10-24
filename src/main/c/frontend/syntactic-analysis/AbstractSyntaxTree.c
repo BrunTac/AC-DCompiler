@@ -63,3 +63,94 @@ void destroyElement(Element * element) {
 		free(element);
 	}
 }
+
+void destroyElementList(ElementList * elementList) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (elementList != NULL) {
+		for(; elementList != NULL ; elementList = elementList->next) {
+			destroyCircuit(elementList->current);
+			CircuitList * aux = elementList->next;
+			free(elementList);
+			elementList = aux;
+		}
+	}
+}
+
+void destroyComponent(Component * component) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (component != NULL) {
+		free(component->type);
+		destroyParameterList(component->parameterList);
+		destroyIdentifier(component->id);
+		free(component);
+	}
+}
+
+void destroyParameter(Parameter * parameter) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (parameter != NULL) {
+		switch(parameter->type) {
+			case VALUE:
+				free(parameter->value);
+				break;
+			case UNIT:
+				free(parameter->unit);
+				break;
+			case POLARITY:
+				destroyPolarity(parameter->polarity);
+				break;
+			case CURRENT:
+				destroyCurrent(parameter->current);
+				break;
+		}
+		free(parameter);
+	}
+}
+
+void destroyParameterList(ParameterList * parameterList) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (parameterList != NULL) {
+		for(; parameterList != NULL ; parameterList = parameterList->next) {
+			destroyparameter(parameterList->current);
+			ParameterList * aux = parameterList->next;
+			free(parameterList);
+			parameterList = aux;
+		}
+	}
+}
+
+void destroyIdentifier(Identifier * identifier) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (identifier != NULL) {
+		free(identifier->id);
+		free(identifier);
+	}
+}
+
+void destroyBranch(Branch * branch) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (branch != NULL) {
+		destroyIdentifier(branch->id);
+		destroyBranchList(branch->elementList);
+	}
+}
+
+void destroyBranchList(BranchList * branchList) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (branchList != NULL) {
+		for(; branchList != NULL ; branchList = branchList->next) {
+			destroyparameter(branchList->current);
+			BranchList * aux = branchList->next;
+			free(branchList);
+			branchList = aux;
+		}
+	}
+}
+
+void destroyParallel(Parallel * parallel) { 
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (parallel != NULL) {
+		destroyBranchList(parallel->branchList);
+		free(parallel);
+	}
+}
