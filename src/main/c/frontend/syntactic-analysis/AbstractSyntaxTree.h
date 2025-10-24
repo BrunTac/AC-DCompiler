@@ -14,12 +14,14 @@ ModuleDestructor initializeAbstractSyntaxTreeModule();
  * person, but without the madness).
  */
 
-typedef enum ExpressionType ExpressionType;
-typedef enum FactorType FactorType;
+typedef enum ComponentType ComponentType;
+typedef enum ElementType ElementType;
+typedef enum ParameterType ParameterType;
 
-typedef struct Constant Constant;
-typedef struct Expression Expression;
-typedef struct Factor Factor;
+typedef struct Program Program;
+typedef struct Circuit Circuit;
+typedef struct CircuitList CircuitList;
+typedef struct Component Component;
 typedef struct Program Program;
 
 /**
