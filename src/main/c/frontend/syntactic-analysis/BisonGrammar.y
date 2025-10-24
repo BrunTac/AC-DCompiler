@@ -23,17 +23,11 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %define parse.error detailed
 %locations
 
-%code requires {
-    #include "AbstractSyntaxTree.h"
-}
-
 %union {
 	/** Terminals. */
 
  	double real;
 	TokenLabel token;
-    Polarity polarity;
-    Current current;
     Unit unit;
 
 	/** Non-terminals. */
@@ -50,6 +44,8 @@ void yyerror(const YYLTYPE * location, const char * message) {}
     Branch * branch;
     BranchList * branchList;
     Parallel * parallel;
+    Polarity * polarity;
+    Current * current;
 }
 
 /**
@@ -60,6 +56,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
  *
  * @see https://www.gnu.org/software/bison/manual/html_node/Destructor-Decl.html
  */
+
 %destructor { destroyProgram($$); }        <program>
 %destructor { destroyCircuit($$); }        <circuit>
 %destructor { destroyCircuitList($$); }    <circuitList>
@@ -72,6 +69,8 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %destructor { destroyParameter($$); }      <parameter>
 %destructor { destroyParameterList($$); }  <parameterList>
 %destructor { destroyIdentifier($$); }     <identifier>
+%destructor { destroyPolarity($$); }       <polarity>
+%destructor { destroyCurrent($$); }        <current>
 
 /* ---------- Terminals. ---------- */
 %token <token> ID
@@ -86,9 +85,13 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> VOLTIMETER
 %token <token> AMPERIMETER
 
+%token <token> POSITIVE
+%token <token> NEGATIVE
+
+%token <token> DIRECT
+%token <token> ALTERNATING
+
 %token <unit> UNIT
-%token <polarity> POLARITY
-%token <current> CURRENT
 %token <real> VALUE
 
 %token <token> OPEN_PARENTHESIS
@@ -112,6 +115,8 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %type <branch> branch
 %type <branchList> branchList
 %type <parallel> parallel
+%type <polarity> polarity
+%type <current> current
 
 %%
 
@@ -186,13 +191,20 @@ parameterList: parameter                                        { $$ = NewParams
 
 parameter: 
       VALUE                                         { $$ = ParamValueSemanticAction($1); }
-    | UNIT                                          { $$ = ParamUnitSemanticAction($1); }
-    | POLARITY                                      { $$ = ParamPolaritySemanticAction($1); }
-    | CURRENT                                       { $$ = ParamCurrentSemanticAction($1); }
+    | unit                                          { $$ = ParamUnitSemanticAction($1); }
+    | polarity                                      { $$ = ParamPolaritySemanticAction($1); }
+    | current                                       { $$ = ParamCurrentSemanticAction($1); }
     ;
 
-/* Identifier (names of circuits/branches/components/connections) */
 identifier: ID                                            { $$ = IdentifierSemanticAction($1); }
     ;
+
+polarity: 
+      POSITIVE                                      { $$ = PositivePolaritySemanticAction($1); }
+    | NEGATIVE                                      { $$ = NegativePolaritySemanticAction($1); }
+
+current:
+      DIRECT                                        { $$ = DirectCurrentSemanticAction($1); }
+    | ALTERNATING                                   { $$ = AlternatingCurrentSemanticAction($1); }
 
 %%
