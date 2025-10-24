@@ -32,8 +32,6 @@ Branch * BranchSemanticAction(Identifier * identifier, ElementList * elementList
 Component * SourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * ResistanceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * VoltmeterComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
-Component * SourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
-
 
 
 #endif

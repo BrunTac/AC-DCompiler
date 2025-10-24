@@ -82,42 +82,143 @@ ElementList * EmptyElementListSemanticAction() {
 	return elementList;
 }
 
-Constant * IntegerConstantSemanticAction(const int value) {
+ElementList * NewElementListSemanticAction(Element * element) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-	Constant * constant = calloc(1, sizeof(Constant));
-	constant->value = value;
-	return constant;
+	ElementList * elementList = calloc(1, sizeof(ElementList));
+	elementList->current = element;
+	elementList->next = NULL;
+	return elementList;
 }
 
-Expression * ArithmeticExpressionSemanticAction(Expression * leftExpression, Expression * rightExpression, ExpressionType type) {
+ElementList * AppendElementSemanticAction(ElementList * elementList, Element * element) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-	Expression * expression = calloc(1, sizeof(Expression));
-	expression->leftExpression = leftExpression;
-	expression->rightExpression = rightExpression;
-	expression->type = type;
-	return expression;
+	ElementList * newNode = calloc(1, sizeof(ElementList));
+	newNode->current = element;
+	newNode->next = NULL;
+
+	ElementList * aux = elementList;
+	while(aux->next != NULL){
+		aux = aux->next;
+	}
+	aux->next = newNode;
+	return elementList;
 }
 
-Expression * FactorExpressionSemanticAction(Factor * factor) {
+Element * ComponentElementSemanticAction(Component * component) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-	Expression * expression = calloc(1, sizeof(Expression));
-	expression->factor = factor;
-	expression->type = FACTOR;
-	return expression;
+	Element * element = calloc(1, sizeof(Element));
+	element->component = component;
+	element->type = ELEMENT_COMPONENT;
+	return element;
 }
 
-Factor * ConstantFactorSemanticAction(Constant * constant) {
+Element * ParallelElementSemanticAction(Parallel * parallel) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-	Factor * factor = calloc(1, sizeof(Factor));
-	factor->constant = constant;
-	factor->type = CONSTANT;
-	return factor;
+	Element * element = calloc(1, sizeof(Element));
+	element->parallel = parallel;
+	element->type = ELEMENT_PARALLEL;
+	return element;
 }
 
-Factor * ExpressionFactorSemanticAction(Expression * expression) {
+Parallel * ParallelSemanticAction(BranchList * branchList) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-	Factor * factor = calloc(1, sizeof(Factor));
-	factor->expression = expression;
-	factor->type = EXPRESSION;
-	return factor;
+	Parallel * parallel = calloc(1, sizeof(Parallel));
+	parallel->branchList = branchList;
+	return parallel;
+}
+
+BranchList * NewBranchListSemanticAction(Branch * leftBranch, Branch * rightBranch) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	BranchList * branchList = calloc(1, sizeof(BranchList));
+	BranchList * secondNode = calloc(1, sizeof(BranchList));
+	branchList->current = leftBranch;
+	branchList->next = secondNode;
+	secondNode->current = rightBranch;
+	secondNode->next = NULL;
+	return branchList;
+}
+
+BranchList * AppendBranchSemanticAction(BranchList * branchList, Branch * branch) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	BranchList * newNode = calloc(1, sizeof(BranchList));
+	newNode->current = branch;
+	newNode->next = NULL;
+
+	BranchList * aux = branchList;
+	while(aux->next != NULL){
+		aux = aux->next;
+	}
+	aux->next = newNode;
+	return branchList;
+}
+
+Branch * BranchSemanticAction(Identifier * identifier, ElementList * elementList) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Branch * branch = calloc(1, sizeof(Branch));
+	branch->id = identifier;
+	branch->elementList = elementList;
+	return branch;
+}
+
+Component * SourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Component * component = calloc(1, sizeof(Component));
+	component->type = COMPONENT_SOURCE;
+	component->id = identifier;
+	component->parameterList = parameterList;
+	return component;
+}
+
+Component * ResistanceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Component * component = calloc(1, sizeof(Component));
+	component->type = COMPONENT_RESISTANCE;
+	component->id = identifier;
+	component->parameterList = parameterList;
+	return component;
+}
+
+Component * VoltmeterComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Component * component = calloc(1, sizeof(Component));
+	component->type = COMPONENT_VOLTMETER;
+	component->id = identifier;
+	component->parameterList = parameterList;
+	return component;
+}
+
+Component * AmperimeterComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Component * component = calloc(1, sizeof(Component));
+	component->type = COMPONENT_AMPERIMETER;
+	component->id = identifier;
+	component->parameterList = parameterList;
+	return component;
+}
+
+Component * InductanceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Component * component = calloc(1, sizeof(Component));
+	component->type = COMPONENT_INDUCTANCE;
+	component->id = identifier;
+	component->parameterList = parameterList;
+	return component;
+}
+
+Component * CapacitorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Component * component = calloc(1, sizeof(Component));
+	component->type = COMPONENT_CAPACITOR;
+	component->id = identifier;
+	component->parameterList = parameterList;
+	return component;
+}
+
+Component * SwitchComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Component * component = calloc(1, sizeof(Component));
+	component->type = COMPONENT_SWITCH;
+	component->id = identifier;
+	component->parameterList = parameterList;
+	return component;
 }
