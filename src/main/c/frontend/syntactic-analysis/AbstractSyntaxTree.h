@@ -14,6 +14,10 @@ ModuleDestructor initializeAbstractSyntaxTreeModule();
  * person, but without the madness).
  */
 
+typedef enum Polarity Polarity;
+typedef enum Current Current;
+typedef enum Unit Unit;
+
 typedef enum ComponentType ComponentType;
 typedef enum ElementType ElementType;
 typedef enum ParameterType ParameterType;
@@ -21,60 +25,139 @@ typedef enum ParameterType ParameterType;
 typedef struct Program Program;
 typedef struct Circuit Circuit;
 typedef struct CircuitList CircuitList;
+typedef struct Element Element;
+typedef struct ElementList ElementList;
 typedef struct Component Component;
-typedef struct Program Program;
+typedef struct Parameter Parameter;
+typedef struct ParameterList ParameterList;
+typedef struct Identifier Identifier;
+typedef struct Branch Branch;
+typedef struct BranchList BranchList;
+typedef struct Parallel Parallel;
 
 /**
  * Node types for the Abstract Syntax Tree (AST).
  */
 
-enum ExpressionType {
-	ADDITION,
-	DIVISION,
-	FACTOR,
-	MULTIPLICATION,
-	SUBTRACTION
+enum Polarity {
+	POSITIVE,
+	NEGATIVE
 };
 
-enum FactorType {
-	CONSTANT,
-	EXPRESSION
+enum Current {
+	DIRECT,
+	ALTERNATING
 };
 
-struct Constant {
-	int value;
+enum Unit {
+	GIGA,
+	MEGA,
+	KILO,
+	BASE,
+	MILLI,
+	MICRO,
+	NANO
 };
 
-struct Factor {
-	union {
-		Constant * constant;
-		Expression * expression;
-	};
-	FactorType type;
+enum ComponentType {
+	COMPONENT_BATTERY,
+	COMPONENT_RESISTANCE,
+	COMPONENT_VOLTIMETER,
+	COMPONENT_AMPERIMETER,
+	COMPONENT_INDUCTANCE,
+	COMPONENT_CAPACITOR,
+	COMPONENT_SWITCH
 };
 
-struct Expression {
-	union {
-		Factor * factor;
-		struct {
-			Expression * leftExpression;
-			Expression * rightExpression;
-		};
-	};
-	ExpressionType type;
+enum ElementType {
+	ELEMENT_COMPONENT,
+	ELEMENT_PARALLEL
+};
+
+enum ParameterType {
+	VALUE,
+	UNIT,
+	POLARITY,
+	CURRENT
 };
 
 struct Program {
-	Expression * expression;
+	CircuitList * circuitList;
+};
+
+struct Circuit {
+	Identifier * id;
+	ElementList * elementList;
+};
+
+struct CircuitList {
+	Circuit ** circuits;
+};
+
+struct Element {
+	union {
+		Component * component;
+		Parallel * parallel;
+	};
+	ElementType type;
+};
+
+struct ElementList {
+	Element ** elements;
+};
+
+struct Component {
+	ComponentType type;
+	ParameterList * parameterList;
+	Identifier * id;
+};
+
+struct Parameter {
+	union {
+		double value;
+		Unit unit;
+		Polarity polarity;
+		Current current;
+	};
+	ParameterType type;
+};
+
+struct ParameterList { 
+	Parameter ** parameters;
+};
+
+struct Identifier {
+	char * id;
+};
+
+struct Branch {
+	Identifier * id;
+	ElementList * elementList;
+};
+
+struct BranchList {
+	Branch ** branches;
+};
+
+struct Parallel {
+	BranchList * branchList;
 };
 
 /**
  * Node recursive super-duper-trambolik-destructors.
  */
 
-void destroyConstant(Constant * constant);
-void destroyExpression(Expression * expression);
-void destroyFactor(Factor * factor);
-void destroyProgram(Program * program);
+void destroyProgram(Program*);
+void destroyCircuit(Circuit*);
+void destroyCircuitList(CircuitList*);
+void destroyElement(Element*);
+void destroyElementList(ElementList*);
+void destroyParallel(Parallel*);
+void destroyBranch(Branch*);
+void destroyBranchList(BranchList*);
+void destroyComponent(Component*);
+void destroyParameter(Parameter*);
+void destroyParameterList(ParameterList*);
+void destroyIdentifier(Identifier*);
 
 #endif

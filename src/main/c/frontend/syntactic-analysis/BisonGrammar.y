@@ -23,11 +23,18 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %define parse.error detailed
 %locations
 
+%code requires {
+    #include "AbstractSyntaxTree.h"
+}
+
 %union {
 	/** Terminals. */
 
  	double real;
 	TokenLabel token;
+    Polarity polarity;
+    Current current;
+    Unit unit;
 
 	/** Non-terminals. */
 
@@ -43,7 +50,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
     Branch * branch;
     BranchList * branchList;
     Parallel * parallel;
-    Polarity * polarity;
 }
 
 /**
@@ -61,10 +67,11 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %destructor { destroyElementList($$); }    <elementList>
 %destructor { destroyParallel($$); }       <parallel>
 %destructor { destroyBranch($$); }         <branch>
+%destructor { destroyBranchList($$) }      <branchList>
 %destructor { destroyComponent($$); }      <component>
 %destructor { destroyParameter($$); }      <parameter>
 %destructor { destroyParameterList($$); }  <parameterList>
-%destructor { destroyIdentifier($$); }     <identifier> 
+%destructor { destroyIdentifier($$); }     <identifier>
 
 /* ---------- Terminals. ---------- */
 %token <token> ID
@@ -79,8 +86,9 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> VOLTIMETER
 %token <token> AMPERIMETER
 
-%token <token> UNIT
-%token <token> POLARITY
+%token <unit> UNIT
+%token <polarity> POLARITY
+%token <current> CURRENT
 %token <real> VALUE
 
 %token <token> OPEN_PARENTHESIS
@@ -92,7 +100,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %%
 
 /* ---------- Non-terminals. ---------- */
-
 %type <program> program
 %type <circuit> circuit
 %type <circuitList> circuitList
@@ -105,7 +112,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %type <branch> branch
 %type <branchList> branchList
 %type <parallel> parallel
-%type <polarity> polarity
 
 %%
 
@@ -145,8 +151,8 @@ parallel:
     ;
 
 branchList: 
-      branch COMMA branch                           { $$ = NewElementListSemanticAction($1, $3); }
-	| branchList COMMA branch                       { $$ = AppendElementSemanticAction($1, $3); }
+      branch COMMA branch                           { $$ = NewBranchListSemanticAction($1, $3); }
+	| branchList COMMA branch                       { $$ = AppendBranchSemanticAction($1, $3); }
     ;
 
 /* Branch: "Branch" ID { elementos } */
@@ -181,13 +187,9 @@ parameterList: parameter                                        { $$ = NewParams
 parameter: 
       VALUE                                         { $$ = ParamValueSemanticAction($1); }
     | UNIT                                          { $$ = ParamUnitSemanticAction($1); }
-    | polarity                                      { $$ = ParamPolaritySemanticAction($1); }
-    | CURRENT_TYPE                                  { $$ = ParamCurrentTypeSemanticAction($1); }
+    | POLARITY                                      { $$ = ParamPolaritySemanticAction($1); }
+    | CURRENT                                       { $$ = ParamCurrentSemanticAction($1); }
     ;
-
-polarity:
-      POSITIVE                                      { $$ = PositivePolaritySemanticAction($1); }
-    | NEGATIVE                                      { $$ = NegativePolaritySemanticAction($1); }
 
 /* Identifier (names of circuits/branches/components/connections) */
 identifier: ID                                            { $$ = IdentifierSemanticAction($1); }
