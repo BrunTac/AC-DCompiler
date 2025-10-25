@@ -40,6 +40,7 @@ Component * SwitchComponentSemanticAction(Identifier * identifier, ParameterList
 ParameterList * EmptyParameterListSemanticAction();
 ParameterList * NewParameterListSemanticAction(Parameter * parameter);
 ParameterList * AppendParameterSemanticAction(ParameterList * parameterList, Parameter * parameter);
+ParameterList * AppendParameterListSemanticAction(ParameterList * baseParameterList, ParameterList * newParameterList);
 Parameter * ParameterValueSemanticAction(const char ** value);
 Parameter * ParameterUnitSemanticAction(Unit * unit);
 Parameter * ParameterResistorTypeSemanticAction(ResistorType * resistorType);

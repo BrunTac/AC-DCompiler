@@ -262,6 +262,16 @@ ParameterList * AppendParameterSemanticAction(ParameterList * parameterList, Par
 	return parameterList;
 }
 
+ParameterList * AppendParameterListSemanticAction(ParameterList * baseParameterList, ParameterList * newParameterList) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ParameterList * aux = baseParameterList;
+	while(aux->next != NULL) {
+		aux = aux->next;
+	}
+	aux->next = newParameterList;
+	return baseParameterList;
+}
+
 Parameter * ParameterValueSemanticAction(const char ** value) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));

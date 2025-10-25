@@ -104,7 +104,8 @@ void destroyParameter(Parameter * parameter) {
 				free(parameter->resistorType);
 				break;
 			case SWITCH_STATE:
-				free(parameter->switchState)
+				free(parameter->switchState);
+				break;
 		}
 		free(parameter);
 	}
