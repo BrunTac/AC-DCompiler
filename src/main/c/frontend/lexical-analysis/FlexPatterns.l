@@ -91,7 +91,8 @@ UNIT_PATTERN        (?:GIGA|giga|G|MEGA|mega|M|KILO|kilo|K|BASE|base|MILLI|milli
 "Inductance"                             { return KeywordLexemeAction(INDUCTANCE); }
 "Switch"                                 { return KeywordLexemeAction(SWITCH); }
 
-(AC|DC)                                  { return KeywordLexemeAction(CURRENT_TYPE); }
+"AC"                                       { return KeywordLexemeAction(DIRECT); }
+"DC"                                       { return KeywordLexemeAction(DIRECT); }
 
 {UNIT_PATTERN}                           { return UnitLexemeAction(UNIT); }
 "+|-"                                    { return PolarityLexemeAction(POSITIVE_FIRST); }

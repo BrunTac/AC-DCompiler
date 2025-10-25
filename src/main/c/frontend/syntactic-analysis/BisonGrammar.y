@@ -199,7 +199,7 @@ identifier: ID                                            { $$ = IdentifierSeman
     ;
 
 polarity: 
-      POSITIVE PIPE NEGATIVE                                      { $$ = PositivePolaritySemanticAction($1); }
+      POSITIVE_                                      { $$ = PositivePolaritySemanticAction($1); }
     | NEGATIVE                                      { $$ = NegativePolaritySemanticAction($1); }
 
 current:
