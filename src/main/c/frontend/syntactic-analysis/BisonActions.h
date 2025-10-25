@@ -32,6 +32,20 @@ Branch * BranchSemanticAction(Identifier * identifier, ElementList * elementList
 Component * SourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * ResistanceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * VoltmeterComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
+Component * AmperemeterComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
+Component * InductanceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
+Component * CapacitorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
+Component * SwitchComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
+ParameterList * EmptyParameterListSemanticAction();
+ParameterList * NewParameterListSemanticAction(Parameter * parameter);
+ParameterList * AppendParameterSemanticAction(ParameterList * parameterList, Parameter * parameter);
+Parameter * ParameterValueSemanticAction(const char * value);
+Parameter * ParameterUnitSemanticAction(Unit * unit);
+Parameter * ParameterPolaritySemanticAction(Polarity * polarity);
+Parameter * ParameterCurrentSemanticAction(Current * current);
+Identifier * IdentifierSemanticAction(const char * identifier);
 
+Current * DirectCurrentSemanticAction(Current * current);
+Current * AlternatingCurrentSemanticAction(Current * current);
 
 #endif
