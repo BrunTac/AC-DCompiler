@@ -38,7 +38,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
     ElementList * elementList, elementListOpt;
     Component * component;
     Parameter * parameter;
-    ParameterList * componentParamsOpt, parameterList, parameterListOpt;
+    ParameterList * componentParamsOpt, * parameterList, * parameterListOpt;
     Identifier * identifier;
     Branch * branch;
     BranchList * branchList;
