@@ -187,10 +187,10 @@ Component * VoltmeterComponentSemanticAction(Identifier * identifier, ParameterL
 	return component;
 }
 
-Component * AmperimeterComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+Component * AmperemeterComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Component * component = calloc(1, sizeof(Component));
-	component->type = COMPONENT_AMPERIMETER;
+	component->type = COMPONENT_AMPEREMETER;
 	component->id = identifier;
 	component->parameterList = parameterList;
 	return component;
