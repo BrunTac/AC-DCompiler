@@ -115,7 +115,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %type <parameter> parameter
 %type <parameterList> componentParamsOpt parameterListOpt parameterList
 %type <parameterList> valueParams polarityParams emptyParams
-%type <parameterList> inductanceParams resistorParams capacitorParams switchParams
+%type <parameterList> inductanceParams resistorParams capacitorParams switchParams directSourceParams alternatingSourceParams
 %type <identifier> identifier
 %type <branch> branch
 %type <branchList> branchList
@@ -172,15 +172,24 @@ branch:
 
 /* Components: can have parenthesis, parameters (posibles parámetros) o no */
 component:
-      AC_SOURCE identifier valueParams             { $$ = ACSourceComponentSemanticAction($2, $3); }
-    | DC_SOURCE identifier polarityParams          { $$ = DCSourceComponentSemanticAction($2, $3); }
-    | RESISTOR identifier resistorParams           { $$ = ResistorComponentSemanticAction($2, $3); }
-    | VOLTMETER identifier                         { $$ = VoltmeterComponentSemanticAction($2); }
-    | AMPEREMETER identifier                       { $$ = AmperemeterComponentSemanticAction($2); }
-    | INDUCTANCE identifier inductanceParams       { $$ = InductanceComponentSemanticAction($2, $3); }
-    | CAPACITOR identifier capacitorParams         { $$ = CapacitorComponentSemanticAction($2, $3); }
-    | SWITCH identifier switchParams               { $$ = SwitchComponentSemanticAction($2, $3); }
+      AC_SOURCE identifier directSourceParams           { $$ = ACSourceComponentSemanticAction($2, $3); }
+    | DC_SOURCE identifier alternatingSourceParams      { $$ = DCSourceComponentSemanticAction($2, $3); }
+    | RESISTOR identifier resistorParams                { $$ = ResistorComponentSemanticAction($2, $3); }
+    | VOLTMETER identifier                              { $$ = VoltmeterComponentSemanticAction($2); }
+    | AMPEREMETER identifier                            { $$ = AmperemeterComponentSemanticAction($2); }
+    | INDUCTANCE identifier inductanceParams            { $$ = InductanceComponentSemanticAction($2, $3); }
+    | CAPACITOR identifier capacitorParams              { $$ = CapacitorComponentSemanticAction($2, $3); }
+    | SWITCH identifier switchParams                    { $$ = SwitchComponentSemanticAction($2, $3); }
     ;
+
+directSourceParams:
+      emptyParams                                                                                        { $$ = $1; }
+    | OPEN_PARENTHESIS polarityParams CLOSE_PARENTHESIS                                                  { $$ = $2; }
+    | OPEN_PARENTHESIS valueParams CLOSE_PARENTHESIS                                                     { $$ = $2; }
+
+alternatingSourceParams:
+      emptyParams                                                                                        { $$ = $1; }
+    | OPEN_PARENTHESIS valueParams CLOSE_PARENTHESIS                                                     { $$ = $2; }
 
 inductanceParams: 
       emptyParams                                                                                        { $$ = $1; }
