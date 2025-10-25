@@ -84,8 +84,8 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> VOLTMETER
 %token <token> AMPEREMETER
 
-%token <token> POSITIVE
-%token <token> NEGATIVE
+%token <token> POSITIVE_FIRST
+%token <token> NEGATIVE_FIRST
 
 %token <token> DIRECT
 %token <token> ALTERNATING
@@ -201,8 +201,8 @@ identifier: ID                                            { $$ = IdentifierSeman
     ;
 
 polarity: 
-      POSITIVE PIPE NEGATIVE                                      { $$ = PositivePolaritySemanticAction($1); }
-    | NEGATIVE                                      { $$ = NegativePolaritySemanticAction($1); }
+      POSITIVE_FIRST                                      { $$ = PositiveFirstPolaritySemanticAction($1); }
+    | NEGATIVE_FIRST                                      { $$ = NegativeFirstPolaritySemanticAction($1); }
 
 current:
       DIRECT                                        { $$ = DirectCurrentSemanticAction($1); }

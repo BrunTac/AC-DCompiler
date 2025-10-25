@@ -44,8 +44,9 @@ Parameter * ParameterUnitSemanticAction(Unit * unit);
 Parameter * ParameterPolaritySemanticAction(Polarity * polarity);
 Parameter * ParameterCurrentSemanticAction(Current * current);
 Identifier * IdentifierSemanticAction(const char * identifier);
-
-Current * DirectCurrentSemanticAction(Current * current);
-Current * AlternatingCurrentSemanticAction(Current * current);
+Polarity * PositiveFirstPolaritySemanticAction(PolarityType * polarity);
+Polarity * NegativeFirstPolaritySemanticAction(PolarityType * polarity);
+Current * DirectCurrentSemanticAction(CurrentType * current);
+Current * AlternatingCurrentSemanticAction(CurrentType * current);
 
 #endif
