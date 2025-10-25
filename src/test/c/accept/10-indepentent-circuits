@@ -1,10 +1,10 @@
 Circuit circuit1 {
-    Source E1 (9, base, -|+),
+    DCSource E1 (9, base, -|+),
     Resistance R1 (10, base)
 },
 
 Circuit circuit2 {
-    Source E2 (5, base, -|+),
+    DCSource E2 (5, base, -|+),
     Capacitor C1 (47, micro),
     Inductance L1 (1, base)
 }

@@ -1,5 +1,5 @@
 Circuit branch_r {
-    Source E1 (9, base, -|+),
+    DCSource E1 (9, base, -|+),
     Parallel {
         Branch b1 {
             Resistance R1 (50, base)

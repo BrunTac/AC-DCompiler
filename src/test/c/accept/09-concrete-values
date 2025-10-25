@@ -1,5 +1,5 @@
 Circuit concrete_values {
-    Source E1 (12, base, AC, -|+),
+    DCSource E1 (12, base, -|+),
     Resistance R1 (220, base),
     Capacitor C1 (100, micro),
     Inductance L1 (2, base)

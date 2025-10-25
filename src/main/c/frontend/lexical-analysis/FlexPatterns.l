@@ -85,16 +85,14 @@ WHITESPACE          [[:space:]]+
 "Circuit"                                { return KeywordLexemeAction(CIRCUIT); }
 "Parallel"                               { return KeywordLexemeAction(PARALLEL); }
 "Branch"                                 { return KeywordLexemeAction(BRANCH); }
-"Source"                                 { return KeywordLexemeAction(SOURCE); }
+"ACSource"                                 { return KeywordLexemeAction(AC_SOURCE); }
+"DCSource"                                 { return KeywordLexemeAction(DC_SOURCE); }
 "Resistance"                             { return KeywordLexemeAction(RESISTANCE); }
 "Capacitor"                              { return KeywordLexemeAction(CAPACITOR); }
 "Voltmeter"                             { return KeywordLexemeAction(VOLTMETER); }
 "Amperemeter"                            { return KeywordLexemeAction(AMPEREMETER); }
 "Inductance"                             { return KeywordLexemeAction(INDUCTANCE); }
 "Switch"                                 { return KeywordLexemeAction(SWITCH); }
-
-"AC"                                       { return KeywordLexemeAction(ALTERNATING_TOKEN); }
-"DC"                                       { return KeywordLexemeAction(DIRECT_TOKEN); }
 
 {UNIT_PATTERN}                           { return UnitLexemeAction(UNIT_TOKEN); }
 "+|-"                                    { return PolarityLexemeAction(POSITIVE_FIRST_TOKEN); }

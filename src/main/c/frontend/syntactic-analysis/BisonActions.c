@@ -160,10 +160,19 @@ Branch * BranchSemanticAction(Identifier * identifier, ElementList * elementList
 	return branch;
 }
 
-Component * SourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList) {
+Component * ACSourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Component * component = calloc(1, sizeof(Component));
-	component->type = COMPONENT_SOURCE;
+	component->type = COMPONENT_AC_SOURCE;
+	component->id = identifier;
+	component->parameterList = parameterList;
+	return component;
+}
+
+Component * DCSourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Component * component = calloc(1, sizeof(Component));
+	component->type = COMPONENT_DC_SOURCE;
 	component->id = identifier;
 	component->parameterList = parameterList;
 	return component;

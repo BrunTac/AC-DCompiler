@@ -78,7 +78,8 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> CIRCUIT
 %token <token> PARALLEL
 %token <token> BRANCH
-%token <token> SOURCE
+%token <token> AC_SOURCE
+%token <token> DC_SOURCE
 %token <token> RESISTANCE
 %token <token> CAPACITOR
 %token <token> INDUCTANCE
@@ -172,7 +173,8 @@ branch:
 
 /* Components: can have parenthesis, parameters (posibles parámetros) o no */
 component:
-      SOURCE identifier componentParamsOpt         { $$ = SourceComponentSemanticAction($2, $3); }
+      AC_SOURCE identifier componentParamsOpt         { $$ = ACSourceComponentSemanticAction($2, $3); }
+    | DC_SOURCE identifier componentParamsOpt         { $$ = DCSourceComponentSemanticAction($2, $3); }
     | RESISTANCE identifier componentParamsOpt     { $$ = ResistanceComponentSemanticAction($2, $3); }
     | VOLTMETER identifier componentParamsOpt      { $$ = VoltmeterComponentSemanticAction($2, $3); }
     | AMPEREMETER identifier componentParamsOpt    { $$ = AmperemeterComponentSemanticAction($2, $3); }

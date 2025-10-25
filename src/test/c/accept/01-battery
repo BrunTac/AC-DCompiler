@@ -1,3 +1,3 @@
 Circuit only_source {
-    Source E1 (9, base, DC, -|+)
+    DCSource E1 (9, base, -|+)
 }
