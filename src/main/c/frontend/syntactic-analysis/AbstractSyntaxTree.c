@@ -40,9 +40,10 @@ void destroyCircuit(Circuit * circuit) {
 void destroyCircuitList(CircuitList * circuitList) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (circuitList != NULL) {
-		for(; circuitList != NULL ; circuitList = circuitList->next) {
+		CircuitList * aux;
+		while(circuitList != NULL) {
+			aux = circuitList->next;
 			destroyCircuit(circuitList->current);
-			CircuitList * aux = circuitList->next;
 			free(circuitList);
 			circuitList = aux;
 		}
@@ -67,9 +68,10 @@ void destroyElement(Element * element) {
 void destroyElementList(ElementList * elementList) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (elementList != NULL) {
-		for(; elementList != NULL ; elementList = elementList->next) {
+		ElementList * aux;
+		while(elementList != NULL) {
+			aux = elementList->next;
 			destroyElement(elementList->current);
-			ElementList * aux = elementList->next;
 			free(elementList);
 			elementList = aux;
 		}
@@ -109,9 +111,10 @@ void destroyParameter(Parameter * parameter) {
 void destroyParameterList(ParameterList * parameterList) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (parameterList != NULL) {
-		for(; parameterList != NULL ; parameterList = parameterList->next) {
-			destroyParameter(parameterList->current);
-			ParameterList * aux = parameterList->next;
+		ParameterList *aux;
+		while (parameterList != NULL) {
+			aux = parameterList->next;         
+			destroyParameter(parameterList->current); 
 			free(parameterList);
 			parameterList = aux;
 		}
@@ -131,15 +134,17 @@ void destroyBranch(Branch * branch) {
 	if (branch != NULL) {
 		destroyIdentifier(branch->id);
 		destroyElementList(branch->elementList);
+		free(branch);
 	}
 }
 
 void destroyBranchList(BranchList * branchList) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (branchList != NULL) {
-		for(; branchList != NULL ; branchList = branchList->next) {
+		BranchList * aux;
+		while(branchList != NULL) {
+			aux = branchList->next;
 			destroyBranch(branchList->current);
-			BranchList * aux = branchList->next;
 			free(branchList);
 			branchList = aux;
 		}

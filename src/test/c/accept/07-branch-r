@@ -7,5 +7,5 @@ Circuit branch_r {
         Branch b2 {
             Resistance R2 (75, base)
         }
-    },
+    }
 }

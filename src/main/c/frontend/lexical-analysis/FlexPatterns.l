@@ -93,12 +93,12 @@ WHITESPACE          [[:space:]]+
 "Inductance"                             { return KeywordLexemeAction(INDUCTANCE); }
 "Switch"                                 { return KeywordLexemeAction(SWITCH); }
 
-"AC"                                       { return KeywordLexemeAction(ALTERNATING); }
-"DC"                                       { return KeywordLexemeAction(DIRECT); }
+"AC"                                       { return KeywordLexemeAction(ALTERNATING_TOKEN); }
+"DC"                                       { return KeywordLexemeAction(DIRECT_TOKEN); }
 
-{UNIT_PATTERN}                           { return UnitLexemeAction(UNIT); }
-"+|-"                                    { return PolarityLexemeAction(POSITIVE_FIRST); }
-"-|+"                                    { return PolarityLexemeAction(NEGATIVE_FIRST); }
+{UNIT_PATTERN}                           { return UnitLexemeAction(UNIT_TOKEN); }
+"+|-"                                    { return PolarityLexemeAction(POSITIVE_FIRST_TOKEN); }
+"-|+"                                    { return PolarityLexemeAction(NEGATIVE_FIRST_TOKEN); }
 
 {IDENT}                                  { return IdentifierLexemeAction(ID); }
 

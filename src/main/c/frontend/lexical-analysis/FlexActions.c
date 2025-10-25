@@ -56,6 +56,7 @@ CompilationStatus KeywordLexemeAction(TokenLabel label) {
     Token * token = createToken(_lexicalAnalyzer, label);
     _logTokenAction(__FUNCTION__, token);
     CompilationStatus status = pushToken(_lexicalAnalyzer, token);
+	printf("PARA LABEL: %d STATUS: %d\n", label, status);
     destroyToken(token);
     return status;
 }
@@ -69,7 +70,7 @@ CompilationStatus IdentifierLexemeAction(TokenLabel label) {
 }
 
 CompilationStatus ValueLexemeAction() {
-    Token * token = createToken(_lexicalAnalyzer, VALUE);
+    Token * token = createToken(_lexicalAnalyzer, VALUE_TOKEN);
     _logTokenAction(__FUNCTION__, token);
     CompilationStatus status = pushToken(_lexicalAnalyzer, token);
     destroyToken(token);
