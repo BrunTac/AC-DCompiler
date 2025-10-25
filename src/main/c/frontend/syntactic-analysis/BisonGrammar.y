@@ -84,22 +84,20 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> VOLTMETER
 %token <token> AMPEREMETER
 
-%token <token> POSITIVE_FIRST
-%token <token> NEGATIVE_FIRST
+%token <token> POSITIVE_FIRST_TOKEN
+%token <token> NEGATIVE_FIRST_TOKEN
 
-%token <token> DIRECT
-%token <token> ALTERNATING
+%token <token> DIRECT_TOKEN
+%token <token> ALTERNATING_TOKEN
 
-%token <unit> UNIT
-%token <token> VALUE
+%token <unit> UNIT_TOKEN
+%token <token> VALUE_TOKEN
 
 %token <token> OPEN_PARENTHESIS
 %token <token> CLOSE_PARENTHESIS
 %token <token> OPEN_BRACE
 %token <token> CLOSE_BRACE
 %token <token> COMMA
-
-%%
 
 /* ---------- Non-terminals. ---------- */
 %type <program> program
@@ -189,8 +187,8 @@ parameterList: parameter                                        { $$ = NewParame
     ;
 
 parameter: 
-      VALUE                                         { $$ = ParameterValueSemanticAction($1); }
-    | UNIT                                          { $$ = ParameterUnitSemanticAction($1); }
+      VALUE_TOKEN                                         { $$ = ParameterValueSemanticAction($1); }
+    | UNIT_TOKEN                                          { $$ = ParameterUnitSemanticAction($1); }
     | polarity                                      { $$ = ParameterPolaritySemanticAction($1); }
     | current                                       { $$ = ParameterCurrentSemanticAction($1); }
     ;
@@ -199,11 +197,11 @@ identifier: ID                                            { $$ = IdentifierSeman
     ;
 
 polarity: 
-      POSITIVE_FIRST                                      { $$ = $1; }
-    | NEGATIVE_FIRST                                      { $$ = $1; }
+      POSITIVE_FIRST_TOKEN                                      { $$ = $1; }
+    | NEGATIVE_FIRST_TOKEN                                      { $$ = $1; }
 
 current:
-      DIRECT                                        { $$ = $1; }
-    | ALTERNATING                                   { $$ = $1; }
+      DIRECT_TOKEN                                        { $$ = $1; }
+    | ALTERNATING_TOKEN                                   { $$ = $1; }
 
 %%
