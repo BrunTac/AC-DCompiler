@@ -199,16 +199,11 @@ identifier: ID                                            { $$ = IdentifierSeman
     ;
 
 polarity: 
-<<<<<<< HEAD
-      POSITIVE_                                      { $$ = PositivePolaritySemanticAction($1); }
-    | NEGATIVE                                      { $$ = NegativePolaritySemanticAction($1); }
-=======
-      POSITIVE_FIRST                                      { $$ = PositiveFirstPolaritySemanticAction($1); }
-    | NEGATIVE_FIRST                                      { $$ = NegativeFirstPolaritySemanticAction($1); }
->>>>>>> fa604e405f122c826478b9f1629d5634c9a4494a
+      POSITIVE_FIRST                                      { $$ = $1; }
+    | NEGATIVE_FIRST                                      { $$ = $1; }
 
 current:
-      DIRECT                                        { $$ = DirectCurrentSemanticAction($1); }
-    | ALTERNATING                                   { $$ = AlternatingCurrentSemanticAction($1); }
+      DIRECT                                        { $$ = $1; }
+    | ALTERNATING                                   { $$ = $1; }
 
 %%

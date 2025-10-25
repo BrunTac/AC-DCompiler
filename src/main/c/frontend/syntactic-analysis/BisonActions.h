@@ -43,17 +43,6 @@ Parameter * ParameterValueSemanticAction(const char * value);
 Parameter * ParameterUnitSemanticAction(Unit * unit);
 Parameter * ParameterPolaritySemanticAction(Polarity * polarity);
 Parameter * ParameterCurrentSemanticAction(Current * current);
-<<<<<<< HEAD
-Identifier * IdentifierSemanticAction(const char * id);
-
-Current * DirectCurrentSemanticAction(Current * current);
-Current * AlternatingCurrentSemanticAction(Current * current);
-=======
 Identifier * IdentifierSemanticAction(const char * identifier);
-Polarity * PositiveFirstPolaritySemanticAction(PolarityType * polarity);
-Polarity * NegativeFirstPolaritySemanticAction(PolarityType * polarity);
-Current * DirectCurrentSemanticAction(CurrentType * current);
-Current * AlternatingCurrentSemanticAction(CurrentType * current);
->>>>>>> fa604e405f122c826478b9f1629d5634c9a4494a
 
 #endif
