@@ -14,8 +14,8 @@ ModuleDestructor initializeAbstractSyntaxTreeModule();
  * person, but without the madness).
  */
 
-typedef enum PolarityType PolarityType;
-typedef enum CurrentType CurrentType;
+typedef enum Polarity Polarity;
+typedef enum Current Current;
 typedef enum Unit Unit;
 
 typedef enum ComponentType ComponentType;
@@ -34,19 +34,17 @@ typedef struct Identifier Identifier;
 typedef struct Branch Branch;
 typedef struct BranchList BranchList;
 typedef struct Parallel Parallel;
-typedef struct Polarity Polarity;
-typedef struct Current Current;
 
 /**
  * Node types for the Abstract Syntax Tree (AST).
  */
 
-enum PolarityType {
+enum Polarity {
 	POSITIVE_FIRST,
 	NEGATIVE_FIRST
 };
 
-enum CurrentType {
+enum Current {
 	DIRECT,
 	ALTERNATING
 };
@@ -149,13 +147,6 @@ struct Parallel {
 	BranchList * branchList;
 };
 
-struct Polarity {
-	PolarityType * type;
-};
-
-struct Current {
-	CurrentType * type;
-};
 
 /**
  * Node recursive super-duper-trambolik-destructors.

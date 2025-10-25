@@ -256,32 +256,32 @@ ParameterList * AppendParameterSemanticAction(ParameterList * parameterList, Par
 Parameter * ParameterValueSemanticAction(const char * value) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
-	element->value = value;
-	element->type = VALUE;
+	parameter->value = value;
+	parameter->type = VALUE;
 	return parameter;
 }
 
 Parameter * ParameterUnitSemanticAction(Unit * unit) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
-	element->unit = unit;
-	element->type = UNIT;
+	parameter->unit = unit;
+	parameter->type = UNIT;
 	return parameter;
 }
 
-Parameter * ParameterPolaritySemanticAction(Polarity * polarity) {
+Parameter * ParameterPolaritySemanticAction(PolarityType * polarity) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
-	element->polarity = polarity;
-	element->type = POLARITY;
+	parameter->polarity = polarity;
+	parameter->type = POLARITY;
 	return parameter;
 }
 
-Parameter * ParameterCurrentSemanticAction(Current * current) {
+Parameter * ParameterCurrentSemanticAction(CurrentType * current) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
-	element->current = current;
-	element->type = CURRENT;
+	parameter->current = current;
+	parameter->type = CURRENT;
 	return parameter;
 }
 

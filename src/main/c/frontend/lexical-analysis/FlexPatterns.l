@@ -62,6 +62,9 @@ COMPLEX_PART2       ({IMAG_PART1}([[:space:]]*{SIGN}[[:space:]]*{NUMBER})?)
 VALUE_PATTERN       ({COMPLEX_PART1}|{COMPLEX_PART2})
 UNIT_PATTERN        (?:GIGA|giga|G|MEGA|mega|M|KILO|kilo|K|BASE|base|MILLI|milli|m|MICRO|micro|[uµμ]|NANO|nano|n)
 
+IDENT               [A-Za-z_][A-Za-z0-9_]*
+WHITESPACE          [[:space:]]+
+
 %%
 
 "/*"                                    { return EnterMultilineCommentLexemeAction(MULTILINE_COMMENT); }

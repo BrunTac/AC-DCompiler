@@ -99,7 +99,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> CLOSE_BRACE
 %token <token> COMMA
 
-%%
 
 /* ---------- Non-terminals. ---------- */
 %type <program> program
