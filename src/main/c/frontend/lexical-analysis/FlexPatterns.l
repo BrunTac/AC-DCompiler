@@ -88,7 +88,6 @@ WHITESPACE          [[:space:]]+
 "Source"                                 { return KeywordLexemeAction(SOURCE); }
 "Resistance"                             { return KeywordLexemeAction(RESISTANCE); }
 "Capacitor"                              { return KeywordLexemeAction(CAPACITOR); }
-"Connection"                             { return KeywordLexemeAction(CONNECTION); }
 "Voltmeter"                             { return KeywordLexemeAction(VOLTMETER); }
 "Amperemeter"                            { return KeywordLexemeAction(AMPEREMETER); }
 "Inductance"                             { return KeywordLexemeAction(INDUCTANCE); }

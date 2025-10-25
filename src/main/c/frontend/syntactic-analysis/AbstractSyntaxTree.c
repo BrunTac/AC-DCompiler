@@ -68,8 +68,8 @@ void destroyElementList(ElementList * elementList) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (elementList != NULL) {
 		for(; elementList != NULL ; elementList = elementList->next) {
-			destroyCircuit(elementList->current);
-			CircuitList * aux = elementList->next;
+			destroyElement(elementList->current);
+			ElementList * aux = elementList->next;
 			free(elementList);
 			elementList = aux;
 		}
@@ -79,7 +79,6 @@ void destroyElementList(ElementList * elementList) {
 void destroyComponent(Component * component) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (component != NULL) {
-		free(component->type);
 		destroyParameterList(component->parameterList);
 		destroyIdentifier(component->id);
 		free(component);
@@ -111,7 +110,7 @@ void destroyParameterList(ParameterList * parameterList) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (parameterList != NULL) {
 		for(; parameterList != NULL ; parameterList = parameterList->next) {
-			destroyparameter(parameterList->current);
+			destroyParameter(parameterList->current);
 			ParameterList * aux = parameterList->next;
 			free(parameterList);
 			parameterList = aux;
@@ -131,7 +130,7 @@ void destroyBranch(Branch * branch) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (branch != NULL) {
 		destroyIdentifier(branch->id);
-		destroyBranchList(branch->elementList);
+		destroyElementList(branch->elementList);
 	}
 }
 
@@ -139,7 +138,7 @@ void destroyBranchList(BranchList * branchList) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (branchList != NULL) {
 		for(; branchList != NULL ; branchList = branchList->next) {
-			destroyparameter(branchList->current);
+			destroyBranch(branchList->current);
 			BranchList * aux = branchList->next;
 			free(branchList);
 			branchList = aux;

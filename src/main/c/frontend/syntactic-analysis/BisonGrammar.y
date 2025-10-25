@@ -63,7 +63,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %destructor { destroyElementList($$); }    <elementList>
 %destructor { destroyParallel($$); }       <parallel>
 %destructor { destroyBranch($$); }         <branch>
-%destructor { destroyBranchList($$) }      <branchList>
+%destructor { destroyBranchList($$); }      <branchList>
 %destructor { destroyComponent($$); }      <component>
 %destructor { destroyParameter($$); }      <parameter>
 %destructor { destroyParameterList($$); }  <parameterList>
@@ -97,8 +97,12 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> CLOSE_PARENTHESIS
 %token <token> OPEN_BRACE
 %token <token> CLOSE_BRACE
+%token <token> OPEN_COMMENT
+%token <token> CLOSE_COMMENT
 %token <token> COMMA
 
+%token <token> IGNORED
+%token <token> UNKNOWN
 
 /* ---------- Non-terminals. ---------- */
 %type <program> program

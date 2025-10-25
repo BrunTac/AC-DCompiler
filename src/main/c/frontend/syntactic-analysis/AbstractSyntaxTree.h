@@ -116,7 +116,7 @@ struct Component {
 
 struct Parameter {
 	union {
-		double * value;
+		const char ** value;
 		Unit * unit;
 		Polarity * polarity;
 		Current * current;
@@ -130,7 +130,7 @@ struct ParameterList {
 };
 
 struct Identifier {
-	char ** id;
+	const char ** id;
 };
 
 struct Branch {

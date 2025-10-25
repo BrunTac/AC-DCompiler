@@ -66,10 +66,10 @@ CircuitList * AppendCircuitSemanticAction(CircuitList * circuitList, Circuit * c
 	return circuitList;
 }
 
-Circuit * CircuitSemanticAction(Identifier identifier, ElementList elementList) {
+Circuit * CircuitSemanticAction(Identifier * identifier, ElementList * elementList) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Circuit * circuit = calloc(1, sizeof(Circuit));
-	circuit->identifier = identifier;
+	circuit->id = identifier;
 	circuit->elementList = elementList;
 	return circuit;
 }
@@ -253,7 +253,7 @@ ParameterList * AppendParameterSemanticAction(ParameterList * parameterList, Par
 	return parameterList;
 }
 
-Parameter * ParameterValueSemanticAction(const char * value) {
+Parameter * ParameterValueSemanticAction(const char ** value) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
 	parameter->value = value;
@@ -269,7 +269,7 @@ Parameter * ParameterUnitSemanticAction(Unit * unit) {
 	return parameter;
 }
 
-Parameter * ParameterPolaritySemanticAction(PolarityType * polarity) {
+Parameter * ParameterPolaritySemanticAction(Polarity * polarity) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
 	parameter->polarity = polarity;
@@ -277,7 +277,7 @@ Parameter * ParameterPolaritySemanticAction(PolarityType * polarity) {
 	return parameter;
 }
 
-Parameter * ParameterCurrentSemanticAction(CurrentType * current) {
+Parameter * ParameterCurrentSemanticAction(Current * current) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
 	parameter->current = current;
@@ -285,20 +285,9 @@ Parameter * ParameterCurrentSemanticAction(CurrentType * current) {
 	return parameter;
 }
 
-Identifier * IdentifierSemanticAction(const char * id) {
+Identifier * IdentifierSemanticAction(const char ** id) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Identifier * identifier = calloc(1, sizeof(Identifier));
 	identifier->id = id;
 	return identifier;
-}
-
-Current * DirectCurrentSemanticAction(Current * current) {
-	_logSyntacticAnalyzerAction(__FUNCTION__);
-	Current * identifier = calloc(1, sizeof(Current));
-	identifier->id = id;
-	return identifier;
-}
-
-Current * AlternatingCurrentSemanticAction(Current * current) {
-
 }

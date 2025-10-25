@@ -39,10 +39,10 @@ Component * SwitchComponentSemanticAction(Identifier * identifier, ParameterList
 ParameterList * EmptyParameterListSemanticAction();
 ParameterList * NewParameterListSemanticAction(Parameter * parameter);
 ParameterList * AppendParameterSemanticAction(ParameterList * parameterList, Parameter * parameter);
-Parameter * ParameterValueSemanticAction(const char * value);
+Parameter * ParameterValueSemanticAction(const char ** value);
 Parameter * ParameterUnitSemanticAction(Unit * unit);
 Parameter * ParameterPolaritySemanticAction(Polarity * polarity);
 Parameter * ParameterCurrentSemanticAction(Current * current);
-Identifier * IdentifierSemanticAction(const char * identifier);
+Identifier * IdentifierSemanticAction(const char ** identifier);
 
 #endif
