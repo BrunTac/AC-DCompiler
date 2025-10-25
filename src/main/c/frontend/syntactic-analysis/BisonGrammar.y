@@ -59,7 +59,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
  * @see https://www.gnu.org/software/bison/manual/html_node/Destructor-Decl.html
  */
 
-%destructor { destroyProgram($$); }        <program>
 %destructor { destroyCircuit($$); }        <circuit>
 %destructor { destroyCircuitList($$); }    <circuitList>
 %destructor { destroyElement($$); }        <element>
