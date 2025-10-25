@@ -91,8 +91,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> ALTERNATING
 
 %token <unit> UNIT
-%token <polarity> POLARITY
-%token <current> CURRENT
 %token <token> VALUE
 
 %token <token> OPEN_PARENTHESIS

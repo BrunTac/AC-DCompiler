@@ -72,8 +72,8 @@ UNIT_PATTERN        (?:GIGA|giga|G|MEGA|mega|M|KILO|kilo|K|BASE|base|MILLI|milli
 "("                                     { return ParenthesisLexemeAction(OPEN_PARENTHESIS); }
 ")"                                     { return ParenthesisLexemeAction(CLOSE_PARENTHESIS); }
 
-"{"                                     { return BraceLexemeAction(OPEN_BRACKET); }
-"}"                                     { return BraceLexemeAction(CLOSE_BRACKET); }
+"{"                                     { return BraceLexemeAction(OPEN_BRACE); }
+"}"                                     { return BraceLexemeAction(CLOSE_BRACE); }
 
 ","                                     { return CommaLexemeAction(); }
 
@@ -94,7 +94,8 @@ UNIT_PATTERN        (?:GIGA|giga|G|MEGA|mega|M|KILO|kilo|K|BASE|base|MILLI|milli
 (AC|DC)                                  { return KeywordLexemeAction(CURRENT_TYPE); }
 
 {UNIT_PATTERN}                           { return UnitLexemeAction(UNIT); }
-{POLARITY_PATTERN}                       { return PolarityLexemeAction(POLARITY); }
+"+|-"                                    { return PolarityLexemeAction(POSITIVE_FIRST); }
+"-|+"                                    { return PolarityLexemeAction(NEGATIVE_FIRST); }
 
 {IDENT}                                  { return IdentifierLexemeAction(ID); }
 
