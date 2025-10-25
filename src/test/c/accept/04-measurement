@@ -6,7 +6,7 @@ Circuit measurement {
         Branch b2 {
             Source E_ac (220, base, AC, -|+),
             Resistance R1 (),
-            Amperimeter A1 ()
+            Amperemeter A1 ()
         }
     }
 }

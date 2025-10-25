@@ -82,7 +82,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> INDUCTANCE
 %token <token> SWITCH
 %token <token> VOLTMETER
-%token <token> AMPERIMETER
+%token <token> AMPEREMETER
 
 %token <token> POSITIVE
 %token <token> NEGATIVE
@@ -171,37 +171,37 @@ branch:
 component:
       SOURCE identifier componentParamsOpt         { $$ = SourceComponentSemanticAction($2, $3); }
     | RESISTANCE identifier componentParamsOpt     { $$ = ResistanceComponentSemanticAction($2, $3); }
-    | VOLTMETER identifier componentParamsOpt     { $$ = VoltmeterComponentSemanticAction($2, $3); }
-    | AMPERIMETER identifier componentParamsOpt    { $$ = AmperimeterComponentSemanticAction($2, $3); }
+    | VOLTMETER identifier componentParamsOpt      { $$ = VoltmeterComponentSemanticAction($2, $3); }
+    | AMPEREMETER identifier componentParamsOpt    { $$ = AmperemeterComponentSemanticAction($2, $3); }
     | INDUCTANCE identifier componentParamsOpt     { $$ = InductanceComponentSemanticAction($2, $3); }
     | CAPACITOR identifier componentParamsOpt      { $$ = CapacitorComponentSemanticAction($2, $3); }
     | SWITCH identifier componentParamsOpt         { $$ = SwitchComponentSemanticAction($2, $3); }
     ;
 
-componentParamsOpt: %empty                                    	{ $$ = DefaultParamsSemanticAction(); }
+componentParamsOpt: %empty                                    	    { $$ = EmptyParameterListSemanticAction(); }
     | OPEN_PARENTHESIS parameterListOpt CLOSE_PARENTHESIS			{ $$ = $2; }
     ;
 
-parameterListOpt: %empty                                    { $$ = EmptyParamsSemanticAction(); }
+parameterListOpt: %empty                                    { $$ = EmptyParameterListSemanticAction(); }
     | parameterList                                    		{ $$ = $1; }
     ;
 
-parameterList: parameter                                        { $$ = NewParamsSemanticAction($1); }
-    | parameterList COMMA parameter                           	{ $$ = AppendParamSemanticAction($1, $3); }
+parameterList: parameter                                        { $$ = NewParameterListSemanticAction($1); }
+    | parameterList COMMA parameter                           	{ $$ = AppendParameterSemanticAction($1, $3); }
     ;
 
 parameter: 
-      VALUE                                         { $$ = ParamValueSemanticAction($1); }
-    | unit                                          { $$ = ParamUnitSemanticAction($1); }
-    | polarity                                      { $$ = ParamPolaritySemanticAction($1); }
-    | current                                       { $$ = ParamCurrentSemanticAction($1); }
+      VALUE                                         { $$ = ParameterValueSemanticAction($1); }
+    | UNIT                                          { $$ = ParameterUnitSemanticAction($1); }
+    | polarity                                      { $$ = ParameterPolaritySemanticAction($1); }
+    | current                                       { $$ = ParameterCurrentSemanticAction($1); }
     ;
 
 identifier: ID                                            { $$ = IdentifierSemanticAction($1); }
     ;
 
 polarity: 
-      POSITIVE                                      { $$ = PositivePolaritySemanticAction($1); }
+      POSITIVE PIPE NEGATIVE                                      { $$ = PositivePolaritySemanticAction($1); }
     | NEGATIVE                                      { $$ = NegativePolaritySemanticAction($1); }
 
 current:
