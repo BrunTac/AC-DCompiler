@@ -222,3 +222,83 @@ Component * SwitchComponentSemanticAction(Identifier * identifier, ParameterList
 	component->parameterList = parameterList;
 	return component;
 }
+
+ParameterList * EmptyParameterListSemanticAction() {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ParameterList * parameterList = calloc(1, sizeof(ParameterList));
+	parameterList->current = NULL;
+	parameterList->next = NULL;
+	return parameterList;
+}
+
+ParameterList * NewParameterListSemanticAction(Parameter * parameter) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ParameterList * parameterList = calloc(1, sizeof(ParameterList));
+	parameterList->current = parameter;
+	parameterList->next = NULL;
+	return parameterList;
+}
+
+ParameterList * AppendParameterSemanticAction(ParameterList * parameterList, Parameter * parameter) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ParameterList * newNode = calloc(1, sizeof(ParameterList));
+	newNode->current = parameter;
+	newNode->next = NULL;
+
+	ParameterList * aux = parameterList;
+	while(aux->next != NULL){
+		aux = aux->next;
+	}
+	aux->next = newNode;
+	return parameterList;
+}
+
+Parameter * ParameterValueSemanticAction(const char * value) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Parameter * parameter = calloc(1, sizeof(Parameter));
+	element->value = value;
+	element->type = VALUE;
+	return parameter;
+}
+
+Parameter * ParameterUnitSemanticAction(Unit * unit) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Parameter * parameter = calloc(1, sizeof(Parameter));
+	element->unit = unit;
+	element->type = UNIT;
+	return parameter;
+}
+
+Parameter * ParameterPolaritySemanticAction(Polarity * polarity) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Parameter * parameter = calloc(1, sizeof(Parameter));
+	element->polarity = polarity;
+	element->type = POLARITY;
+	return parameter;
+}
+
+Parameter * ParameterCurrentSemanticAction(Current * current) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Parameter * parameter = calloc(1, sizeof(Parameter));
+	element->current = current;
+	element->type = CURRENT;
+	return parameter;
+}
+
+Identifier * IdentifierSemanticAction(const char * id) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Identifier * identifier = calloc(1, sizeof(Identifier));
+	identifier->id = id;
+	return identifier;
+}
+
+Current * DirectCurrentSemanticAction(Current * current) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Current * identifier = calloc(1, sizeof(Current));
+	identifier->id = id;
+	return identifier;
+}
+
+Current * AlternatingCurrentSemanticAction(Current * current) {
+
+}
