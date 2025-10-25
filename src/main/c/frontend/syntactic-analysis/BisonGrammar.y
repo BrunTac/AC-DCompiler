@@ -31,6 +31,8 @@ void yyerror(const YYLTYPE * location, const char * message) {}
     const char ** string;
     Polarity * polarityToken;
     Current * currentToken;
+    ResistorType * resistorTypeToken;
+    SwitchState * switchStateToken;
 
 	/** Non-terminals. */
 
@@ -79,7 +81,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> PARALLEL
 %token <token> BRANCH
 %token <token> SOURCE
-%token <token> RESISTANCE
+%token <token> RESISTOR
 %token <token> CAPACITOR
 %token <token> INDUCTANCE
 %token <token> SWITCH
@@ -94,6 +96,8 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 
 %token <unit> UNIT_TOKEN
 %token <string> VALUE_TOKEN
+%token <resistorTypeToken> RESISTOR_TYPE_TOKEN
+%token <switchStateToken> SWITCH_STATE_TOKEN
 
 %token <token> OPEN_PARENTHESIS
 %token <token> CLOSE_PARENTHESIS
@@ -115,6 +119,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %type <component> component
 %type <parameter> parameter
 %type <parameterList> componentParamsOpt parameterListOpt parameterList
+%type <parameterList> resistorParams inductanceParams capacitorParams switchParams
 %type <identifier> identifier
 %type <branch> branch
 %type <branchList> branchList
@@ -173,13 +178,61 @@ branch:
 /* Components: can have parenthesis, parameters (posibles parámetros) o no */
 component:
       SOURCE identifier componentParamsOpt         { $$ = SourceComponentSemanticAction($2, $3); }
-    | RESISTANCE identifier componentParamsOpt     { $$ = ResistanceComponentSemanticAction($2, $3); }
-    | VOLTMETER identifier componentParamsOpt      { $$ = VoltmeterComponentSemanticAction($2, $3); }
-    | AMPEREMETER identifier componentParamsOpt    { $$ = AmperemeterComponentSemanticAction($2, $3); }
-    | INDUCTANCE identifier componentParamsOpt     { $$ = InductanceComponentSemanticAction($2, $3); }
-    | CAPACITOR identifier componentParamsOpt      { $$ = CapacitorComponentSemanticAction($2, $3); }
-    | SWITCH identifier componentParamsOpt         { $$ = SwitchComponentSemanticAction($2, $3); }
+    | RESISTOR identifier resistorParams           { $$ = ResistorComponentSemanticAction($2, $3); }
+    | VOLTMETER identifier                         { $$ = VoltmeterComponentSemanticAction($2); }
+    | AMPEREMETER identifier                       { $$ = AmperemeterComponentSemanticAction($2); }
+    | INDUCTANCE identifier inductanceParams       { $$ = InductanceComponentSemanticAction($2, $3); }
+    | CAPACITOR identifier capacitorParams         { $$ = CapacitorComponentSemanticAction($2, $3); }
+    | SWITCH identifier switchParams               { $$ = SwitchComponentSemanticAction($2, $3); }
     ;
+
+resistorParams:
+      OPEN_PARENTHESIS RESISTOR_TYPE_TOKEN CLOSE_PARENTHESIS                                        { Parameter * resistorType = ParameterResistorTypeSemanticAction($2); 
+                                                                                                      $$ = NewParameterListSemanticAction(resistorType); }
+    | OPEN_PARENTHESIS RESISTOR_TYPE_TOKEN COMMA VALUE_TOKEN CLOSE_PARENTHESIS                      { Parameter * resistorType = ParameterResistorTypeSemanticAction($2); 
+                                                                                                      Parameter * value = ParameterValueSemanticAction($4); 
+                                                                                                      ParameterList * toReturn = NewParameterListSemanticAction(resistorType); 
+                                                                                                      $$ = AppendParameterSemanticAction(toReturn, value); }
+    | OPEN_PARENTHESIS RESISTOR_TYPE_TOKEN COMMA VALUE_TOKEN COMMA UNIT_TOKEN CLOSE_PARENTHESIS     { Parameter * resistorType = ParameterResistorTypeSemanticAction($2); 
+                                                                                                      Parameter * value = ParameterValueSemanticAction($4); 
+                                                                                                      Parameter * unit = ParameterUnitSemanticAction($6);
+                                                                                                      ParameterList * toReturn = NewParameterListSemanticAction(resistorType); 
+                                                                                                      AppendParameterSemanticAction(toReturn, value);
+                                                                                                      $$ = AppendParameterSemanticAction(toReturn, unit); }
+
+inductanceParams: %empty                                                                            { $$ = EmptyParameterListSemanticAction(); }
+    | OPEN_PARENTHESIS CLOSE_PARENTHESIS                                                            { $$ = EmptyParameterListSemanticAction(); }
+    | OPEN_PARENTHESIS VALUE_TOKEN CLOSE_PARENTHESIS                                                { Parameter * value = ParameterValueSemanticAction($2); 
+                                                                                                      $$ = NewParameterListSemanticAction(value); }
+    | OPEN_PARENTHESIS VALUE_TOKEN COMMA UNIT_TOKEN CLOSE_PARENTHESIS                               { Parameter * value = ParameterValueSemanticAction($2);
+                                                                                                      Parameter * unit = ParameterUnitSemanticAction($4);
+                                                                                                      ParameterList * toReturn = NewParameterListSemanticAction(value);
+                                                                                                      $$ = AppendParameterSemanticAction(toReturn, unit); }
+
+capacitorParams: %empty                                                                             { $$ = EmptyParameterListSemanticAction(); }
+    | OPEN_PARENTHESIS CLOSE_PARENTHESIS                                                            { $$ = EmptyParameterListSemanticAction(); }
+    | OPEN_PARENTHESIS VALUE_TOKEN CLOSE_PARENTHESIS                                                { Parameter * value = ParameterValueSemanticAction($2); 
+                                                                                                      $$ = NewParameterListSemanticAction(value); }
+    | OPEN_PARENTHESIS VALUE_TOKEN COMMA UNIT_TOKEN CLOSE_PARENTHESIS                               { Parameter * value = ParameterValueSemanticAction($2);
+                                                                                                      Parameter * unit = ParameterUnitSemanticAction($4);
+                                                                                                      ParameterList * toReturn = NewParameterListSemanticAction(value);
+                                                                                                      $$ = AppendParameterSemanticAction(toReturn, unit); }
+    | OPEN_PARENTHESIS polarity CLOSE_PARENTHESIS                                                   { Parameter * polarity = ParameterPolaritySemanticAction($2); 
+                                                                                                      $$ = NewParameterListSemanticAction(polarity); }
+    | OPEN_PARENTHESIS polarity COMMA VALUE_TOKEN CLOSE_PARENTHESIS                                 { Parameter * polarity = ParameterPolaritySemanticAction($2);
+                                                                                                      Parameter * value = ParameterValueSemanticAction($4);
+                                                                                                      ParameterList * toReturn = NewParameterListSemanticAction(polarity);
+                                                                                                      $$ = AppendParameterSemanticAction(toReturn, value); }
+    | OPEN_PARENTHESIS polarity COMMA VALUE_TOKEN COMMA UNIT_TOKEN CLOSE_PARENTHESIS                { Parameter * polarity = ParameterPolaritySemanticAction($2);
+                                                                                                      Parameter * value = ParameterValueSemanticAction($4);
+                                                                                                      Parameter * unit = ParameterUnitSemanticAction($6); 
+                                                                                                      ParameterList * toReturn = NewParameterListSemanticAction(polarity);
+                                                                                                      AppendParameterSemanticAction(toReturn, value);
+                                                                                                      $$ = AppendParameterSemanticAction(toReturn, unit); }
+
+switchParams:
+      OPEN_PARENTHESIS SWITCH_STATE_TOKEN CLOSE_PARENTHESIS                                         { Parameter * switchState = ParameterSwitchStateSemanticAction($2); 
+                                                                                                      $$ = NewParameterListSemanticAction(switchState); }
 
 componentParamsOpt: %empty                                    	    { $$ = EmptyParameterListSemanticAction(); }
     | OPEN_PARENTHESIS parameterListOpt CLOSE_PARENTHESIS			{ $$ = $2; }

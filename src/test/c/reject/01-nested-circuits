@@ -2,6 +2,6 @@ Circuit outer {
     Source E1 (12, base, -|+),
     Circuit inner {
         Source E2 (5, base, -|+),
-        Resistance R1 ()
+        Resistor R1 ()
     }
 }

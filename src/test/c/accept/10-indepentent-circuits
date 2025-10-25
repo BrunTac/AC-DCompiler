@@ -1,6 +1,6 @@
 Circuit circuit1 {
     Source E1 (9, base, -|+),
-    Resistance R1 (10, base)
+    Resistor R1 (10, base)
 },
 
 Circuit circuit2 {

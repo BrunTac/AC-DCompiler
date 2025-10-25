@@ -103,6 +103,9 @@ void destroyParameter(Parameter * parameter) {
 			case CURRENT:
 				destroyCurrent(parameter->current);
 				break;
+			case RESISTOR_TYPE:
+				free(parameter->resistorType);
+				break;
 		}
 		free(parameter);
 	}

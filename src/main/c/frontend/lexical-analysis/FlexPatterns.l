@@ -25,6 +25,8 @@ extern CompilationStatus CommaLexemeAction();
 extern CompilationStatus KeywordLexemeAction(TokenLabel label);
 extern CompilationStatus IdentifierLexemeAction(TokenLabel label);
 extern CompilationStatus UnitLexemeAction(TokenLabel label);
+extern CompilationStatus ResistorTypeLexemeAction(TokenLabel label);
+extern CompilationStatus SwitchStateLexemeAction(TokenLabel label);
 extern CompilationStatus PolarityLexemeAction(TokenLabel label);
 extern CompilationStatus UnknownLexemeAction();
 
@@ -46,24 +48,26 @@ extern CompilationStatus UnknownLexemeAction();
  */
 
 /* Reusable patterns */
-DIGIT               [0-9]
-INTEGER             {DIGIT}+
-FRAC                \.{DIGIT}+
-EXP                 ([eE][+-]?{DIGIT}+)
-NUMBER              {DIGIT}+({FRAC})?({EXP})?
+DIGIT                       [0-9]
+INTEGER                     {DIGIT}+
+FRAC                        \.{DIGIT}+
+EXP                         ([eE][+-]?{DIGIT}+)
+NUMBER                      {DIGIT}+({FRAC})?({EXP})?
 
-IMAG_UNIT           [ij]
-SIGN                [+-]
+IMAG_UNIT                   [ij]
+SIGN                        [+-]
 
-IMAG_PART1          ({NUMBER}?{IMAG_UNIT})
-COMPLEX_PART1       ({NUMBER}([[:space:]]*{SIGN}[[:space:]]*{NUMBER}?{IMAG_UNIT})?)
-COMPLEX_PART2       ({IMAG_PART1}([[:space:]]*{SIGN}[[:space:]]*{NUMBER})?)
+IMAG_PART1                  ({NUMBER}?{IMAG_UNIT})
+COMPLEX_PART1               ({NUMBER}([[:space:]]*{SIGN}[[:space:]]*{NUMBER}?{IMAG_UNIT})?)
+COMPLEX_PART2               ({IMAG_PART1}([[:space:]]*{SIGN}[[:space:]]*{NUMBER})?)
 
-VALUE_PATTERN       ({COMPLEX_PART1}|{COMPLEX_PART2})
-UNIT_PATTERN        (?:GIGA|giga|G|MEGA|mega|M|KILO|kilo|K|BASE|base|MILLI|milli|m|MICRO|micro|[uµμ]|NANO|nano|n)
+VALUE_PATTERN               ({COMPLEX_PART1}|{COMPLEX_PART2})
+UNIT_PATTERN                (?:GIGA|giga|G|MEGA|mega|M|KILO|kilo|K|BASE|base|MILLI|milli|m|MICRO|micro|[uµμ]|NANO|nano|n)
+RESISTOR_TYPE_PATTERN       (REGULAR|regular|Regular|PHOTORESISTOR|photoresistor|Photoresistor|THERMISTOR|thermistor|Thermistor|POTENTIOMETER|potentiometer|Potentiometer)
+SWITCH_STATE_PATTERN        (OPEN|open|Open|CLOSED|closed|Closed)
 
-IDENT               [A-Za-z_][A-Za-z0-9_]*
-WHITESPACE          [[:space:]]+
+IDENT                       [A-Za-z_][A-Za-z0-9_]*
+WHITESPACE                  [[:space:]]+
 
 %%
 
@@ -86,9 +90,9 @@ WHITESPACE          [[:space:]]+
 "Parallel"                               { return KeywordLexemeAction(PARALLEL); }
 "Branch"                                 { return KeywordLexemeAction(BRANCH); }
 "Source"                                 { return KeywordLexemeAction(SOURCE); }
-"Resistance"                             { return KeywordLexemeAction(RESISTANCE); }
+"Resistor"                               { return KeywordLexemeAction(RESISTOR); }
 "Capacitor"                              { return KeywordLexemeAction(CAPACITOR); }
-"Voltmeter"                             { return KeywordLexemeAction(VOLTMETER); }
+"Voltmeter"                              { return KeywordLexemeAction(VOLTMETER); }
 "Amperemeter"                            { return KeywordLexemeAction(AMPEREMETER); }
 "Inductance"                             { return KeywordLexemeAction(INDUCTANCE); }
 "Switch"                                 { return KeywordLexemeAction(SWITCH); }
@@ -97,6 +101,8 @@ WHITESPACE          [[:space:]]+
 "DC"                                       { return KeywordLexemeAction(DIRECT_TOKEN); }
 
 {UNIT_PATTERN}                           { return UnitLexemeAction(UNIT_TOKEN); }
+{RESISTOR_TYPE_PATTERN}                  { return ResistorTypeLexemeAction(RESISTOR_TYPE_TOKEN); }
+{SWITCH_STATE_PATTERN}                   { return SwitchStateLexemeAction(SWITCH_STATE_TOKEN); }
 "+|-"                                    { return PolarityLexemeAction(POSITIVE_FIRST_TOKEN); }
 "-|+"                                    { return PolarityLexemeAction(NEGATIVE_FIRST_TOKEN); }
 

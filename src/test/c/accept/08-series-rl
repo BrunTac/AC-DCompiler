@@ -1,5 +1,5 @@
 Circuit series_rl {
     Source E1 (12, base, -|+),
     Inductance L1 (2, base),
-    Resistance R1 (10, micro)
+    Resistor R1 (10, micro)
 }

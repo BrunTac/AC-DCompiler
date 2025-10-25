@@ -17,6 +17,8 @@ ModuleDestructor initializeAbstractSyntaxTreeModule();
 typedef enum Polarity Polarity;
 typedef enum Current Current;
 typedef enum Unit Unit;
+typedef enum ResistorType ResistorType;
+typedef enum SwitchState SwitchState;
 
 typedef enum ComponentType ComponentType;
 typedef enum ElementType ElementType;
@@ -59,9 +61,21 @@ enum Unit {
 	NANO
 };
 
+enum ResistorType {
+	PHOTORESISTOR,
+	THERMISTOR,
+	POTENTIOMETER,
+	REGULAR
+};
+
+enum SwitchState {
+	OPEN,
+	CLOSED
+};
+
 enum ComponentType {
 	COMPONENT_SOURCE,
-	COMPONENT_RESISTANCE,
+	COMPONENT_RESISTOR,
 	COMPONENT_VOLTMETER,
 	COMPONENT_AMPEREMETER,
 	COMPONENT_INDUCTANCE,
@@ -78,7 +92,9 @@ enum ParameterType {
 	VALUE,
 	UNIT,
 	POLARITY,
-	CURRENT
+	CURRENT,
+	RESISTOR_TYPE,
+	SWITCH_STATE
 };
 
 struct Program {
@@ -120,6 +136,8 @@ struct Parameter {
 		Unit * unit;
 		Polarity * polarity;
 		Current * current;
+		ResistorType * resistorType;
+		SwitchState * switchState;
 	};
 	ParameterType type;
 };

@@ -169,30 +169,30 @@ Component * SourceComponentSemanticAction(Identifier * identifier, ParameterList
 	return component;
 }
 
-Component * ResistanceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+Component * ResistorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Component * component = calloc(1, sizeof(Component));
-	component->type = COMPONENT_RESISTANCE;
+	component->type = COMPONENT_RESISTOR;
 	component->id = identifier;
 	component->parameterList = parameterList;
 	return component;
 }
 
-Component * VoltmeterComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+Component * VoltmeterComponentSemanticAction(Identifier * identifier){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Component * component = calloc(1, sizeof(Component));
 	component->type = COMPONENT_VOLTMETER;
 	component->id = identifier;
-	component->parameterList = parameterList;
+	component->parameterList = NULL;
 	return component;
 }
 
-Component * AmperemeterComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+Component * AmperemeterComponentSemanticAction(Identifier * identifier){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Component * component = calloc(1, sizeof(Component));
 	component->type = COMPONENT_AMPEREMETER;
 	component->id = identifier;
-	component->parameterList = parameterList;
+	component->parameterList = NULL;
 	return component;
 }
 
@@ -266,6 +266,22 @@ Parameter * ParameterUnitSemanticAction(Unit * unit) {
 	Parameter * parameter = calloc(1, sizeof(Parameter));
 	parameter->unit = unit;
 	parameter->type = UNIT;
+	return parameter;
+}
+
+Parameter * ParameterResistorTypeSemanticAction(ResistorType * resistorType) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Parameter * parameter = calloc(1, sizeof(Parameter));
+	parameter->resistorType = resistorType;
+	parameter->type = RESISTOR_TYPE;
+	return parameter;
+}
+
+Parameter * ParameterSwitchStateSemanticAction(SwitchState * switchState) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Parameter * parameter = calloc(1, sizeof(Parameter));
+	parameter->switchState = switchState;
+	parameter->type = SWITCH_STATE;
 	return parameter;
 }
 
