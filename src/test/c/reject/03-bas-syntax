@@ -1,4 +1,4 @@
 Circuit bad_syntax {
-    Source E1 (9, base, -|+)
+    DCSource E1 (9, base, -|+)
     Resistor R1 (100, ohm)   /* missing coma after source */
 }

@@ -1,5 +1,5 @@
 Circuit switch_example {
-    Source E1 (12, base, -|+),
-    Switch S1 (kindaclosed),
-    Resistor R1 (regular, 100, base)
+    DCSource E1 (12, base, -|+),
+    Switch S1 (closed),
+    Resistor R1 (100, base)
 }

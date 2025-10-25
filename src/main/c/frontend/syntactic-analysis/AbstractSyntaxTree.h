@@ -15,7 +15,6 @@ ModuleDestructor initializeAbstractSyntaxTreeModule();
  */
 
 typedef enum Polarity Polarity;
-typedef enum Current Current;
 typedef enum Unit Unit;
 typedef enum ResistorType ResistorType;
 typedef enum SwitchState SwitchState;
@@ -46,11 +45,6 @@ enum Polarity {
 	NEGATIVE_FIRST
 };
 
-enum Current {
-	DIRECT,
-	ALTERNATING
-};
-
 enum Unit {
 	GIGA,
 	MEGA,
@@ -74,7 +68,8 @@ enum SwitchState {
 };
 
 enum ComponentType {
-	COMPONENT_SOURCE,
+	COMPONENT_AC_SOURCE,
+	COMPONENT_DC_SOURCE,
 	COMPONENT_RESISTOR,
 	COMPONENT_VOLTMETER,
 	COMPONENT_AMPEREMETER,
@@ -92,7 +87,6 @@ enum ParameterType {
 	VALUE,
 	UNIT,
 	POLARITY,
-	CURRENT,
 	RESISTOR_TYPE,
 	SWITCH_STATE
 };
@@ -135,7 +129,6 @@ struct Parameter {
 		const char ** value;
 		Unit * unit;
 		Polarity * polarity;
-		Current * current;
 		ResistorType * resistorType;
 		SwitchState * switchState;
 	};
@@ -182,7 +175,6 @@ void destroyComponent(Component*);
 void destroyParameter(Parameter*);
 void destroyParameterList(ParameterList*);
 void destroyPolarity(Polarity*);
-void destroyCurrent(Current*);
 void destroyIdentifier(Identifier*);
 
 #endif

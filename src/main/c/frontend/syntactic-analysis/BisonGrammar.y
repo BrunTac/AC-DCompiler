@@ -30,7 +30,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
     Unit * unit;
     const char ** string;
     Polarity * polarityToken;
-    Current * currentToken;
     ResistorType * resistorTypeToken;
     SwitchState * switchStateToken;
 
@@ -49,7 +48,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
     BranchList * branchList;
     Parallel * parallel;
     Polarity * polarity;
-    Current * current;
 }
 
 /**
@@ -73,14 +71,14 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %destructor { destroyParameterList($$); }  <parameterList>
 %destructor { destroyIdentifier($$); }     <identifier>
 %destructor { destroyPolarity($$); }       <polarity>
-%destructor { destroyCurrent($$); }        <current>
 
 /* ---------- Terminals. ---------- */
 %token <string> ID
 %token <token> CIRCUIT
 %token <token> PARALLEL
 %token <token> BRANCH
-%token <token> SOURCE
+%token <token> AC_SOURCE
+%token <token> DC_SOURCE
 %token <token> RESISTOR
 %token <token> CAPACITOR
 %token <token> INDUCTANCE
@@ -90,9 +88,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 
 %token <polarityToken> POSITIVE_FIRST_TOKEN
 %token <polarityToken> NEGATIVE_FIRST_TOKEN
-
-%token <currentToken> DIRECT_TOKEN
-%token <currentToken> ALTERNATING_TOKEN
 
 %token <unit> UNIT_TOKEN
 %token <string> VALUE_TOKEN
@@ -125,7 +120,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %type <branchList> branchList
 %type <parallel> parallel
 %type <polarity> polarity
-%type <current> current
 
 %%
 
@@ -177,7 +171,8 @@ branch:
 
 /* Components: can have parenthesis, parameters (posibles parámetros) o no */
 component:
-      SOURCE identifier componentParamsOpt         { $$ = SourceComponentSemanticAction($2, $3); }
+      AC_SOURCE identifier componentParamsOpt      { $$ = ACSourceComponentSemanticAction($2, $3); }
+    | DC_SOURCE identifier componentParamsOpt      { $$ = DCSourceComponentSemanticAction($2, $3); }
     | RESISTOR identifier resistorParams           { $$ = ResistorComponentSemanticAction($2, $3); }
     | VOLTMETER identifier                         { $$ = VoltmeterComponentSemanticAction($2); }
     | AMPEREMETER identifier                       { $$ = AmperemeterComponentSemanticAction($2); }
@@ -250,7 +245,6 @@ parameter:
       VALUE_TOKEN                                         { $$ = ParameterValueSemanticAction($1); }
     | UNIT_TOKEN                                          { $$ = ParameterUnitSemanticAction($1); }
     | polarity                                      { $$ = ParameterPolaritySemanticAction($1); }
-    | current                                       { $$ = ParameterCurrentSemanticAction($1); }
     ;
 
 identifier: ID                                            { $$ = IdentifierSemanticAction($1); }
@@ -259,9 +253,5 @@ identifier: ID                                            { $$ = IdentifierSeman
 polarity: 
       POSITIVE_FIRST_TOKEN                                      { $$ = $1; }
     | NEGATIVE_FIRST_TOKEN                                      { $$ = $1; }
-
-current:
-      DIRECT_TOKEN                                        { $$ = $1; }
-    | ALTERNATING_TOKEN                                   { $$ = $1; }
 
 %%

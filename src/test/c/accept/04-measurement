@@ -4,7 +4,7 @@ Circuit measurement {
             Voltmeter V1 ()
         },
         Branch b2 {
-            Source E_ac (220, base, AC, -|+),
+            ACSource E_ac (220, base),
             Resistor R1 (),
             Amperemeter A1 ()
         }

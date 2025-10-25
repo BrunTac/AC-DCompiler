@@ -100,12 +100,11 @@ void destroyParameter(Parameter * parameter) {
 			case POLARITY:
 				destroyPolarity(parameter->polarity);
 				break;
-			case CURRENT:
-				destroyCurrent(parameter->current);
-				break;
 			case RESISTOR_TYPE:
 				free(parameter->resistorType);
 				break;
+			case SWITCH_STATE:
+				free(parameter->switchState)
 		}
 		free(parameter);
 	}
@@ -166,12 +165,5 @@ void destroyPolarity(Polarity * polarity) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (polarity != NULL) {
 		free(polarity);
-	}
-}
-
-void destroyCurrent(Current * current) { 
-	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
-	if (current != NULL) {
-		free(current);
 	}
 }
