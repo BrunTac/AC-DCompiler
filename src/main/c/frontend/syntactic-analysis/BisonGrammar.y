@@ -27,7 +27,10 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 	/** Terminals. */
 
 	TokenLabel token;
-    Unit unit;
+    Unit * unit;
+    const char ** string;
+    Polarity * polarityToken;
+    Current * currentToken;
 
 	/** Non-terminals. */
 
@@ -63,7 +66,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %destructor { destroyElementList($$); }    <elementList>
 %destructor { destroyParallel($$); }       <parallel>
 %destructor { destroyBranch($$); }         <branch>
-%destructor { destroyBranchList($$); }      <branchList>
+%destructor { destroyBranchList($$); }     <branchList>
 %destructor { destroyComponent($$); }      <component>
 %destructor { destroyParameter($$); }      <parameter>
 %destructor { destroyParameterList($$); }  <parameterList>
@@ -72,7 +75,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %destructor { destroyCurrent($$); }        <current>
 
 /* ---------- Terminals. ---------- */
-%token <token> ID
+%token <string> ID
 %token <token> CIRCUIT
 %token <token> PARALLEL
 %token <token> BRANCH
@@ -84,14 +87,14 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> VOLTMETER
 %token <token> AMPEREMETER
 
-%token <token> POSITIVE_FIRST_TOKEN
-%token <token> NEGATIVE_FIRST_TOKEN
+%token <polarityToken> POSITIVE_FIRST_TOKEN
+%token <polarityToken> NEGATIVE_FIRST_TOKEN
 
-%token <token> DIRECT_TOKEN
-%token <token> ALTERNATING_TOKEN
+%token <currentToken> DIRECT_TOKEN
+%token <currentToken> ALTERNATING_TOKEN
 
 %token <unit> UNIT_TOKEN
-%token <token> VALUE_TOKEN
+%token <string> VALUE_TOKEN
 
 %token <token> OPEN_PARENTHESIS
 %token <token> CLOSE_PARENTHESIS

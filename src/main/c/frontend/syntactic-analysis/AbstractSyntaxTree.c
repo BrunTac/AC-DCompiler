@@ -153,3 +153,17 @@ void destroyParallel(Parallel * parallel) {
 		free(parallel);
 	}
 }
+
+void destroyPolarity(Polarity * polarity) { 
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (polarity != NULL) {
+		free(polarity);
+	}
+}
+
+void destroyCurrent(Current * current) { 
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (current != NULL) {
+		free(current);
+	}
+}
