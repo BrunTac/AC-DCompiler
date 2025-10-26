@@ -42,9 +42,9 @@ ParameterList * NewParameterListSemanticAction(Parameter * parameter);
 ParameterList * AppendParameterSemanticAction(ParameterList * parameterList, Parameter * parameter);
 ParameterList * AppendParameterListSemanticAction(ParameterList * baseParameterList, ParameterList * newParameterList);
 Parameter * ParameterValueSemanticAction(const char ** value);
-Parameter * ParameterUnitSemanticAction(Unit * unit);
-Parameter * ParameterResistorTypeSemanticAction(ResistorType * resistorType);
-Parameter * ParameterSwitchStateSemanticAction(SwitchState * switchState);
+Parameter * ParameterUnitSemanticAction(Unit unit);
+Parameter * ParameterResistorTypeSemanticAction(ResistorType resistorType);
+Parameter * ParameterSwitchStateSemanticAction(SwitchState switchState);
 Parameter * ParameterPolaritySemanticAction(Polarity * polarity);
 Identifier * IdentifierSemanticAction(const char ** identifier);
 

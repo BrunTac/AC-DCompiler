@@ -27,11 +27,11 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 	/** Terminals. */
 
 	TokenLabel token;
-    Unit * unit;
+    Unit unitToken;
     const char ** string;
     Polarity * polarityToken;
-    ResistorType * resistorTypeToken;
-    SwitchState * switchStateToken;
+    ResistorType resistorTypeToken;
+    SwitchState switchStateToken;
 
 	/** Non-terminals. */
 
@@ -41,7 +41,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
     Element * element;
     ElementList * elementList, elementListOpt;
     Component * component;
-    Parameter * parameter;
     ParameterList * componentParamsOpt, * parameterList, * parameterListOpt;
     Identifier * identifier;
     Branch * branch;
@@ -67,7 +66,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %destructor { destroyBranch($$); }         <branch>
 %destructor { destroyBranchList($$); }     <branchList>
 %destructor { destroyComponent($$); }      <component>
-%destructor { destroyParameter($$); }      <parameter>
 %destructor { destroyParameterList($$); }  <parameterList>
 %destructor { destroyIdentifier($$); }     <identifier>
 %destructor { destroyPolarity($$); }       <polarity>
@@ -89,7 +87,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <polarityToken> POSITIVE_FIRST_TOKEN
 %token <polarityToken> NEGATIVE_FIRST_TOKEN
 
-%token <unit> UNIT_TOKEN
+%token <unitToken> UNIT_TOKEN
 %token <string> VALUE_TOKEN
 %token <resistorTypeToken> RESISTOR_TYPE_TOKEN
 %token <switchStateToken> SWITCH_STATE_TOKEN
@@ -112,8 +110,6 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %type <element> element
 %type <elementList> elementList elementListOpt
 %type <component> component
-%type <parameter> parameter
-%type <parameterList> componentParamsOpt parameterListOpt parameterList
 %type <parameterList> valueParams polarityParams emptyParams
 %type <parameterList> inductanceParams resistorParams capacitorParams switchParams directSourceParams alternatingSourceParams
 %type <identifier> identifier
@@ -228,24 +224,6 @@ switchParams:
 
 emptyParams: %empty                                                                                 { $$ = EmptyParameterListSemanticAction(); }
     | OPEN_PARENTHESIS CLOSE_PARENTHESIS                                                            { $$ = EmptyParameterListSemanticAction(); }
-
-componentParamsOpt: %empty                                    	    { $$ = EmptyParameterListSemanticAction(); }
-    | OPEN_PARENTHESIS parameterListOpt CLOSE_PARENTHESIS			{ $$ = $2; }
-    ;
-
-parameterListOpt: %empty                                    { $$ = EmptyParameterListSemanticAction(); }
-    | parameterList                                    		{ $$ = $1; }
-    ;
-
-parameterList: parameter                                        { $$ = NewParameterListSemanticAction($1); }
-    | parameterList COMMA parameter                           	{ $$ = AppendParameterSemanticAction($1, $3); }
-    ;
-
-parameter: 
-      VALUE_TOKEN                                         { $$ = ParameterValueSemanticAction($1); }
-    | UNIT_TOKEN                                          { $$ = ParameterUnitSemanticAction($1); }
-    | polarity                                      { $$ = ParameterPolaritySemanticAction($1); }
-    ;
 
 identifier: ID                                            { $$ = IdentifierSemanticAction($1); }
     ;

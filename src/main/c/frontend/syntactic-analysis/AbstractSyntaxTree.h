@@ -127,10 +127,10 @@ struct Component {
 struct Parameter {
 	union {
 		const char ** value;
-		Unit * unit;
+		Unit unit;
 		Polarity * polarity;
-		ResistorType * resistorType;
-		SwitchState * switchState;
+		ResistorType resistorType;
+		SwitchState switchState;
 	};
 	ParameterType type;
 };

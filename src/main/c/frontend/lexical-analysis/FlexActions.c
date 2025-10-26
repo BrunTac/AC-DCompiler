@@ -77,24 +77,27 @@ CompilationStatus ValueLexemeAction() {
     return status;
 }
 
-CompilationStatus UnitLexemeAction(TokenLabel label) {
-    Token * token = createToken(_lexicalAnalyzer, label);
+CompilationStatus UnitLexemeAction(Unit unit) {
+    Token * token = createToken(_lexicalAnalyzer, UNIT_TOKEN);
+	token->semanticValue->unitToken = unit;
     _logTokenAction(__FUNCTION__, token);
     CompilationStatus status = pushToken(_lexicalAnalyzer, token);
     destroyToken(token);
     return status;
 }
 
-CompilationStatus ResistorTypeLexemeAction(TokenLabel label) {
-    Token * token = createToken(_lexicalAnalyzer, label);
+CompilationStatus ResistorTypeLexemeAction(ResistorType resistorType) {
+    Token * token = createToken(_lexicalAnalyzer, RESISTOR_TYPE_TOKEN);
+	token->semanticValue->resistorTypeToken = resistorType;
     _logTokenAction(__FUNCTION__, token);
     CompilationStatus status = pushToken(_lexicalAnalyzer, token);
     destroyToken(token);
     return status;
 }
 
-CompilationStatus SwitchStateLexemeAction(TokenLabel label) {
-    Token * token = createToken(_lexicalAnalyzer, label);
+CompilationStatus SwitchStateLexemeAction(SwitchState switchState) {
+    Token * token = createToken(_lexicalAnalyzer, SWITCH_STATE_TOKEN);
+	token->semanticValue->switchStateToken = switchState;
     _logTokenAction(__FUNCTION__, token);
     CompilationStatus status = pushToken(_lexicalAnalyzer, token);
     destroyToken(token);

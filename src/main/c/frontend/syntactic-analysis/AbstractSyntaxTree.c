@@ -95,16 +95,13 @@ void destroyParameter(Parameter * parameter) {
 				free(parameter->value);
 				break;
 			case UNIT:
-				free(parameter->unit);
 				break;
 			case POLARITY:
 				destroyPolarity(parameter->polarity);
 				break;
 			case RESISTOR_TYPE:
-				free(parameter->resistorType);
 				break;
 			case SWITCH_STATE:
-				free(parameter->switchState);
 				break;
 		}
 		free(parameter);

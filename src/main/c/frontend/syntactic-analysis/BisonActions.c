@@ -280,7 +280,7 @@ Parameter * ParameterValueSemanticAction(const char ** value) {
 	return parameter;
 }
 
-Parameter * ParameterUnitSemanticAction(Unit * unit) {
+Parameter * ParameterUnitSemanticAction(Unit unit) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
 	parameter->unit = unit;
@@ -288,7 +288,7 @@ Parameter * ParameterUnitSemanticAction(Unit * unit) {
 	return parameter;
 }
 
-Parameter * ParameterResistorTypeSemanticAction(ResistorType * resistorType) {
+Parameter * ParameterResistorTypeSemanticAction(ResistorType resistorType) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
 	parameter->resistorType = resistorType;
@@ -296,7 +296,7 @@ Parameter * ParameterResistorTypeSemanticAction(ResistorType * resistorType) {
 	return parameter;
 }
 
-Parameter * ParameterSwitchStateSemanticAction(SwitchState * switchState) {
+Parameter * ParameterSwitchStateSemanticAction(SwitchState switchState) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
 	parameter->switchState = switchState;
