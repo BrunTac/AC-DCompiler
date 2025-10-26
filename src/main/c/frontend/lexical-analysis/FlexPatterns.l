@@ -17,7 +17,8 @@
 extern CompilationStatus EnterMultilineCommentLexemeAction(FlexContext context);
 extern CompilationStatus EOFLexemeAction();
 extern CompilationStatus IgnoredLexemeAction();
-extern CompilationStatus ValueLexemeAction();
+extern CompilationStatus ComplexValueLexemeAction();
+extern CompilationStatus RealValueLexemeAction();
 extern CompilationStatus LeaveMultilineCommentLexemeAction();
 extern CompilationStatus ParenthesisLexemeAction(TokenLabel label);
 extern CompilationStatus BraceLexemeAction(TokenLabel label);
@@ -61,7 +62,8 @@ IMAG_PART1                  ({NUMBER}?{IMAG_UNIT})
 COMPLEX_PART1               ({NUMBER}([[:space:]]*{SIGN}[[:space:]]*{NUMBER}?{IMAG_UNIT})?)
 COMPLEX_PART2               ({IMAG_PART1}([[:space:]]*{SIGN}[[:space:]]*{NUMBER})?)
 
-VALUE_PATTERN               ({COMPLEX_PART1}|{COMPLEX_PART2})
+REAL_VALUE_PATTERN          {NUMBER}
+COMPLEX_VALUE_PATTERN       ({COMPLEX_PART1}|{COMPLEX_PART2})
 
 GIGA_PATTERN                (GIGA|giga|Giga|G)
 MEGA_PATTERN                (MEGA|mega|Mega|M)
@@ -84,20 +86,21 @@ WHITESPACE                  [[:space:]]+
 
 %%
 
-"/*"                                    { return EnterMultilineCommentLexemeAction(MULTILINE_COMMENT); }
-<MULTILINE_COMMENT>"*/"                 { return LeaveMultilineCommentLexemeAction(); }
-<MULTILINE_COMMENT>[^*]+                { return IgnoredLexemeAction(); }
-<MULTILINE_COMMENT>.                    { return IgnoredLexemeAction(); }
+"/*"                                     { return EnterMultilineCommentLexemeAction(MULTILINE_COMMENT); }
+<MULTILINE_COMMENT>"*/"                  { return LeaveMultilineCommentLexemeAction(); }
+<MULTILINE_COMMENT>[^*]+                 { return IgnoredLexemeAction(); }
+<MULTILINE_COMMENT>.                     { return IgnoredLexemeAction(); }
 
-"("                                     { return ParenthesisLexemeAction(OPEN_PARENTHESIS); }
-")"                                     { return ParenthesisLexemeAction(CLOSE_PARENTHESIS); }
+"("                                      { return ParenthesisLexemeAction(OPEN_PARENTHESIS); }
+")"                                      { return ParenthesisLexemeAction(CLOSE_PARENTHESIS); }
 
-"{"                                     { return BraceLexemeAction(OPEN_BRACE); }
-"}"                                     { return BraceLexemeAction(CLOSE_BRACE); }
+"{"                                      { return BraceLexemeAction(OPEN_BRACE); }
+"}"                                      { return BraceLexemeAction(CLOSE_BRACE); }
 
-","                                     { return CommaLexemeAction(); }
+","                                      { return CommaLexemeAction(); }
 
-{VALUE_PATTERN}                         { return ValueLexemeAction(); }
+{REAL_VALUE_PATTERN}                     { return RealValueLexemeAction(); }
+{COMPLEX_VALUE_PATTERN}                  { return ComplexValueLexemeAction(); }
 
 "Circuit"                                { return KeywordLexemeAction(CIRCUIT); }
 "Parallel"                               { return KeywordLexemeAction(PARALLEL); }

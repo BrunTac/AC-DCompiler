@@ -69,8 +69,16 @@ CompilationStatus IdentifierLexemeAction(TokenLabel label) {
     return status;
 }
 
-CompilationStatus ValueLexemeAction() {
-    Token * token = createToken(_lexicalAnalyzer, VALUE_TOKEN);
+CompilationStatus RealValueLexemeAction() {
+    Token * token = createToken(_lexicalAnalyzer, REAL_VALUE_TOKEN);
+    _logTokenAction(__FUNCTION__, token);
+    CompilationStatus status = pushToken(_lexicalAnalyzer, token);
+    destroyToken(token);
+    return status;
+}
+
+CompilationStatus ComplexValueLexemeAction() {
+    Token * token = createToken(_lexicalAnalyzer, COMPLEX_VALUE_TOKEN);
     _logTokenAction(__FUNCTION__, token);
     CompilationStatus status = pushToken(_lexicalAnalyzer, token);
     destroyToken(token);
