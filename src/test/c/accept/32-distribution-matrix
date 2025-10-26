@@ -1,0 +1,34 @@
+Circuit distribution_matrix {
+    Parallel {
+        Branch Supply {
+            DCSource V_supply (+|-, 18, kilo),
+            Parallel {
+                Branch Surge {
+                    Capacitor C_surge (+|-, 220, micro),
+                    Inductor L_surge (4.7, milli)
+                },
+                Branch Isolation {
+                    Resistor R_iso (Regular, 100, kilo)
+                }
+            }
+        },
+        Branch Loads {
+            Resistor R_load1 (Regular, 470, base),
+            Resistor R_load2 (Regular, 470, base),
+            Parallel {
+                Branch SensorA {
+                    Voltmeter VM_A,
+                    ACSource SignalA (6+2i)
+                },
+                Branch SensorB {
+                    Amperemeter AM_B,
+                    ACSource SignalB (4.5e-1-7.2e-2i)
+                }
+            }
+        },
+        Branch Control {
+            Switch SW_master (Open),
+            Switch SW_override (Closed)
+        }
+    }
+}

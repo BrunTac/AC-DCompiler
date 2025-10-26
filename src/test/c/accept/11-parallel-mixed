@@ -1,0 +1,12 @@
+Circuit branch_chain {
+    Parallel {
+        Branch B1 {
+            ACSource S1 (2+3i),
+            Capacitor C1 (-|+, 10, micro)
+        },
+        Branch B2 {
+            Inductor L1 (0.002, base)
+        }
+    },
+    Switch SW1 (Open)
+}

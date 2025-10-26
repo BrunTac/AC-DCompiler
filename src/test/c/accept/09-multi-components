@@ -1,0 +1,5 @@
+Circuit multi_stage {
+    DCSource S1 (12),
+    Resistor R1 (Regular, 470, base),
+    Capacitor C1 (33, nano)
+}

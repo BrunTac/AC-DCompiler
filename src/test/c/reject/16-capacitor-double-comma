@@ -1,0 +1,3 @@
+Circuit capacitor_error {
+    Capacitor C1 (+|-, , 10)
+}

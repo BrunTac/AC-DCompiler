@@ -1,0 +1,4 @@
+Circuit bad_syntax {
+    DCSource E1 (-|+, 9, base)
+    Resistor R1 (100, mega)   /* missing coma after source */
+}

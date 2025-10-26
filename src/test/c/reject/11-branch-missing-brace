@@ -1,0 +1,10 @@
+Circuit branch_error {
+    Parallel {
+        Branch B1 {
+            Resistor R1 (Regular, 15, kilo)
+        },
+        Branch B2 {
+            Resistor R2 (Regular, 22, kilo)
+        
+    }
+}

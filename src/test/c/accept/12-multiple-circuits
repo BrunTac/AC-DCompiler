@@ -1,0 +1,6 @@
+Circuit first_stage {
+    DCSource S1
+},
+Circuit second_stage {
+    ACSource S2 (1-4j, giga)
+}

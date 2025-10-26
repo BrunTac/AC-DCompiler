@@ -1,0 +1,3 @@
+Circuit wrong_order {
+    Resistor (Regular, 10, kilo) R1
+}

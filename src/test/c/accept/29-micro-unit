@@ -1,0 +1,3 @@
+Circuit tiny_signal {
+    Capacitor Ctiny (1.0, µ)
+}

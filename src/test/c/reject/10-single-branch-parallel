@@ -1,0 +1,7 @@
+Circuit single_branch_parallel {
+    Parallel {
+        Branch B1 {
+            Resistor R1 (Regular, 10, kilo)
+        }
+    }
+}

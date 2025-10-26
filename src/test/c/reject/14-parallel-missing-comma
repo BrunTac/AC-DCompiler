@@ -1,0 +1,10 @@
+Circuit missing_branch_separator {
+    Parallel {
+        Branch Left {
+            Resistor R1 (Regular, 10, kilo)
+        }
+        Branch Right {
+            Resistor R2 (Regular, 10, kilo)
+        }
+    }
+}

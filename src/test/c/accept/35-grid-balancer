@@ -1,0 +1,37 @@
+Circuit grid_balancer {
+    DCSource MainBus (+|-, 48, kilo),
+    Parallel {
+        Branch Regulator {
+            Resistor R_in (Regular, 1.2, kilo),
+            Capacitor C_hold (+|-, 470, micro),
+            Parallel {
+                Branch RegSlow {
+                    Inductor L_slow (120, milli)
+                },
+                Branch RegFast {
+                    Switch SW_fast (Open),
+                    Capacitor C_fast (+|-, 22, nano)
+                }
+            }
+        },
+        Branch Distribution {
+            Parallel {
+                Branch Node1 {
+                    Resistor R_node1 (Regular, 680, base),
+                    ACSource Sense1 (3.2-1.6i)
+                },
+                Branch Node2 {
+                    Resistor R_node2 (Regular, 680, base),
+                    ACSource Sense2 (3.2+1.6i)
+                },
+                Branch Node3 {
+                    Voltmeter VM_node3
+                }
+            }
+        },
+        Branch Diagnostics {
+            Amperemeter AM_diag,
+            Resistor R_diag (Thermistor, 15, kilo)
+        }
+    }
+}

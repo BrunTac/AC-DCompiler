@@ -1,0 +1,3 @@
+Circuit main_circuit {
+    Resistor R_main (Regular, 10, kilo)
+}

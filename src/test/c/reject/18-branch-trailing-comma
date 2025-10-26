@@ -1,0 +1,10 @@
+Circuit branch_trailing_comma {
+    Parallel {
+        Branch B1 {
+            Resistor R1 (Regular, 10, kilo)
+        },
+        Branch B2 {
+            Resistor R2 (Regular, 20, kilo)
+        },
+    }
+}

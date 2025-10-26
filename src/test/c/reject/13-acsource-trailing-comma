@@ -1,0 +1,4 @@
+Circuit trailing_comma {
+    ACSource S1 (4+5i,),
+    Resistor R1 (Regular, 10, kilo)
+}

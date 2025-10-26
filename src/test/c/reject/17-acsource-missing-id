@@ -1,0 +1,3 @@
+Circuit missing_identifier {
+    ACSource (2+3i)
+}

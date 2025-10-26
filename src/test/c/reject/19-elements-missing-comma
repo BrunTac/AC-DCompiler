@@ -1,0 +1,4 @@
+Circuit missing_component_separator {
+    Resistor R1 (Regular, 5, kilo)
+    Inductor L1 (0.01, base)
+}

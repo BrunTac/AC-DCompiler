@@ -1,0 +1,3 @@
+Circuit wrong_params {
+    DCSource S1 (base, 5)
+}

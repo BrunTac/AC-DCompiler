@@ -1,0 +1,25 @@
+Circuit feedback_network {
+    DCSource Vref (+|-, 5, base),
+    Resistor R_bias (Regular, 10, kilo),
+    Parallel {
+        Branch Sense {
+            Resistor R_sense (Potentiometer, 2.2, kilo),
+            Capacitor C_sense (+|-, 47, nano)
+        },
+        Branch Gain {
+            Parallel {
+                Branch GainHigh {
+                    ACSource Vin (2e+1-3e+0i, base)
+                },
+                Branch GainLow {
+                    Inductor L_gain (15, milli)
+                }
+            },
+            Switch GateSwitch (Closed)
+        },
+        Branch Monitor {
+            Voltmeter Vm_output,
+            Amperemeter Ia_feedback
+        }
+    }
+}

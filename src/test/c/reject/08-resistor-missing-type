@@ -1,0 +1,3 @@
+Circuit missing_type {
+    Resistor R1 (10, kilo)
+}

@@ -1,0 +1,13 @@
+Circuit primary {
+    Resistor R1 (Regular, 100, base)
+},
+Circuit secondary {
+    Parallel {
+        Branch B1 {
+            Capacitor C1 (0.1, micro)
+        },
+        Branch B2 {
+            Capacitor C2 (0.1, micro)
+        }
+    }
+}
