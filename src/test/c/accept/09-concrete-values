@@ -1,6 +1,0 @@
-Circuit concrete_values {
-    DCSource E1 (12, base, -|+),
-    Resistor R1 (220, base),
-    Capacitor C1 (100, micro),
-    Inductor L1 (2, base)
-}

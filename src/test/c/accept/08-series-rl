@@ -1,5 +1,0 @@
-Circuit series_rl {
-    DCSource E1 (12, base, -|+),
-    Inductor L1 (2, base),
-    Resistor R1 (10, micro)
-}

@@ -1,7 +1,7 @@
 Circuit outer {
-    DCSource E1 (12, base, -|+),
+    DCSource E1 (-|+, 12, base),
     Circuit inner {
-        DCSource E2 (5, base, -|+),
+        DCSource E2 (-|+, 5, base),
         Resistor R1 ()
     }
 }

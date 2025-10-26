@@ -187,6 +187,7 @@ directSourceParams:
 alternatingSourceParams:
       emptyParams                                                                                        { $$ = $1; }
     | OPEN_PARENTHESIS complexValueParams CLOSE_PARENTHESIS                                              { $$ = $2; }
+    | OPEN_PARENTHESIS valueParams CLOSE_PARENTHESIS                                                     { $$ = $2; }
 
 inductorParams: 
       emptyParams                                                                                        { $$ = $1; }

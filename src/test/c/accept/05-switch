@@ -1,5 +1,0 @@
-Circuit switch_example {
-    DCSource E1 (12, base, -|+),
-    Switch S1 (closed),
-    Resistor R1 (100, base)
-}
