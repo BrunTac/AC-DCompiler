@@ -27,7 +27,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 	/** Terminals. */
 
 	TokenLabel token;
-    Unit unitToken;
+    UnitMultiplier unitMultiplierToken;
     const char ** string;
     Polarity * polarityToken;
     ResistorType resistorTypeToken;
@@ -79,7 +79,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> DC_SOURCE
 %token <token> RESISTOR
 %token <token> CAPACITOR
-%token <token> INDUCTANCE
+%token <token> INDUCTOR
 %token <token> SWITCH
 %token <token> VOLTMETER
 %token <token> AMPEREMETER
@@ -87,7 +87,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <polarityToken> POSITIVE_FIRST_TOKEN
 %token <polarityToken> NEGATIVE_FIRST_TOKEN
 
-%token <unitToken> UNIT_TOKEN
+%token <unitMultiplierToken> UNIT_MULTIPLIER_TOKEN
 %token <string> REAL_VALUE_TOKEN
 %token <string> COMPLEX_VALUE_TOKEN
 %token <resistorTypeToken> RESISTOR_TYPE_TOKEN
@@ -112,7 +112,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %type <elementList> elementList elementListOpt
 %type <component> component
 %type <parameterList> valueParams complexValueParams polarityParams emptyParams
-%type <parameterList> inductanceParams resistorParams capacitorParams switchParams directSourceParams alternatingSourceParams
+%type <parameterList> inductorParams resistorParams capacitorParams switchParams directSourceParams alternatingSourceParams
 %type <identifier> identifier
 %type <branch> branch
 %type <branchList> branchList
@@ -174,7 +174,7 @@ component:
     | RESISTOR identifier resistorParams                { $$ = ResistorComponentSemanticAction($2, $3); }
     | VOLTMETER identifier                              { $$ = VoltmeterComponentSemanticAction($2); }
     | AMPEREMETER identifier                            { $$ = AmperemeterComponentSemanticAction($2); }
-    | INDUCTANCE identifier inductanceParams            { $$ = InductanceComponentSemanticAction($2, $3); }
+    | INDUCTOR identifier inductorParams                { $$ = InductorComponentSemanticAction($2, $3); }
     | CAPACITOR identifier capacitorParams              { $$ = CapacitorComponentSemanticAction($2, $3); }
     | SWITCH identifier switchParams                    { $$ = SwitchComponentSemanticAction($2, $3); }
     ;
@@ -188,7 +188,7 @@ alternatingSourceParams:
       emptyParams                                                                                        { $$ = $1; }
     | OPEN_PARENTHESIS complexValueParams CLOSE_PARENTHESIS                                              { $$ = $2; }
 
-inductanceParams: 
+inductorParams: 
       emptyParams                                                                                        { $$ = $1; }
     | OPEN_PARENTHESIS valueParams CLOSE_PARENTHESIS                                                     { $$ = $2; }
 
@@ -211,18 +211,18 @@ switchParams:
 valueParams: 
       REAL_VALUE_TOKEN                                                                              { Parameter * value = ParameterValueSemanticAction($1); 
                                                                                                       $$ = NewParameterListSemanticAction(value); }
-    | REAL_VALUE_TOKEN COMMA UNIT_TOKEN                                                             { Parameter * value = ParameterValueSemanticAction($1);
-                                                                                                      Parameter * unit = ParameterUnitSemanticAction($3);
+    | REAL_VALUE_TOKEN COMMA UNIT_MULTIPLIER_TOKEN                                                             { Parameter * value = ParameterValueSemanticAction($1);
+                                                                                                      Parameter * unitMultiplier = ParameterUnitMultiplierSemanticAction($3);
                                                                                                       ParameterList * toReturn = NewParameterListSemanticAction(value);
-                                                                                                      $$ = AppendParameterSemanticAction(toReturn, unit); }
+                                                                                                      $$ = AppendParameterSemanticAction(toReturn, unitMultiplier); }
 
 complexValueParams: 
       COMPLEX_VALUE_TOKEN                                                                           { Parameter * value = ParameterValueSemanticAction($1); 
                                                                                                       $$ = NewParameterListSemanticAction(value); }
-    | COMPLEX_VALUE_TOKEN COMMA UNIT_TOKEN                                                          { Parameter * value = ParameterValueSemanticAction($1);
-                                                                                                      Parameter * unit = ParameterUnitSemanticAction($3);
+    | COMPLEX_VALUE_TOKEN COMMA UNIT_MULTIPLIER_TOKEN                                                          { Parameter * value = ParameterValueSemanticAction($1);
+                                                                                                      Parameter * unitMultiplier = ParameterUnitMultiplierSemanticAction($3);
                                                                                                       ParameterList * toReturn = NewParameterListSemanticAction(value);
-                                                                                                      $$ = AppendParameterSemanticAction(toReturn, unit); }
+                                                                                                      $$ = AppendParameterSemanticAction(toReturn, unitMultiplier); }
 
 polarityParams:
       polarity                                                                                      { Parameter * polarity = ParameterPolaritySemanticAction($1); 

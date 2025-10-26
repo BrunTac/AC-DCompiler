@@ -85,9 +85,9 @@ CompilationStatus ComplexValueLexemeAction() {
     return status;
 }
 
-CompilationStatus UnitLexemeAction(Unit unit) {
-    Token * token = createToken(_lexicalAnalyzer, UNIT_TOKEN);
-	token->semanticValue->unitToken = unit;
+CompilationStatus UnitMultiplierLexemeAction(UnitMultiplier unitMultiplier) {
+    Token * token = createToken(_lexicalAnalyzer, UNIT_MULTIPLIER_TOKEN);
+	token->semanticValue->unitMultiplierToken = unitMultiplier;
     _logTokenAction(__FUNCTION__, token);
     CompilationStatus status = pushToken(_lexicalAnalyzer, token);
     destroyToken(token);

@@ -1,6 +1,6 @@
 Circuit rlc_no_values {
     Resistor R1 (photoresistor, 12312, MEGA),
     Capacitor C1 (+|-, 10),
-    Inductance L1 (100, micro),
+    Inductor L1 (100, micro),
     Resistor R2 (photoresistor)
 }

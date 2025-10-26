@@ -15,7 +15,7 @@ ModuleDestructor initializeAbstractSyntaxTreeModule();
  */
 
 typedef enum Polarity Polarity;
-typedef enum Unit Unit;
+typedef enum UnitMultiplier UnitMultiplier;
 typedef enum ResistorType ResistorType;
 typedef enum SwitchState SwitchState;
 
@@ -45,7 +45,7 @@ enum Polarity {
 	NEGATIVE_FIRST
 };
 
-enum Unit {
+enum UnitMultiplier {
 	GIGA,
 	MEGA,
 	KILO,
@@ -73,7 +73,7 @@ enum ComponentType {
 	COMPONENT_RESISTOR,
 	COMPONENT_VOLTMETER,
 	COMPONENT_AMPEREMETER,
-	COMPONENT_INDUCTANCE,
+	COMPONENT_INDUCTOR,
 	COMPONENT_CAPACITOR,
 	COMPONENT_SWITCH
 };
@@ -85,7 +85,7 @@ enum ElementType {
 
 enum ParameterType {
 	VALUE,
-	UNIT,
+	UNIT_MULTIPLIER,
 	POLARITY,
 	RESISTOR_TYPE,
 	SWITCH_STATE
@@ -127,7 +127,7 @@ struct Component {
 struct Parameter {
 	union {
 		const char ** value;
-		Unit unit;
+		UnitMultiplier unitMultiplier;
 		Polarity * polarity;
 		ResistorType resistorType;
 		SwitchState switchState;

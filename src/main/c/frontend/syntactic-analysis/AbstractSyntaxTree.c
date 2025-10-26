@@ -94,7 +94,7 @@ void destroyParameter(Parameter * parameter) {
 			case VALUE:
 				free(parameter->value);
 				break;
-			case UNIT:
+			case UNIT_MULTIPLIER:
 				break;
 			case POLARITY:
 				destroyPolarity(parameter->polarity);

@@ -6,5 +6,5 @@ Circuit circuit1 {
 Circuit circuit2 {
     DCSource E2 (5, base, -|+),
     Capacitor C1 (47, micro),
-    Inductance L1 (1, base)
+    Inductor L1 (1, base)
 }

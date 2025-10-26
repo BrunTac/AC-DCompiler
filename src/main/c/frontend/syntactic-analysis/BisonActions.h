@@ -34,7 +34,7 @@ Component * DCSourceComponentSemanticAction(Identifier * identifier, ParameterLi
 Component * ResistorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * VoltmeterComponentSemanticAction(Identifier * identifier);
 Component * AmperemeterComponentSemanticAction(Identifier * identifier);
-Component * InductanceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
+Component * InductorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * CapacitorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * SwitchComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 ParameterList * EmptyParameterListSemanticAction();
@@ -42,7 +42,7 @@ ParameterList * NewParameterListSemanticAction(Parameter * parameter);
 ParameterList * AppendParameterSemanticAction(ParameterList * parameterList, Parameter * parameter);
 ParameterList * AppendParameterListSemanticAction(ParameterList * baseParameterList, ParameterList * newParameterList);
 Parameter * ParameterValueSemanticAction(const char ** value);
-Parameter * ParameterUnitSemanticAction(Unit unit);
+Parameter * ParameterUnitMultiplierSemanticAction(UnitMultiplier unitMultiplier);
 Parameter * ParameterResistorTypeSemanticAction(ResistorType resistorType);
 Parameter * ParameterSwitchStateSemanticAction(SwitchState switchState);
 Parameter * ParameterPolaritySemanticAction(Polarity * polarity);

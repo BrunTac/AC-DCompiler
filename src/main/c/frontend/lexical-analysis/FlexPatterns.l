@@ -25,7 +25,7 @@ extern CompilationStatus BraceLexemeAction(TokenLabel label);
 extern CompilationStatus CommaLexemeAction();
 extern CompilationStatus KeywordLexemeAction(TokenLabel label);
 extern CompilationStatus IdentifierLexemeAction(TokenLabel label);
-extern CompilationStatus UnitLexemeAction(Unit unit);
+extern CompilationStatus UnitMultiplierLexemeAction(UnitMultiplier unitMultiplier);
 extern CompilationStatus ResistorTypeLexemeAction(ResistorType resistorType);
 extern CompilationStatus SwitchStateLexemeAction(SwitchState switchState);
 extern CompilationStatus PolarityLexemeAction(TokenLabel label);
@@ -111,16 +111,16 @@ WHITESPACE                  [[:space:]]+
 "Capacitor"                              { return KeywordLexemeAction(CAPACITOR); }
 "Voltmeter"                              { return KeywordLexemeAction(VOLTMETER); }
 "Amperemeter"                            { return KeywordLexemeAction(AMPEREMETER); }
-"Inductance"                             { return KeywordLexemeAction(INDUCTANCE); }
+"Inductor"                               { return KeywordLexemeAction(INDUCTOR); }
 "Switch"                                 { return KeywordLexemeAction(SWITCH); }
 
-{GIGA_PATTERN}                           { return UnitLexemeAction(GIGA); }
-{MEGA_PATTERN}                           { return UnitLexemeAction(MEGA); }
-{KILO_PATTERN}                           { return UnitLexemeAction(KILO); }
-{BASE_PATTERN}                           { return UnitLexemeAction(BASE); }
-{MILLI_PATTERN}                          { return UnitLexemeAction(MILLI); }
-{MICRO_PATTERN}                          { return UnitLexemeAction(MICRO); }
-{NANO_PATTERN}                           { return UnitLexemeAction(NANO); }
+{GIGA_PATTERN}                           { return UnitMultiplierLexemeAction(GIGA); }
+{MEGA_PATTERN}                           { return UnitMultiplierLexemeAction(MEGA); }
+{KILO_PATTERN}                           { return UnitMultiplierLexemeAction(KILO); }
+{BASE_PATTERN}                           { return UnitMultiplierLexemeAction(BASE); }
+{MILLI_PATTERN}                          { return UnitMultiplierLexemeAction(MILLI); }
+{MICRO_PATTERN}                          { return UnitMultiplierLexemeAction(MICRO); }
+{NANO_PATTERN}                           { return UnitMultiplierLexemeAction(NANO); }
 
 {REGULAR_PATTERN}                        { return ResistorTypeLexemeAction(REGULAR); }
 {POTENTIOMETER_PATTERN}                  { return ResistorTypeLexemeAction(POTENTIOMETER); }

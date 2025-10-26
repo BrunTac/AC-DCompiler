@@ -205,10 +205,10 @@ Component * AmperemeterComponentSemanticAction(Identifier * identifier){
 	return component;
 }
 
-Component * InductanceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
+Component * InductorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Component * component = calloc(1, sizeof(Component));
-	component->type = COMPONENT_INDUCTANCE;
+	component->type = COMPONENT_INDUCTOR;
 	component->id = identifier;
 	component->parameterList = parameterList;
 	return component;
@@ -280,11 +280,11 @@ Parameter * ParameterValueSemanticAction(const char ** value) {
 	return parameter;
 }
 
-Parameter * ParameterUnitSemanticAction(Unit unit) {
+Parameter * ParameterUnitMultiplierSemanticAction(UnitMultiplier unitMultiplier) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Parameter * parameter = calloc(1, sizeof(Parameter));
-	parameter->unit = unit;
-	parameter->type = UNIT;
+	parameter->unitMultiplier = unitMultiplier;
+	parameter->type = UNIT_MULTIPLIER;
 	return parameter;
 }
 
