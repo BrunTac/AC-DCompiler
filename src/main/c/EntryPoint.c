@@ -7,6 +7,7 @@
 #include "support/type/CompilationStatus.h"
 #include "support/type/CompilerState.h"
 #include "support/type/ModuleDestructor.h"
+#include "support/symbol-table/SymbolTable.h"
 
 /**
  * The main entry-point of the entire application. If you use "strtok" to
@@ -21,7 +22,7 @@ const int main(const int length, const char ** arguments) {
 	}
 	CompilerState compilerState = {
 		.abstractSyntaxtTree = NULL,
-		.value = 0
+		.symbolTable = initializeSymbolTable();
 	};
 	ModuleDestructor moduleDestructors[] = {
 		initializeAbstractSyntaxTreeModule(),
