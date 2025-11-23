@@ -30,7 +30,7 @@ Circuit grid_balancer {
             }
         },
         Branch Diagnostics {
-            Amperemeter AM_diag,
+            Ammeter AM_diag,
             Resistor R_diag (Thermistor, 15, kilo)
         }
     }

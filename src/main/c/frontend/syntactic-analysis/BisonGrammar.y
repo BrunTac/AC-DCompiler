@@ -82,7 +82,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> INDUCTOR
 %token <token> SWITCH
 %token <token> VOLTMETER
-%token <token> AMPEREMETER
+%token <token> AMMETER
 
 %token <polarityToken> POSITIVE_FIRST_TOKEN
 %token <polarityToken> NEGATIVE_FIRST_TOKEN
@@ -173,7 +173,7 @@ component:
     | DC_SOURCE identifier directSourceParams           { $$ = DCSourceComponentSemanticAction($2, $3); }
     | RESISTOR identifier resistorParams                { $$ = ResistorComponentSemanticAction($2, $3); }
     | VOLTMETER identifier                              { $$ = VoltmeterComponentSemanticAction($2); }
-    | AMPEREMETER identifier                            { $$ = AmperemeterComponentSemanticAction($2); }
+    | AMMETER identifier                            { $$ = AmmeterComponentSemanticAction($2); }
     | INDUCTOR identifier inductorParams                { $$ = InductorComponentSemanticAction($2, $3); }
     | CAPACITOR identifier capacitorParams              { $$ = CapacitorComponentSemanticAction($2, $3); }
     | SWITCH identifier switchParams                    { $$ = SwitchComponentSemanticAction($2, $3); }

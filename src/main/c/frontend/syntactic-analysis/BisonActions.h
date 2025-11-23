@@ -33,7 +33,7 @@ Component * ACSourceComponentSemanticAction(Identifier * identifier, ParameterLi
 Component * DCSourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * ResistorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * VoltmeterComponentSemanticAction(Identifier * identifier);
-Component * AmperemeterComponentSemanticAction(Identifier * identifier);
+Component * AmmeterComponentSemanticAction(Identifier * identifier);
 Component * InductorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * CapacitorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * SwitchComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);

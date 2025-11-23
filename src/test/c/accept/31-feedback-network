@@ -19,7 +19,7 @@ Circuit feedback_network {
         },
         Branch Monitor {
             Voltmeter Vm_output,
-            Amperemeter Ia_feedback
+            Ammeter Ia_feedback
         }
     }
 }
