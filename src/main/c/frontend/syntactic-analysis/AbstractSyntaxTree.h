@@ -29,6 +29,7 @@ typedef struct CircuitList CircuitList;
 typedef struct Element Element;
 typedef struct ElementList ElementList;
 typedef struct Component Component;
+typedef struct ComponentList ComponentList;
 typedef struct Parameter Parameter;
 typedef struct ParameterList ParameterList;
 typedef struct Identifier Identifier;
@@ -118,6 +119,11 @@ struct ElementList {
 	ElementList * next;
 };
 
+struct ComponentList {
+	Component * current;
+	ComponentList * next;
+};
+
 struct Component {
 	ComponentType type;
 	ParameterList * parameterList;
@@ -146,7 +152,7 @@ struct Identifier {
 
 struct Branch {
 	Identifier * id;
-	ElementList * elementList;
+	ComponentList * componentList;
 };
 
 struct BranchList {
@@ -155,6 +161,7 @@ struct BranchList {
 };
 
 struct Parallel {
+	Identifier * id;
 	BranchList * branchList;
 };
 
@@ -168,10 +175,11 @@ void destroyCircuit(Circuit*);
 void destroyCircuitList(CircuitList*);
 void destroyElement(Element*);
 void destroyElementList(ElementList*);
+void destroyComponent(Component*);
+void destroyComponentList(ComponentList*);
 void destroyParallel(Parallel*);
 void destroyBranch(Branch*);
 void destroyBranchList(BranchList*);
-void destroyComponent(Component*);
 void destroyParameter(Parameter*);
 void destroyParameterList(ParameterList*);
 void destroyPolarity(Polarity*);
