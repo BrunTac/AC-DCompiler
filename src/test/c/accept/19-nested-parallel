@@ -4,14 +4,7 @@ Circuit nested_parallel {
             Resistor R1 (Regular, 220, base)
         },
         Branch B2 {
-            Parallel {
-                Branch B2a {
-                    Capacitor C2 (-|+, 4.7, micro)
-                },
-                Branch B2b {
-                    ACSource S2 (3e+3 - 2e-1i, mega)
-                }
-            }
+            
         }
     }
 }
