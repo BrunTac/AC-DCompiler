@@ -15,6 +15,7 @@ static void _generateResistor(Identifier * id, ParameterList * params);
 static void _generateMultiplier(UnitMultiplier multiplier);
 static void _generateDcSource(Identifier * id, ParameterList * params);
 static void _generateAcSource(Identifier * id, ParameterList * params);
+static void _generateCapacitor(Identifier * id, ParameterList* params);
 
 void _generateAcSource(Identifier * id, ParameterList * params){
 	_output("[sI");
@@ -101,6 +102,23 @@ void _generateResistor(Identifier * id, ParameterList * params){
 	_output("] ");
 }
 
+void _generateCapacitor(Identifier * id, ParameterList * params) {
+	if(params->current->type != POLARITY) {
+		_output("[C");
+	} else {
+		_output("[eC");
+		if(params->current->polarity == POSITIVE_FIRST) {
+			_output(", invert");
+		}
+		params = params->next;
+	}
+	if(params->current != nullptr) {
+		_output(", ");
+		_generateValue(params);
+		_output("F$");
+	}
+	_output("] ");
+}
 
 void _generateComponent(Component * component){
 	switch (component->type){
@@ -109,6 +127,10 @@ void _generateComponent(Component * component){
 		break;
 	case COMPONENT_AC_SOURCE:
 		_generateAcSource(component->id, component->parameterList);
+		break;
+	case COMPONENT_CAPACITOR:
+		_generateCapacitor(component->id, component->parameterList);
+		break;
 
 	default:
 		break;
