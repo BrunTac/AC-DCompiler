@@ -23,13 +23,16 @@ static void _generateSwitch(Identifier * id, ParameterList * params);
 static void _generateAmmeter(Identifier * id);
 static void _generateVoltmeter(Identifier * id);
 
+static void _generateParallel(Parallel * parallel, size_t side){
+	return ;
+}
+
 void _generateSwitch(Identifier * id, ParameterList * params){
 	if (params->current->switchState == OPEN){
 		_output("[nos] ");
 	}else{
 		_output("[ncs] ");
 	}
-	
 }
 
 void _generateVoltmeter(Identifier * id){
@@ -144,7 +147,7 @@ void _generateCapacitor(Identifier * id, ParameterList * params) {
 		}
 		params = params->next;
 	}
-	if(params->current != nullptr) {
+	if(params->current != NULL) {
 		_output(", ");
 		_generateValue(params);
 		_output("F$");
