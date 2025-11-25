@@ -12,8 +12,8 @@ typedef struct SymbolTableCDT {
 } SymbolTableCDT;
 
 typedef struct Declaration {
-    char * scopeId;
-    char * id;
+    const char * scopeId;
+    const char * id;
     TypeEnum type;
 } Declaration;
 
@@ -22,19 +22,22 @@ SymbolTable initializeSymbolTable() {
 }
 
 static int declarationCmp(void * declaration1, void * declaration2){
-    int ans = strcmp(((Declaration *)declaration1)->scopeId, ((Declaration *)declaration2)->scopeId);
-    if(ans == 0){
-        ans = strcmp(((Declaration *)declaration1)->id, ((Declaration *)declaration2)->id);
+    Declaration * d1 = (Declaration *) declaration1;
+    Declaration * d2 = (Declaration *) declaration2;
+
+    int ans = strcmp(d1->scopeId, d2->scopeId);
+    if (ans == 0) {
+        ans = strcmp(d1->id, d2->id);
     }
     return ans;
 }
 
-void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum type, char * scopeId) {
+void addDeclaration(SymbolTable symbolTable, const char * id, TypeEnum type, const char * scopeId) {
     Declaration * declaration = malloc(sizeof(Declaration));
     declaration->scopeId = scopeId;
     declaration->id = id;
     declaration->type = type;
-    if(type == AC_SOURCE || type == DC_SOURCE) {
+    if(type == TYPE_AC_SOURCE || type == TYPE_DC_SOURCE) {
         TypeEnum sourceType = getScopeSourceType(scopeId, symbolTable->declarations);
         if(sourceType != type) {
             symbolTable->differentSourceType = true;
@@ -51,14 +54,14 @@ void freeSymbolTable(SymbolTable symbolTable) {
     free(symbolTable);
 }
 
-TypeEnum getScopeSourceType(char * scopeId, List declarations) {
+TypeEnum getScopeSourceType(const char * scopeId, List declarations) {
     if (list == NULL) {
         return TYPE_NONE;
     }
     Node * curr = list;
     do {
         Declaration * currDeclaration = ((Declaration *) curr->data)->type;
-        if((strcmp(currDeclaration->scopeId, scopeId) == 0) && (currDeclaration->type == AC_SOURCE || currDeclaration->type == AC_SOURCE)) {
+        if((strcmp(currDeclaration->scopeId, scopeId) == 0) && (currDeclaration->type == TYPE_AC_SOURCE || currDeclaration->type == TYPE_DC_SOURCE)) {
             return currDeclaration->type;
         }
         curr = curr->next;
