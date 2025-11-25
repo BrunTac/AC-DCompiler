@@ -22,7 +22,7 @@ enum SourceTypeEnum {
 typedef struct SymbolTableCDT * SymbolTable;
 
 SymbolTable initializeSymbolTable();
-void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum type);
+void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum type, char * scopeId);
 void freeSymbolTable(SymbolTable symbolTable);
 
 #endif

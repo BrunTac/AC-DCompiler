@@ -9,6 +9,7 @@
  */
 typedef struct {
 	void * abstractSyntaxtTree;
+	char * currentScopeId;
 	SymbolTable symbolTable;
 } CompilerState;
 

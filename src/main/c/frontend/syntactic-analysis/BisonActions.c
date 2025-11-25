@@ -72,7 +72,8 @@ Circuit * CircuitSemanticAction(Identifier * identifier, ElementList * elementLi
 	Circuit * circuit = calloc(1, sizeof(Circuit));
 	circuit->id = identifier;
 	circuit->elementList = elementList;
-	addDeclaration(_compilerState->symbolTable, circuit->id, CIRCUIT);
+	_compilerState.currentScopeId = circuit.id;
+	addDeclaration(_compilerState->symbolTable, circuit->id, CIRCUIT, _compilerState.currentScopeId);
 	return circuit;
 }
 

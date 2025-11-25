@@ -27,15 +27,15 @@ SymbolTable initializeSymbolTable() {
 }
 
 static int declarationCmp(void * declaration1, void * declaration2){
-    return strcmp(((Declaration *)declaration1)->id, ((Declaration *)declaration1)->id);
+    return strcmp(((Declaration *)declaration1)->id, ((Declaration *)declaration2)->id);
 }
 
-void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum type) {
+void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum type, char * scopeId) {
     Declaration * declaration = malloc(sizeof(Declaration));
     declaration->id = id;
     declaration->type = type;
     if(type == AC_SOURCE || type == DC_SOURCE) {
-        TypeEnum sourceType = getListSourceType(symbolTable->declarations);
+        TypeEnum sourceType = getScopeSourceType(scopeId, symbolTable->declarations);
         if(sourceType != type) {
             symbolTable->differentSourceType = true;
         }
