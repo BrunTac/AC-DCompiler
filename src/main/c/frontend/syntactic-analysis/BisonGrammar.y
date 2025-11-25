@@ -144,8 +144,16 @@ elementListOpt:
     ;
 
 elementList:
-	  element                                      { $$ = NewElementListSemanticAction($1); }
-    | elementList COMMA element                    { $$ = AppendElementSemanticAction($1, $3); }
+	  element                                               { $$ = NewElementListSemanticAction($1); }
+    | element COMMA element                                 { ElementList * toReturn = NewElementListSemanticAction($1);
+                                                              $$ = AppendElementSemanticAction(toReturn, $3); }
+    | element COMMA element COMMA element                   { ElementList * toReturn = NewElementListSemanticAction($1); 
+                                                              toReturn = AppendElementSemanticAction(toReturn, $3); 
+                                                              $$ = AppendElementSemanticAction(toReturn, $5); }
+    | element COMMA element COMMA element COMMA element     { ElementList * toReturn = NewElementListSemanticAction($1); 
+                                                              toReturn = AppendElementSemanticAction(toReturn, $3); 
+                                                              toReturn = AppendElementSemanticAction(toReturn, $5); 
+                                                              $$ = AppendElementSemanticAction(toReturn, $7); }
     ;
 
 /* Elementos posibles */
@@ -171,7 +179,6 @@ componentListOpt:
 
 componentList:
       component                                        { $$ = NewComponentListSemanticAction($1); }
-    | componentList COMMA component                    { $$ = AppendComponentSemanticAction($1, $3); }
     ;
 
 /* Branch: "Branch" ID { componentes } */
@@ -186,7 +193,7 @@ component:
     | DC_SOURCE identifier directSourceParams           { $$ = DCSourceComponentSemanticAction($2, $3); }
     | RESISTOR identifier resistorParams                { $$ = ResistorComponentSemanticAction($2, $3); }
     | VOLTMETER identifier                              { $$ = VoltmeterComponentSemanticAction($2); }
-    | AMMETER identifier                            { $$ = AmmeterComponentSemanticAction($2); }
+    | AMMETER identifier                                { $$ = AmmeterComponentSemanticAction($2); }
     | INDUCTOR identifier inductorParams                { $$ = InductorComponentSemanticAction($2, $3); }
     | CAPACITOR identifier capacitorParams              { $$ = CapacitorComponentSemanticAction($2, $3); }
     | SWITCH identifier switchParams                    { $$ = SwitchComponentSemanticAction($2, $3); }
