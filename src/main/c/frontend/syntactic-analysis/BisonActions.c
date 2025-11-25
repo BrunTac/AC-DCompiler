@@ -152,11 +152,11 @@ BranchList * AppendBranchSemanticAction(BranchList * branchList, Branch * branch
 	return branchList;
 }
 
-Branch * BranchSemanticAction(Identifier * identifier, ElementList * elementList) {
+Branch * BranchSemanticAction(Identifier * identifier, ComponentList * componentList) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Branch * branch = calloc(1, sizeof(Branch));
 	branch->id = identifier;
-	branch->elementList = elementList;
+	branch->componentList = componentList;
 	return branch;
 }
 
@@ -196,10 +196,10 @@ Component * VoltmeterComponentSemanticAction(Identifier * identifier){
 	return component;
 }
 
-Component * AmperemeterComponentSemanticAction(Identifier * identifier){
+Component * AmmeterComponentSemanticAction(Identifier * identifier){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Component * component = calloc(1, sizeof(Component));
-	component->type = COMPONENT_AMPEREMETER;
+	component->type = COMPONENT_AMMETER;
 	component->id = identifier;
 	component->parameterList = NULL;
 	return component;
@@ -317,4 +317,34 @@ Identifier * IdentifierSemanticAction(const char ** id) {
 	Identifier * identifier = calloc(1, sizeof(Identifier));
 	identifier->id = id;
 	return identifier;
+}
+
+ComponentList * EmptyComponentListSemanticAction() {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ComponentList * componentList = calloc(1, sizeof(ComponentList));
+	componentList->current = NULL;
+	componentList->next = NULL;
+	return componentList;
+}
+
+ComponentList * NewComponentListSemanticAction(Component * component) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ComponentList * componentList = calloc(1, sizeof(ComponentList));
+	componentList->current = component;
+	componentList->next = NULL;
+	return componentList;
+}
+
+ComponentList * AppendComponentSemanticAction(ComponentList * componentList, Component * component) {
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ComponentList * newNode = calloc(1, sizeof(ComponentList));
+	newNode->current = component;
+	newNode->next = NULL;
+
+	ComponentList * aux = componentList;
+	while(aux->next != NULL){
+		aux = aux->next;
+	}
+	aux->next = newNode;
+	return componentList;
 }

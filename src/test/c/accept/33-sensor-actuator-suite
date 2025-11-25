@@ -22,7 +22,7 @@ Circuit actuator_array {
             Resistor R_brake (Thermistor, 5, kilo)
         },
         Branch Sense {
-            Amperemeter A_feedback,
+            Ammeter A_feedback,
             Capacitor C_feedback (+|-, 10, micro)
         }
     }

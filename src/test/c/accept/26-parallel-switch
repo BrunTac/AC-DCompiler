@@ -8,5 +8,5 @@ Circuit timed_branch {
             Resistor R1 (Potentiometer, 3.3, kilo)
         }
     },
-    Amperemeter Meter1
+    Ammeter Meter1
 }

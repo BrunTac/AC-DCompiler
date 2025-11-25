@@ -21,7 +21,7 @@ Circuit distribution_matrix {
                     ACSource SignalA (6+2i)
                 },
                 Branch SensorB {
-                    Amperemeter AM_B,
+                    Ammeter AM_B,
                     ACSource SignalB (4.5e-1-7.2e-2i)
                 }
             }

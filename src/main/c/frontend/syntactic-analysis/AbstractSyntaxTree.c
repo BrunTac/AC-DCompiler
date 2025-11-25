@@ -133,7 +133,7 @@ void destroyBranch(Branch * branch) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (branch != NULL) {
 		destroyIdentifier(branch->id);
-		destroyElementList(branch->elementList);
+		destroyComponentList(branch->componentList);
 		free(branch);
 	}
 }
@@ -147,6 +147,19 @@ void destroyBranchList(BranchList * branchList) {
 			destroyBranch(branchList->current);
 			free(branchList);
 			branchList = aux;
+		}
+	}
+}
+
+void destroyComponentList(ComponentList * componentList) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (componentList != NULL) {
+		ComponentList * aux;
+		while(componentList != NULL) {
+			aux = componentList->next;
+			destroyComponent(componentList->current);
+			free(componentList);
+			componentList = aux;
 		}
 	}
 }

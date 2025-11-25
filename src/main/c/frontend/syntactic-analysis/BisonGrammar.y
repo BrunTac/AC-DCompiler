@@ -41,6 +41,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
     Element * element;
     ElementList * elementList, elementListOpt;
     Component * component;
+    ComponentList * componentList, componentListOpt;
     ParameterList * componentParamsOpt, * parameterList, * parameterListOpt;
     Identifier * identifier;
     Branch * branch;
@@ -66,6 +67,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %destructor { destroyBranch($$); }         <branch>
 %destructor { destroyBranchList($$); }     <branchList>
 %destructor { destroyComponent($$); }      <component>
+%destructor { destroyComponentList($$); }  <componentList>
 %destructor { destroyParameterList($$); }  <parameterList>
 %destructor { destroyIdentifier($$); }     <identifier>
 %destructor { destroyPolarity($$); }       <polarity>
@@ -82,7 +84,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %token <token> INDUCTOR
 %token <token> SWITCH
 %token <token> VOLTMETER
-%token <token> AMPEREMETER
+%token <token> AMMETER
 
 %token <polarityToken> POSITIVE_FIRST_TOKEN
 %token <polarityToken> NEGATIVE_FIRST_TOKEN
@@ -111,6 +113,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 %type <element> element
 %type <elementList> elementList elementListOpt
 %type <component> component
+%type <componentList> componentList componentListOpt
 %type <parameterList> valueParams complexValueParams polarityParams emptyParams
 %type <parameterList> inductorParams resistorParams capacitorParams switchParams directSourceParams alternatingSourceParams
 %type <identifier> identifier
@@ -161,9 +164,19 @@ branchList:
 	| branchList COMMA branch                       { $$ = AppendBranchSemanticAction($1, $3); }
     ;
 
-/* Branch: "Branch" ID { elementos } */
+componentListOpt:
+      %empty                             	  { $$ = EmptyComponentListSemanticAction(); }
+	| componentList                           { $$ = $1; }
+    ;
+
+componentList:
+      component                                        { $$ = NewComponentListSemanticAction($1); }
+    | componentList COMMA component                    { $$ = AppendComponentSemanticAction($1, $3); }
+    ;
+
+/* Branch: "Branch" ID { componentes } */
 branch:
-      BRANCH identifier OPEN_BRACE elementListOpt CLOSE_BRACE
+      BRANCH identifier OPEN_BRACE componentListOpt CLOSE_BRACE
                                                     { $$ = BranchSemanticAction($2, $4); }
     ;
 
@@ -173,7 +186,7 @@ component:
     | DC_SOURCE identifier directSourceParams           { $$ = DCSourceComponentSemanticAction($2, $3); }
     | RESISTOR identifier resistorParams                { $$ = ResistorComponentSemanticAction($2, $3); }
     | VOLTMETER identifier                              { $$ = VoltmeterComponentSemanticAction($2); }
-    | AMPEREMETER identifier                            { $$ = AmperemeterComponentSemanticAction($2); }
+    | AMMETER identifier                            { $$ = AmmeterComponentSemanticAction($2); }
     | INDUCTOR identifier inductorParams                { $$ = InductorComponentSemanticAction($2, $3); }
     | CAPACITOR identifier capacitorParams              { $$ = CapacitorComponentSemanticAction($2, $3); }
     | SWITCH identifier switchParams                    { $$ = SwitchComponentSemanticAction($2, $3); }

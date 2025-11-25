@@ -28,12 +28,12 @@ Element * ParallelElementSemanticAction(Parallel * parallel);
 Parallel * ParallelSemanticAction(BranchList * branchList);
 BranchList * NewBranchListSemanticAction(Branch * leftBranch, Branch * rightBranch);
 BranchList * AppendBranchSemanticAction(BranchList * branchList, Branch * branch);
-Branch * BranchSemanticAction(Identifier * identifier, ElementList * elementList);
+Branch * BranchSemanticAction(Identifier * identifier, ComponentList * componentList);
 Component * ACSourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * DCSourceComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * ResistorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * VoltmeterComponentSemanticAction(Identifier * identifier);
-Component * AmperemeterComponentSemanticAction(Identifier * identifier);
+Component * AmmeterComponentSemanticAction(Identifier * identifier);
 Component * InductorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * CapacitorComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
 Component * SwitchComponentSemanticAction(Identifier * identifier, ParameterList * parameterList);
@@ -47,5 +47,8 @@ Parameter * ParameterResistorTypeSemanticAction(ResistorType resistorType);
 Parameter * ParameterSwitchStateSemanticAction(SwitchState switchState);
 Parameter * ParameterPolaritySemanticAction(Polarity * polarity);
 Identifier * IdentifierSemanticAction(const char ** identifier);
+ComponentList * EmptyComponentListSemanticAction();
+ComponentList * NewComponentListSemanticAction(Component * component);
+ComponentList * AppendComponentSemanticAction(ComponentList * componentList, Component * component);
 
 #endif

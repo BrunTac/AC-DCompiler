@@ -26,5 +26,5 @@ Circuit signal_routing {
             }
         }
     },
-    Amperemeter IA_monitor
+    Ammeter IA_monitor
 }

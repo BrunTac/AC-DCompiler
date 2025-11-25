@@ -110,7 +110,7 @@ WHITESPACE                  [[:space:]]+
 "Resistor"                               { return KeywordLexemeAction(RESISTOR); }
 "Capacitor"                              { return KeywordLexemeAction(CAPACITOR); }
 "Voltmeter"                              { return KeywordLexemeAction(VOLTMETER); }
-"Amperemeter"                            { return KeywordLexemeAction(AMPEREMETER); }
+"Ammeter"                                { return KeywordLexemeAction(AMMETER); }
 "Inductor"                               { return KeywordLexemeAction(INDUCTOR); }
 "Switch"                                 { return KeywordLexemeAction(SWITCH); }
 
