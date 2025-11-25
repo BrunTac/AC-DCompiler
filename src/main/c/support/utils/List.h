@@ -10,7 +10,7 @@ typedef struct Node {
     struct Node * next;
 } Node;
 
-int addToList(List list, void * data, int (*cmp)(void *, void *));
+int addToList(List * list, void * data, int (*cmp)(void *, void *));
 void freeList(List list);
 
 #endif

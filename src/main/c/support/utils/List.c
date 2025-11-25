@@ -1,17 +1,17 @@
 #include "List.h"
 #include <stdlib.h>
 
-int addToList(List list, void * data, int (*cmp)(void *, void *)) {
+int addToList(List * list, void * data, int (*cmp)(void *, void *)) {
     Node * newNode = malloc(sizeof(Node));
     newNode->data = data;
     newNode->next = NULL;
 
-    if (list == NULL) {
-        list = newNode;
+    if (*list == NULL) {
+        *list = newNode;
         return 1;
     }
 
-    Node * curr = list;
+    Node * curr = *list;
     while (curr->next != NULL) {
         if(cmp(curr->data, data) == 0) {
             free(newNode);

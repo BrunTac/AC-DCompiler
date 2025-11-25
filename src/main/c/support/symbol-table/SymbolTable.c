@@ -44,7 +44,7 @@ void addDeclaration(SymbolTable symbolTable, const char * id, TypeEnum type, con
             symbolTable->differentSourceType = true;
         }
     }
-    if(!addToList(symbolTable->declarations, (void *) declaration, declarationCmp)) {
+    if(!addToList(&(symbolTable->declarations), (void *) declaration, declarationCmp)) {
         symbolTable->redefinition = true;
         free(declaration);
     }
