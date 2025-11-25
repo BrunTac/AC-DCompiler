@@ -73,7 +73,7 @@ Circuit * CircuitSemanticAction(Identifier * identifier, ElementList * elementLi
 	circuit->id = identifier;
 	circuit->elementList = elementList;
 	_compilerState.currentScopeId = circuit.id;
-	addDeclaration(_compilerState->symbolTable, circuit->id, CIRCUIT, NULL);
+	addDeclaration(_compilerState->symbolTable, circuit->id, CIRCUIT, '');
 	return circuit;
 }
 
@@ -160,7 +160,7 @@ Branch * BranchSemanticAction(Identifier * identifier, ComponentList * component
 	Branch * branch = calloc(1, sizeof(Branch));
 	branch->id = identifier;
 	branch->componentList = componentList;
-	addDeclaration(_compilerState->symbolTable, branch->id, BRANCH);
+	addDeclaration(_compilerState->symbolTable, branch->id, BRANCH, _compilerState.currentScopeId);
 	return branch;
 }
 
@@ -170,7 +170,7 @@ Component * ACSourceComponentSemanticAction(Identifier * identifier, ParameterLi
 	component->type = COMPONENT_AC_SOURCE;
 	component->id = identifier;
 	component->parameterList = parameterList;
-	addDeclaration(_compilerState->symbolTable, component->id, AC_SOURCE);
+	addDeclaration(_compilerState->symbolTable, component->id, AC_SOURCE, _compilerState.currentScopeId);
 	return component;
 }
 
@@ -180,7 +180,7 @@ Component * DCSourceComponentSemanticAction(Identifier * identifier, ParameterLi
 	component->type = COMPONENT_DC_SOURCE;
 	component->id = identifier;
 	component->parameterList = parameterList;
-	addDeclaration(_compilerState->symbolTable, component->id, DC_SOURCE);
+	addDeclaration(_compilerState->symbolTable, component->id, DC_SOURCE, _compilerState.currentScopeId);
 	return component;
 }
 
@@ -190,7 +190,7 @@ Component * ResistorComponentSemanticAction(Identifier * identifier, ParameterLi
 	component->type = COMPONENT_RESISTOR;
 	component->id = identifier;
 	component->parameterList = parameterList;
-	addDeclaration(_compilerState->symbolTable, component->id, RESISTOR);
+	addDeclaration(_compilerState->symbolTable, component->id, RESISTOR, _compilerState.currentScopeId);
 	return component;
 }
 
@@ -200,7 +200,7 @@ Component * VoltmeterComponentSemanticAction(Identifier * identifier){
 	component->type = COMPONENT_VOLTMETER;
 	component->id = identifier;
 	component->parameterList = NULL;
-	addDeclaration(_compilerState->symbolTable, component->id, VOLTMETER);
+	addDeclaration(_compilerState->symbolTable, component->id, VOLTMETER, _compilerState.currentScopeId);
 	return component;
 }
 
@@ -210,7 +210,7 @@ Component * AmmeterComponentSemanticAction(Identifier * identifier){
 	component->type = COMPONENT_AMMETER;
 	component->id = identifier;
 	component->parameterList = NULL;
-	addDeclaration(_compilerState->symbolTable, component->id, AMMETER);
+	addDeclaration(_compilerState->symbolTable, component->id, AMMETER, _compilerState.currentScopeId);
 	return component;
 }
 
@@ -220,7 +220,7 @@ Component * InductorComponentSemanticAction(Identifier * identifier, ParameterLi
 	component->type = COMPONENT_INDUCTOR;
 	component->id = identifier;
 	component->parameterList = parameterList;
-	addDeclaration(_compilerState->symbolTable, component->id, INDUCTOR);
+	addDeclaration(_compilerState->symbolTable, component->id, INDUCTOR, _compilerState.currentScopeId);
 	return component;
 }
 
@@ -230,7 +230,7 @@ Component * CapacitorComponentSemanticAction(Identifier * identifier, ParameterL
 	component->type = COMPONENT_CAPACITOR;
 	component->id = identifier;
 	component->parameterList = parameterList;
-	addDeclaration(_compilerState->symbolTable, component->id, CAPACITOR);
+	addDeclaration(_compilerState->symbolTable, component->id, CAPACITOR, _compilerState.currentScopeId);
 	return component;
 }
 
@@ -240,7 +240,7 @@ Component * SwitchComponentSemanticAction(Identifier * identifier, ParameterList
 	component->type = COMPONENT_SWITCH;
 	component->id = identifier;
 	component->parameterList = parameterList;
-	addDeclaration(_compilerState->symbolTable, component->id, SWITCH);
+	addDeclaration(_compilerState->symbolTable, component->id, SWITCH, _compilerState.currentScopeId);
 	return component;
 }
 

@@ -57,6 +57,8 @@ const int main(const int length, const char ** arguments) {
 	for (int k = (sizeof(moduleDestructors)/sizeof(ModuleDestructor)) - 1; 0 <= k; --k) {
 		moduleDestructors[k]();
 	}
+	logDebugging(logger, "Releasing Symbol Table resources...");
+	freeSymbolTable(compilerState.symbolTable);
 	logDebugging(logger, "Compilation is done.");
 	destroyLogger(logger);
 	destroyLexicalAnalyzer(lexicalAnalyzer);

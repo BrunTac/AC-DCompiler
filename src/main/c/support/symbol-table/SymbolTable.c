@@ -11,15 +11,10 @@ typedef struct SymbolTableCDT {
     boolean differentSourceType;
 } SymbolTableCDT;
 
-typedef struct Scope {
-    SourceTypeEnum * sourceType;
-    char * circuitId;
-} Scope;
-
 typedef struct Declaration {
-    Scope * scope;
+    char * scopeId;
     char * id;
-    TypeEnum * type;
+    TypeEnum type;
 } Declaration;
 
 SymbolTable initializeSymbolTable() {
@@ -27,11 +22,16 @@ SymbolTable initializeSymbolTable() {
 }
 
 static int declarationCmp(void * declaration1, void * declaration2){
-    return strcmp(((Declaration *)declaration1)->id, ((Declaration *)declaration2)->id);
+    int ans = strcmp(((Declaration *)declaration1)->scopeId, ((Declaration *)declaration2)->scopeId);
+    if(ans == 0){
+        ans = strcmp(((Declaration *)declaration1)->id, ((Declaration *)declaration2)->id);
+    }
+    return ans;
 }
 
 void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum type, char * scopeId) {
     Declaration * declaration = malloc(sizeof(Declaration));
+    declaration->scopeId = scopeId;
     declaration->id = id;
     declaration->type = type;
     if(type == AC_SOURCE || type == DC_SOURCE) {
@@ -49,4 +49,20 @@ void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum type, char * sc
 void freeSymbolTable(SymbolTable symbolTable) {
     freeList(symbolTable->declarations, free);
     free(symbolTable);
+}
+
+TypeEnum getScopeSourceType(char * scopeId, List declarations) {
+    if (list == NULL) {
+        return TYPE_NONE;
+    }
+    Node * curr = list;
+    do {
+        Declaration * currDeclaration = ((Declaration *) curr->data)->type;
+        if((strcmp(currDeclaration->scopeId, scopeId) == 0) && (currDeclaration->type == AC_SOURCE || currDeclaration->type == AC_SOURCE)) {
+            return currDeclaration->type;
+        }
+        curr = curr->next;
+    } while (curr != NULL);
+    
+    return TYPE_NONE;
 }

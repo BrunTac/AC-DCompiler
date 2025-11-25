@@ -6,8 +6,8 @@ int addToList(List list, void * data, int (*cmp)(void *, void *)) {
     newNode->data = data;
     newNode->next = NULL;
 
-    if (list->head == NULL) {
-        list->head = newNode;
+    if (list == NULL) {
+        list = newNode;
         return 1;
     }
 

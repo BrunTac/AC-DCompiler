@@ -1,7 +1,8 @@
-#ifndef SYMBOL__TABLE
-#define SYMBOL__TABLE
+#ifndef SYMBOL_TABLE
+#define SYMBOL_TABLE
 
 enum TypeEnum {
+    TYPE_NONE = -1,
     CIRCUIT,
     AC_SOURCE,
     DC_SOURCE,
@@ -12,11 +13,6 @@ enum TypeEnum {
     CAPACITOR,
     SWITCH,
     BRANCH
-};
-
-enum SourceTypeEnum {
-    AC,
-    DC
 };
 
 typedef struct SymbolTableCDT * SymbolTable;
