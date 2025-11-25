@@ -1,4 +1,5 @@
 #include "FlexActions.h"
+#include <string.h>
 
 /* MODULE INTERNAL STATE */
 
@@ -64,6 +65,7 @@ CompilationStatus KeywordLexemeAction(TokenLabel label) {
 CompilationStatus IdentifierLexemeAction(TokenLabel label) {
     Token * token = createToken(_lexicalAnalyzer, label);
     _logTokenAction(__FUNCTION__, token);
+	token->semanticValue->string = strdup(token->lexeme);
     CompilationStatus status = pushToken(_lexicalAnalyzer, token);
     destroyToken(token);
     return status;
@@ -72,6 +74,7 @@ CompilationStatus IdentifierLexemeAction(TokenLabel label) {
 CompilationStatus RealValueLexemeAction() {
     Token * token = createToken(_lexicalAnalyzer, REAL_VALUE_TOKEN);
     _logTokenAction(__FUNCTION__, token);
+	token->semanticValue->string = strdup(token->lexeme);
     CompilationStatus status = pushToken(_lexicalAnalyzer, token);
     destroyToken(token);
     return status;
@@ -80,6 +83,7 @@ CompilationStatus RealValueLexemeAction() {
 CompilationStatus ComplexValueLexemeAction() {
     Token * token = createToken(_lexicalAnalyzer, COMPLEX_VALUE_TOKEN);
     _logTokenAction(__FUNCTION__, token);
+	token->semanticValue->string = strdup(token->lexeme);
     CompilationStatus status = pushToken(_lexicalAnalyzer, token);
     destroyToken(token);
     return status;

@@ -132,7 +132,7 @@ struct Component {
 
 struct Parameter {
 	union {
-		const char ** value;
+		char * value;
 		UnitMultiplier unitMultiplier;
 		Polarity * polarity;
 		ResistorType resistorType;
@@ -147,7 +147,7 @@ struct ParameterList {
 };
 
 struct Identifier {
-	const char ** id;
+	char * id;
 };
 
 struct Branch {

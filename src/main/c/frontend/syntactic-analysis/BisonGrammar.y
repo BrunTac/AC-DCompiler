@@ -28,7 +28,7 @@ void yyerror(const YYLTYPE * location, const char * message) {}
 
 	TokenLabel token;
     UnitMultiplier unitMultiplierToken;
-    const char ** string;
+    char * string;
     Polarity * polarityToken;
     ResistorType resistorTypeToken;
     SwitchState switchStateToken;
