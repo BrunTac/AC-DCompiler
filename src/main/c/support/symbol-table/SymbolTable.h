@@ -14,6 +14,11 @@ enum TypeEnum {
     BRANCH
 };
 
+enum SourceTypeEnum {
+    AC,
+    DC
+};
+
 typedef struct SymbolTableCDT * SymbolTable;
 
 SymbolTable initializeSymbolTable();

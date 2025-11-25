@@ -11,7 +11,13 @@ typedef struct SymbolTableCDT {
     boolean differentSourceType;
 } SymbolTableCDT;
 
+typedef struct Scope {
+    SourceTypeEnum * sourceType;
+    char * circuitId;
+} Scope;
+
 typedef struct Declaration {
+    Scope * scope;
     char * id;
     TypeEnum * type;
 } Declaration;
