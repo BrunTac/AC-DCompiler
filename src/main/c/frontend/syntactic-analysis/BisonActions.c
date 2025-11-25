@@ -73,7 +73,7 @@ Circuit * CircuitSemanticAction(Identifier * identifier, ElementList * elementLi
 	circuit->id = identifier;
 	circuit->elementList = elementList;
 	_compilerState.currentScopeId = circuit.id;
-	addDeclaration(_compilerState->symbolTable, circuit->id, CIRCUIT, _compilerState.currentScopeId);
+	addDeclaration(_compilerState->symbolTable, circuit->id, CIRCUIT, NULL);
 	return circuit;
 }
 
