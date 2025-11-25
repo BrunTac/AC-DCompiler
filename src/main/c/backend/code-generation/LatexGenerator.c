@@ -10,8 +10,72 @@ static void _generateRightSide(Element * element);
 static void _generateBottomSide(Element * element);
 static void _generateParallel(Parallel * parallel, size_t side);
 static void _generateComponent(Component * component);
+static void _generateValue(ParameterList * params);
 static void _generateResistor(Identifier * id, ParameterList * params);
 static void _generateMultiplier(UnitMultiplier multiplier);
+static void _generateDcSource(Identifier * id, ParameterList * params);
+static void _generateAcSource(Identifier * id, ParameterList * params);
+
+void _generateAcSource(Identifier * id, ParameterList * params){
+	_output("[sI");
+	if (params->current != nullptr){
+		_output(", ");
+		_generateValue(params);
+		_output("A$");
+	}
+	_output("] ")
+	
+}
+
+void _generateDcSource(Identifier * id, ParameterList * params){
+	_output("[battery1, ");
+	if (params->current != nullptr){
+		if(params->current->polarity == POSITIVE_FIRST){
+			_output("invert, ");
+		}
+		params = params->next;
+		if (params != nullptr){
+			_generateValue(params);
+			_output("A$");
+		}
+	}else{
+		_output("invert");
+	}
+	_output("] ");
+}
+
+void _generateMultiplier(UnitMultiplier multiplier){
+	switch (multiplier){
+		case GIGA:
+			_output("G");
+			break;
+		case MEGA:
+			_output("M");
+			break;
+		case KILO:
+			_output("k");
+			break;
+		case MILLI:
+			_output("m");
+			break;
+		case MICRO:
+			_output("\\mu ");
+			break;
+		case NANO:
+			_output("n");
+			break;
+	}
+}
+
+void _generateValue(ParameterList * params){
+	if (params != nullptr $$ params->current != nullptr){
+		_output("l=$%s", params->current->value);
+		params = params->next;
+		if (params != nullptr){
+			_generateMultiplier(params->current->unitMultiplier);
+		}
+	}
+}
 
 void _generateResistor(Identifier * id, ParameterList * params){
 	switch (params->current->resistorType){
@@ -30,31 +94,9 @@ void _generateResistor(Identifier * id, ParameterList * params){
 	}
 	params = params->next;
 	if (params != nullptr){
-		_output("=$%s", params->current->value);
-		params = params->next;
-		if (params != nullptr){
-			switch (params->current->unitMultiplier){
-			case GIGA:
-				_output("G");
-				break;
-			case MEGA:
-				_output("M");
-				break;
-			case KILO:
-				_output("k");
-				break;
-			case MILLI:
-				_output("m");
-				break;
-			case MICRO:
-				_output("\\mu");
-				break;
-			case NANO:
-				_output("n");
-				break;
-			}
-		}
-		_output("$");
+		_output(", ");
+		_generateValue(params);
+		_output("\\Omega$");
 	}
 	_output("] ");
 }
