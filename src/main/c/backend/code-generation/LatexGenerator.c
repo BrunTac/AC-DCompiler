@@ -1,5 +1,7 @@
 #include "LatexGenerator.h"
 
+static Logger * _logger = NULL;
+
 static void _output(const char *format, ...);
 static void _generateProgram(Program * program);
 static void _generateCircuit(Circuit * circuit);
@@ -11,12 +13,41 @@ static void _generateBottomSide(Element * element);
 static void _generateParallel(Parallel * parallel, size_t side);
 static void _generateComponent(Component * component);
 static void _generateValue(ParameterList * params);
-static void _generateResistor(Identifier * id, ParameterList * params);
 static void _generateMultiplier(UnitMultiplier multiplier);
+static void _generateResistor(Identifier * id, ParameterList * params);
 static void _generateDcSource(Identifier * id, ParameterList * params);
 static void _generateAcSource(Identifier * id, ParameterList * params);
+static void _generateInductor(Identifier * id, ParameterList * params);
+static void _generateSwitch(Identifier * id, ParameterList * params);
+static void _generateAmmeter(Identifier * id);
+static void _generateVoltmeter(Identifier * id);
 
-static Logger * _logger = NULL;
+void _generateSwitch(Identifier * id, ParameterList * params){
+	if (params->current->switchState == OPEN){
+		_output("[nos] ");
+	}else{
+		_output("[ncs] ");
+	}
+	
+}
+
+void _generateVoltmeter(Identifier * id){
+	_output("[voltmeter, l = %s] ", id->id);
+}
+
+void _generateAmmeter(Identifier * id){
+	_output("[ammeter, l = %s] ", id->id);
+}
+
+void _generateInductor(Identifier * id, ParameterList * params){
+	_output("[L");
+	if (params->current != NULL){
+		_output(", ");
+		_generateValue(params);
+		_output("H");
+	}
+	_output("] ");
+}
 
 void _generateAcSource(Identifier * id, ParameterList * params){
 	_output("[sI");
@@ -105,14 +136,27 @@ void _generateResistor(Identifier * id, ParameterList * params){
 
 void _generateComponent(Component * component){
 	switch (component->type){
-	case COMPONENT_RESISTOR:
-		_generateResistor(component->id, component->parameterList);
-		break;
-	case COMPONENT_AC_SOURCE:
-		_generateAcSource(component->id, component->parameterList);
-
-	default:
-		break;
+		case COMPONENT_RESISTOR:
+			_generateResistor(component->id, component->parameterList);
+			break;
+		case COMPONENT_AC_SOURCE:
+			_generateAcSource(component->id, component->parameterList);
+			break;
+		case COMPONENT_DC_SOURCE:
+			_generateDcSource(component->id, component->parameterList);
+			break;
+		case COMPONENT_INDUCTOR:
+			_generateInductor(component->id, component->parameterList);
+			break;
+		case COMPONENT_AMMETER:
+			_generateAmmeter(component->id);
+			break;
+		case COMPONENT_VOLTMETER:
+			_generateVoltmeter(component->id);
+			break;
+		case COMPONENT_SWITCH:
+			_generateSwitch(component->id, component->parameterList);
+			break;
 	}
 }
 
@@ -181,16 +225,14 @@ void _generateCircuit(Circuit * circuit){
 }
 
 void _generateNewPage(){
-	_output("\newpage\n");
+	_output("\\newpage\n");
 }
 
 void _generateProgram(Program * program){
 	size_t i = 0;
 	CircuitList * list = program->circuitList;
 	while (list != NULL){
-		if (i > 0){
-			_generateNewPage();
-		}
+		if (i > 0) _generateNewPage();
 		
 		_generateCircuit(list->current);
 		list = list->next;
