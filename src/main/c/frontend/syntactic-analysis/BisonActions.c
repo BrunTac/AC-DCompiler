@@ -65,12 +65,16 @@ CircuitList * AppendCircuitSemanticAction(CircuitList * circuitList, Circuit * c
 	return circuitList;
 }
 
+void SetCurrentScopeSemanticAction(Identifier * identifier) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        _compilerState->currentScopeId = identifier->id;
+}
+
 Circuit * CircuitSemanticAction(Identifier * identifier, ElementList * elementList) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Circuit * circuit = calloc(1, sizeof(Circuit));
 	circuit->id = identifier;
 	circuit->elementList = elementList;
-	_compilerState->currentScopeId = circuit->id->id;
     addDeclaration(_compilerState->symbolTable, circuit->id->id, TYPE_CIRCUIT, "");
     return circuit;
 }

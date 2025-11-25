@@ -134,7 +134,7 @@ circuitList:
     ;
 
 /* Circuit: "Circuit" ID { body } */
-circuit: CIRCUIT identifier OPEN_BRACE elementListOpt CLOSE_BRACE		{ $$ = CircuitSemanticAction($2, $4); }
+circuit: CIRCUIT identifier { SetCurrentScopeSemanticAction($2); } OPEN_BRACE elementListOpt CLOSE_BRACE		{ $$ = CircuitSemanticAction($2, $5); }
     ;
 
 /* Element list inside a circuit or branch */

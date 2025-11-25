@@ -20,6 +20,7 @@ ModuleDestructor initializeBisonActionsModule();
 Program * ProgramSemanticAction(CircuitList * circuitList);
 CircuitList * NewCircuitListSemanticAction(Circuit * circuit);
 CircuitList * AppendCircuitSemanticAction(CircuitList * circuitList, Circuit * circuit);
+void SetCurrentScopeSemanticAction(Identifier * identifier);
 Circuit * CircuitSemanticAction(Identifier * identifier, ElementList * elementList);
 ElementList * EmptyElementListSemanticAction();
 ElementList * NewElementListSemanticAction(Element * element);

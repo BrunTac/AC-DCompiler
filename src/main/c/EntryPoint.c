@@ -34,13 +34,13 @@ const int main(const int length, const char ** arguments) {
 	if (compilationStatus == SUCCEEDED) {
 		// ----------------------------------------------------------------------------------------
 		// Beginning of the Backend... ------------------------------------------------------------
-		// logDebugging(logger, "Checking semantic validity...");
-		// if (hasInScopeIdRedefinition(compilerState.symbolTable) || hasDifferentSourceTypeInCircuit(compilerState.symbolTable)) {
-		// 	logError(logger, "Semantic error. Program rejected");
-		// 	compilationStatus = FAILED;
-		// } else {
-		// 	executeGenerator(&compilerState);
-		// }
+		logDebugging(logger, "Checking semantic validity...");
+		if (hasInScopeIdRedefinition(compilerState.symbolTable) || hasDifferentSourceTypeInCircuit(compilerState.symbolTable)) {
+			logError(logger, "Semantic error. Program rejected");
+			compilationStatus = FAILED;
+		} else {
+			executeGenerator(&compilerState);
+		}
 		//...end of the Backend. -----------------------------------------------------------------
 		//----------------------------------------------------------------------------------------
 	}
