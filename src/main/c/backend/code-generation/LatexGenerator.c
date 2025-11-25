@@ -1,6 +1,6 @@
 #include "LatexGenerator.h"
 
-static void _output(const char *format, ...)
+static void _output(const char *format, ...);
 static void _generateProgram(Program * program);
 static void _generateCircuit(Circuit * circuit);
 static void _generateNewPage();
@@ -16,25 +16,26 @@ static void _generateMultiplier(UnitMultiplier multiplier);
 static void _generateDcSource(Identifier * id, ParameterList * params);
 static void _generateAcSource(Identifier * id, ParameterList * params);
 
+static Logger * _logger = NULL;
+
 void _generateAcSource(Identifier * id, ParameterList * params){
 	_output("[sI");
-	if (params->current != nullptr){
+	if (params->current != NULL){
 		_output(", ");
 		_generateValue(params);
 		_output("A$");
 	}
-	_output("] ")
-	
+	_output("] ");
 }
 
 void _generateDcSource(Identifier * id, ParameterList * params){
 	_output("[battery1, ");
-	if (params->current != nullptr){
+	if (params->current != NULL){
 		if(params->current->polarity == POSITIVE_FIRST){
 			_output("invert, ");
 		}
 		params = params->next;
-		if (params != nullptr){
+		if (params != NULL){
 			_generateValue(params);
 			_output("A$");
 		}
@@ -68,10 +69,10 @@ void _generateMultiplier(UnitMultiplier multiplier){
 }
 
 void _generateValue(ParameterList * params){
-	if (params != nullptr $$ params->current != nullptr){
+	if (params != NULL && params->current != NULL){
 		_output("l=$%s", params->current->value);
 		params = params->next;
-		if (params != nullptr){
+		if (params != NULL){
 			_generateMultiplier(params->current->unitMultiplier);
 		}
 	}
@@ -89,11 +90,11 @@ void _generateResistor(Identifier * id, ParameterList * params){
 		_output("[Rthermistor");
 		break;
 	case POTENTIOMETER:
-		_output("[Rpotentiometer"):
+		_output("[Rpotentiometer");
 		break;
 	}
 	params = params->next;
-	if (params != nullptr){
+	if (params != NULL){
 		_output(", ");
 		_generateValue(params);
 		_output("\\Omega$");
@@ -186,7 +187,7 @@ void _generateNewPage(){
 void _generateProgram(Program * program){
 	size_t i = 0;
 	CircuitList * list = program->circuitList;
-	while (list != null){
+	while (list != NULL){
 		if (i > 0){
 			_generateNewPage();
 		}
@@ -205,11 +206,10 @@ void _output(const char *format, ...){
     va_end(args);
 }
 
-
- void executeGenerator(CompilerState * compilerState) {
+void executeGenerator(CompilerState * compilerState) {
  	logDebugging(_logger, "Generating final output...");
- 	_generatePrologue();
+ 	//_generatePrologue();
  	_generateProgram(compilerState->abstractSyntaxtTree);
- 	_generateEpilogue(compilerState->value);
+ 	//_generateEpilogue();
  	logDebugging(_logger, "Generation is done.");
- }
+}

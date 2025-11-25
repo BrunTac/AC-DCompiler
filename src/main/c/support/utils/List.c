@@ -27,7 +27,7 @@ void freeList(List list) {
     if(list != NULL) {
         Node * curr = list;
         Node * aux;
-        while (curr->next != null) {
+        while (curr->next != NULL) {
             free(curr->data);
             aux = curr->next;
             free(curr);

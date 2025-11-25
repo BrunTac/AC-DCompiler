@@ -1,5 +1,4 @@
 #include "SymbolTable.h"
-#include "Logger.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,8 +6,8 @@
 
 typedef struct SymbolTableCDT {
     List declarations;
-    boolean redefinition;
-    boolean differentSourceType;
+    bool redefinition;
+    bool differentSourceType;
 } SymbolTableCDT;
 
 typedef struct Declaration {
@@ -16,6 +15,8 @@ typedef struct Declaration {
     const char * id;
     TypeEnum type;
 } Declaration;
+
+TypeEnum getScopeSourceType(const char * scopeId, List declarations);
 
 SymbolTable initializeSymbolTable() {
     return calloc(1, sizeof(SymbolTableCDT));
@@ -43,24 +44,24 @@ void addDeclaration(SymbolTable symbolTable, const char * id, TypeEnum type, con
             symbolTable->differentSourceType = true;
         }
     }
-    if(!addToList(symbolTable->declaration, (void *) declaration, declarationCmp)) {
+    if(!addToList(symbolTable->declarations, (void *) declaration, declarationCmp)) {
         symbolTable->redefinition = true;
         free(declaration);
     }
 }
 
 void freeSymbolTable(SymbolTable symbolTable) {
-    freeList(symbolTable->declarations, free);
+    freeList(symbolTable->declarations);
     free(symbolTable);
 }
 
 TypeEnum getScopeSourceType(const char * scopeId, List declarations) {
-    if (list == NULL) {
+    if (declarations == NULL) {
         return TYPE_NONE;
     }
-    Node * curr = list;
+    Node * curr = declarations;
     do {
-        Declaration * currDeclaration = ((Declaration *) curr->data)->type;
+        Declaration * currDeclaration = (Declaration *) curr->data;
         if((strcmp(currDeclaration->scopeId, scopeId) == 0) && (currDeclaration->type == TYPE_AC_SOURCE || currDeclaration->type == TYPE_DC_SOURCE)) {
             return currDeclaration->type;
         }
@@ -68,4 +69,12 @@ TypeEnum getScopeSourceType(const char * scopeId, List declarations) {
     } while (curr != NULL);
     
     return TYPE_NONE;
+}
+
+bool hasInScopeIdRedefinition(SymbolTable symbolTable){
+    return symbolTable->redefinition;
+}
+
+bool hasDifferentSourceTypeInCircuit(SymbolTable symbolTable){
+    return symbolTable->differentSourceType;
 }

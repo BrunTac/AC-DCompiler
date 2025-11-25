@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-typedef Node * List;
+typedef struct Node * List;
 
 typedef struct Node {
     void * data;
