@@ -2,6 +2,8 @@
 
 static Logger * _logger = NULL;
 
+static void _shutdownLatexGeneratorModule();
+
 static void _output(const char *format, ...);
 static void _generateProgram(Program * program);
 static void _generateCircuit(Circuit * circuit);
@@ -22,6 +24,19 @@ static void _generateInductor(Identifier * id, ParameterList * params);
 static void _generateSwitch(Identifier * id, ParameterList * params);
 static void _generateAmmeter(Identifier * id);
 static void _generateVoltmeter(Identifier * id);
+
+ModuleDestructor initializeLatexGeneratorModule() {
+        _logger = createLogger("LatexGenerator");
+        return _shutdownLatexGeneratorModule;
+}
+
+static void _shutdownLatexGeneratorModule() {
+        if (_logger != NULL) {
+                logDebugging(_logger, "Destroying module: LatexGenerator...");
+                destroyLogger(_logger);
+                _logger = NULL;
+        }
+}
 
 static void _generateParallel(Parallel * parallel, size_t side){
 	return ;
@@ -273,9 +288,12 @@ void _output(const char *format, ...){
 }
 
 void executeGenerator(CompilerState * compilerState) {
- 	logDebugging(_logger, "Generating final output...");
- 	//_generatePrologue();
- 	_generateProgram(compilerState->abstractSyntaxtTree);
+ 	if (_logger == NULL) {
+			_logger = createLogger("LatexGenerator");
+	}
+	logDebugging(_logger, "Generating final output...");
+	//_generatePrologue();
+	_generateProgram(compilerState->abstractSyntaxtTree);
  	//_generateEpilogue();
  	logDebugging(_logger, "Generation is done.");
 }

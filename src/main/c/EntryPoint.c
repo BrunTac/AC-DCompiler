@@ -27,7 +27,8 @@ const int main(const int length, const char ** arguments) {
 		initializeAbstractSyntaxTreeModule(),
 		initializeFlexActionsModule(lexicalAnalyzer),
 		initializeBisonActionsModule(&compilerState),
-		initializeFrontendModule(lexicalAnalyzer)
+		initializeFrontendModule(lexicalAnalyzer),
+		initializeLatexGeneratorModule()
 	};
 	CompilationStatus compilationStatus = executeSyntacticAnalysis();
 	Program * program = compilerState.abstractSyntaxtTree;
