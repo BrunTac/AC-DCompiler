@@ -40,7 +40,7 @@ void addDeclaration(SymbolTable symbolTable, const char * id, TypeEnum type, con
     declaration->type = type;
     if(type == TYPE_AC_SOURCE || type == TYPE_DC_SOURCE) {
         TypeEnum sourceType = getScopeSourceType(scopeId, symbolTable->declarations);
-        if(sourceType != type) {
+        if(sourceType != TYPE_NONE && sourceType != type) {
             symbolTable->differentSourceType = true;
         }
     }
