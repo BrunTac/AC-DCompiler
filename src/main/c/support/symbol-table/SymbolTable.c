@@ -8,12 +8,12 @@
 typedef struct SymbolTableCDT {
     List declarations;
     boolean redefinition;
+    boolean differentSourceType;
 } SymbolTableCDT;
 
 typedef struct Declaration {
     char * id;
     TypeEnum * type;
-    char * branchId;
 } Declaration;
 
 SymbolTable initializeSymbolTable() {
@@ -24,14 +24,18 @@ static int declarationCmp(void * declaration1, void * declaration2){
     return strcmp(((Declaration *)declaration1)->id, ((Declaration *)declaration1)->id);
 }
 
-void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum * type, char * branchId) {
-    int added;
+void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum type) {
     Declaration * declaration = malloc(sizeof(Declaration));
     declaration->id = id;
     declaration->type = type;
-    declaration->branchId = branchId;
-    if(!addToList(symbolTable->declaration, (void *) declaration, declarationCmp)){
-        symbolTable->redefinition = 1;
+    if(type == AC_SOURCE || type == DC_SOURCE) {
+        TypeEnum sourceType = getListSourceType(symbolTable->declarations);
+        if(sourceType != type) {
+            symbolTable->differentSourceType = true;
+        }
+    }
+    if(!addToList(symbolTable->declaration, (void *) declaration, declarationCmp)) {
+        symbolTable->redefinition = true;
         free(declaration);
     }
 }

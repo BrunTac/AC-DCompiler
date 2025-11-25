@@ -1,4 +1,5 @@
 #include "BisonActions.h"
+#include "../../support/symbol-table/SymbolTable.h"
 
 /* MODULE INTERNAL STATE */
 
@@ -71,6 +72,7 @@ Circuit * CircuitSemanticAction(Identifier * identifier, ElementList * elementLi
 	Circuit * circuit = calloc(1, sizeof(Circuit));
 	circuit->id = identifier;
 	circuit->elementList = elementList;
+	addDeclaration(_compilerState->symbolTable, circuit->id, CIRCUIT);
 	return circuit;
 }
 
@@ -157,6 +159,7 @@ Branch * BranchSemanticAction(Identifier * identifier, ComponentList * component
 	Branch * branch = calloc(1, sizeof(Branch));
 	branch->id = identifier;
 	branch->componentList = componentList;
+	addDeclaration(_compilerState->symbolTable, branch->id, BRANCH);
 	return branch;
 }
 
@@ -166,6 +169,7 @@ Component * ACSourceComponentSemanticAction(Identifier * identifier, ParameterLi
 	component->type = COMPONENT_AC_SOURCE;
 	component->id = identifier;
 	component->parameterList = parameterList;
+	addDeclaration(_compilerState->symbolTable, component->id, AC_SOURCE);
 	return component;
 }
 
@@ -175,6 +179,7 @@ Component * DCSourceComponentSemanticAction(Identifier * identifier, ParameterLi
 	component->type = COMPONENT_DC_SOURCE;
 	component->id = identifier;
 	component->parameterList = parameterList;
+	addDeclaration(_compilerState->symbolTable, component->id, DC_SOURCE);
 	return component;
 }
 
@@ -184,6 +189,7 @@ Component * ResistorComponentSemanticAction(Identifier * identifier, ParameterLi
 	component->type = COMPONENT_RESISTOR;
 	component->id = identifier;
 	component->parameterList = parameterList;
+	addDeclaration(_compilerState->symbolTable, component->id, RESISTOR);
 	return component;
 }
 
@@ -193,6 +199,7 @@ Component * VoltmeterComponentSemanticAction(Identifier * identifier){
 	component->type = COMPONENT_VOLTMETER;
 	component->id = identifier;
 	component->parameterList = NULL;
+	addDeclaration(_compilerState->symbolTable, component->id, VOLTMETER);
 	return component;
 }
 
@@ -202,6 +209,7 @@ Component * AmmeterComponentSemanticAction(Identifier * identifier){
 	component->type = COMPONENT_AMMETER;
 	component->id = identifier;
 	component->parameterList = NULL;
+	addDeclaration(_compilerState->symbolTable, component->id, AMMETER);
 	return component;
 }
 
@@ -211,6 +219,7 @@ Component * InductorComponentSemanticAction(Identifier * identifier, ParameterLi
 	component->type = COMPONENT_INDUCTOR;
 	component->id = identifier;
 	component->parameterList = parameterList;
+	addDeclaration(_compilerState->symbolTable, component->id, INDUCTOR);
 	return component;
 }
 
@@ -220,6 +229,7 @@ Component * CapacitorComponentSemanticAction(Identifier * identifier, ParameterL
 	component->type = COMPONENT_CAPACITOR;
 	component->id = identifier;
 	component->parameterList = parameterList;
+	addDeclaration(_compilerState->symbolTable, component->id, CAPACITOR);
 	return component;
 }
 
@@ -229,6 +239,7 @@ Component * SwitchComponentSemanticAction(Identifier * identifier, ParameterList
 	component->type = COMPONENT_SWITCH;
 	component->id = identifier;
 	component->parameterList = parameterList;
+	addDeclaration(_compilerState->symbolTable, component->id, SWITCH);
 	return component;
 }
 

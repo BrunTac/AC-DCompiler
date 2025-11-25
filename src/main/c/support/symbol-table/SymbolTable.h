@@ -11,14 +11,13 @@ enum TypeEnum {
     INDUCTOR,
     CAPACITOR,
     SWITCH,
-    PARALLEL,
     BRANCH
 };
 
 typedef struct SymbolTableCDT * SymbolTable;
 
 SymbolTable initializeSymbolTable();
-void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum * type, char * branchId);
+void addDeclaration(SymbolTable symbolTable, char * id, TypeEnum type);
 void freeSymbolTable(SymbolTable symbolTable);
 
 #endif
