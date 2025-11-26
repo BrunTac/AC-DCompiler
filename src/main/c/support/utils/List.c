@@ -12,14 +12,16 @@ int addToList(List * list, void * data, int (*cmp)(void *, void *)) {
     }
 
     Node * curr = *list;
-    while (curr->next != NULL) {
+    Node * prev = NULL;
+    while (curr != NULL) {
         if(cmp(curr->data, data) == 0) {
             free(newNode);
             return 0;
         }
+        prev = curr;
         curr = curr->next;
     }
-    curr->next = newNode;
+    prev->next = newNode;
     return 1;
 }
 
