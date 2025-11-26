@@ -12,7 +12,10 @@ static void _generateLeftSide(Element * element);
 static void _generateTopSide(Element * element);
 static void _generateRightSide(Element * element);
 static void _generateBottomSide(Element * element);
-static void _generateParallel(Parallel * parallel, size_t side);
+static void _generateParallelLeft(Parallel * parallel);
+static void _generateParallelBottom(Parallel * parallel);
+static void _generateParallelRight(Parallel * parallel);
+static void _generateParallelTop(Parallel * parallel);
 static void _generateComponent(Component * component);
 static void _generateValue(ParameterList * params);
 static void _generateMultiplier(UnitMultiplier multiplier);
@@ -38,8 +41,92 @@ static void _shutdownLatexGeneratorModule() {
         }
 }
 
-static void _generateParallel(Parallel * parallel, size_t side){
-	return ;
+void _generateParallelBottom(Parallel * parallel){
+	BranchList * branches = parallel->branchList;
+    int i = 0;
+
+    if (branches->current->componentList->current != NULL){
+        _generateComponent(branches->current->componentList->current);
+        _output("(0,0)\n");
+    }
+    branches = branches->next;
+
+    while (branches != NULL){
+        _output("(1,%d) to (1,%d)\n", i, i-2);
+        _output("(3,%d) to (3,%d)\n", i, i-2);
+
+        _output("(1,%d) to", i-2);
+        _generateComponent(branches->current->componentList->current);
+        _output("(3,%d)\n", i-2);
+
+        i = i - 2;
+        branches = branches->next;
+    }
+}
+
+void _generateParallelTop(Parallel * parallel){
+	BranchList * branches = parallel->branchList;
+    int i = 4; 
+
+    if (branches->current->componentList->current != NULL){
+        _generateComponent(branches->current->componentList->current);
+        _output("(4,4)\n");
+    }
+    branches = branches->next;
+
+    while (branches != NULL){
+        _output("(1,%d) to (1,%d)\n", i, i+2);
+        _output("(3,%d) to (3,%d)\n", i, i+2);
+
+        _output("(1,%d) to", i+2);
+        _generateComponent(branches->current->componentList->current);
+        _output("(3,%d)\n", i+2);
+
+        i = i + 2;
+        branches = branches->next;
+    }
+}
+
+void _generateParallelRight(Parallel * parallel){
+	BranchList * branches = parallel->branchList;
+    int i = 4;
+    if (branches->current->componentList->current != NULL){
+        _generateComponent(branches->current->componentList->current);
+        _output("(4,0)\n");
+    }
+    branches = branches->next;
+
+    while (branches != NULL){
+        _output("(%d,1) to (%d,1)\n", i, i+2);
+        _output("(%d,3) to (%d,3)\n", i, i+2);
+
+        _output("(%d,1) to", i+2);
+        _generateComponent(branches->current->componentList->current);
+        _output("(%d,3)\n", i+2);
+
+        i = i + 2;
+        branches = branches->next;
+    }
+}
+
+void _generateParallelLeft(Parallel * parallel){
+	BranchList * branches = parallel->branchList;
+	int i = 0;
+	if (branches->current->componentList->current != NULL){
+		_generateComponent(branches->current->componentList->current);
+		_output("(0,4)\n");
+	}	
+	branches = branches->next;
+
+	while (branches != NULL){
+		_output("(%d, 1) to (%d, 1)\n", i, i-2);
+		_output("(%d, 3) to (%d, 3)\n", i, i-2);
+		_output("(%d, 1) to", i-2);
+		_generateComponent(branches->current->componentList->current);
+		_output("(%d, 3)\n", i-2);
+		i = i-2;
+		branches = branches->next;
+	}
 }
 
 void _generateSwitch(Identifier * id, ParameterList * params){
@@ -209,7 +296,7 @@ void _generateBottomSide(Element * element){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
 		_output("(0, 0)\n");
-		_generateParallel(element->parallel, 3);
+		_generateParallelBottom(element->parallel);
 		return;
 	}
 	_output("(0, 0)\n");
@@ -225,7 +312,7 @@ void _generateRightSide(Element * element){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
 		_output("(4, 0)\n");
-		_generateParallel(element->parallel, 2);
+		_generateParallelRight(element->parallel);
 		return;
 	}
 	_output("(4, 0)\n");
@@ -241,7 +328,7 @@ void _generateTopSide(Element * element){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
 		_output("(4, 4)\n");
-		_generateParallel(element->parallel, 1);
+		_generateParallelTop(element->parallel);
 		return;
 	}
 	_output("(4, 4)\n");
@@ -257,7 +344,7 @@ void _generateLeftSide(Element * element){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
 		_output("(0, 4)\n");
-		_generateParallel(element->parallel, 0);
+		_generateParallelLeft(element->parallel);
 		return;
 	}
 	_output("(0, 4)\n");
