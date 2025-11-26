@@ -27,6 +27,11 @@ static void _generateInductor(Identifier * id, ParameterList * params);
 static void _generateSwitch(Identifier * id, ParameterList * params);
 static void _generateAmmeter(Identifier * id);
 static void _generateVoltmeter(Identifier * id);
+static void _generatePrologue();
+static void _generateGeneralPrologue();
+static void _generateEpilogue();
+static void _generateGeneralEpilogue();
+
 
 ModuleDestructor initializeLatexGeneratorModule() {
         _logger = createLogger("LatexGenerator");
@@ -40,6 +45,24 @@ static void _shutdownLatexGeneratorModule() {
                 _logger = NULL;
         }
 }
+
+void _generateGeneralEpilogue(){
+	_output("\\end{document}");
+}
+
+void _generateGeneralPrologue(){
+	_output("\\documentclass{article}\n");
+	_output("\\usepackage{circuitikz}\n");
+}
+
+void _generatePrologue(){
+	_output("\\begin{circuitikz}\n");
+	_output("\\draw\n");
+ }
+
+ void _generateEpilogue(){
+	_output("\\end{circuitikz}\n");
+ }
 
 void _generateParallelBottom(Parallel * parallel){
 	BranchList * branches = parallel->branchList;
@@ -373,7 +396,9 @@ void _generateProgram(Program * program){
 	while (list != NULL){
 		if (i > 0) _generateNewPage();
 		
+		_generatePrologue();
 		_generateCircuit(list->current);
+		_generateEpilogue();
 		list = list->next;
 		i++;
 	}
@@ -392,8 +417,8 @@ void executeGenerator(CompilerState * compilerState) {
 			_logger = createLogger("LatexGenerator");
 	}
 	logDebugging(_logger, "Generating final output...");
-	//_generatePrologue();
+	_generateGeneralPrologue();
 	_generateProgram(compilerState->abstractSyntaxtTree);
- 	//_generateEpilogue();
+ 	_generateGeneralEpilogue();
  	logDebugging(_logger, "Generation is done.");
 }
