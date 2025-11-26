@@ -63,7 +63,7 @@ void _generateInductor(Identifier * id, ParameterList * params){
 	if (params->current != NULL){
 		_output(", ");
 		_generateValue(params);
-		_output("H");
+		_output("H$");
 	}
 	_output("] ");
 }
@@ -199,9 +199,12 @@ void _generateComponent(Component * component){
 	}
 }
 
-
 void _generateBottomSide(Element * element){
 	_output("(4, 0) to");
+	if (element == NULL) {
+		_output("(0, 0)\n");
+		return;
+	}
 	if (element->type == ELEMENT_COMPONENT){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
@@ -214,6 +217,10 @@ void _generateBottomSide(Element * element){
 
 void _generateRightSide(Element * element){
 	_output("(4, 4) to");
+	if (element == NULL) {
+		_output("(4, 0)\n");
+		return;
+	}
 	if (element->type == ELEMENT_COMPONENT){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
@@ -226,6 +233,10 @@ void _generateRightSide(Element * element){
 
 void _generateTopSide(Element * element){
 	_output("(0, 4) to");
+	if (element == NULL) {
+		_output("(4, 4)\n");
+		return;
+	}
 	if (element->type == ELEMENT_COMPONENT){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
@@ -238,6 +249,10 @@ void _generateTopSide(Element * element){
 
 void _generateLeftSide(Element * element){
 	_output("(0, 0) to");
+	if (element == NULL) {
+		_output("(0, 4)\n");
+		return;
+	}
 	if (element->type == ELEMENT_COMPONENT){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
