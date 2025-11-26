@@ -1,0 +1,4 @@
+Circuit dc_and_alt_source {
+    ACSource S_alt (4.7 - 1.2i, micro),
+    DCSource S_dc (+|-, 12, base)
+}

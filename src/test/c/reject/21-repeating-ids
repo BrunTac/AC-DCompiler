@@ -1,0 +1,4 @@
+Circuit repeating_ids {
+    Resistor R1 (Regular, 10, kilo),
+    Resistor R1 (Regular, 5, kilo)
+}
