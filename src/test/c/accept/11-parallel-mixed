@@ -5,7 +5,13 @@ Circuit branch_chain {
         },
         Branch B2 {
             Inductor L1 (0.002, base)
+        },
+        Branch B3 {
+            Capacitor C1 (-|+, 0.2, micro)
+        },
+        Branch B4 {
+            Capacitor C2 (+|-, 2, M)
         }
     },
-    Switch SW1 (Open)
+    Switch SW1 (Closed)
 }

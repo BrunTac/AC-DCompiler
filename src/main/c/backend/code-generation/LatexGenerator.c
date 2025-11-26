@@ -221,13 +221,13 @@ void _generateResistor(Identifier * id, ParameterList * params){
 		_output("[R");
 		break;
 	case PHOTORESISTOR:
-		_output("[Rphoto");
+		_output("[photoresistor");
 		break;
 	case THERMISTOR:
-		_output("[Rthermistor");
+		_output("[thermistor");
 		break;
 	case POTENTIOMETER:
-		_output("[Rpotentiometer");
+		_output("[potentiometer");
 		break;
 	}
 	params = params->next;
@@ -246,6 +246,8 @@ void _generateCapacitor(Identifier * id, ParameterList * params) {
 		_output("[eC");
 		if(params->current->polarity == POSITIVE_FIRST) {
 			_output(", invert");
+		} else {
+			_output(", ");
 		}
 		params = params->next;
 	}
@@ -295,7 +297,6 @@ void _generateBottomSide(Element * element){
 	if (element->type == ELEMENT_COMPONENT){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
-		_output("(0, 0)\n");
 		_generateParallelBottom(element->parallel);
 		return;
 	}
@@ -311,7 +312,6 @@ void _generateRightSide(Element * element){
 	if (element->type == ELEMENT_COMPONENT){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
-		_output("(4, 0)\n");
 		_generateParallelRight(element->parallel);
 		return;
 	}
@@ -327,7 +327,6 @@ void _generateTopSide(Element * element){
 	if (element->type == ELEMENT_COMPONENT){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
-		_output("(4, 4)\n");
 		_generateParallelTop(element->parallel);
 		return;
 	}
@@ -343,7 +342,6 @@ void _generateLeftSide(Element * element){
 	if (element->type == ELEMENT_COMPONENT){
 		_generateComponent(element->component);
 	}else if (element->type == ELEMENT_PARALLEL){
-		_output("(0, 4)\n");
 		_generateParallelLeft(element->parallel);
 		return;
 	}
