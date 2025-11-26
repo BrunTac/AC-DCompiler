@@ -1,8 +1,7 @@
 Circuit branch_chain {
     Parallel {
         Branch B1 {
-            ACSource S1 (2+3i),
-            Capacitor C1 (-|+, 10, micro)
+            ACSource S1 (2+3i)
         },
         Branch B2 {
             Inductor L1 (0.002, base)
