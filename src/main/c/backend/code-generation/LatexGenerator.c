@@ -17,7 +17,7 @@ static void _generateParallelBottom(Parallel * parallel);
 static void _generateParallelRight(Parallel * parallel);
 static void _generateParallelTop(Parallel * parallel);
 static void _generateComponent(Component * component);
-static void _generateValue(ParameterList * params);
+static void _generateLabel(Identifier * id, ParameterList * params, char ** unit);
 static void _generateMultiplier(UnitMultiplier multiplier);
 static void _generateResistor(Identifier * id, ParameterList * params);
 static void _generateDcSource(Identifier * id, ParameterList * params);
@@ -154,9 +154,9 @@ void _generateParallelLeft(Parallel * parallel){
 
 void _generateSwitch(Identifier * id, ParameterList * params){
 	if (params->current->switchState == OPEN){
-		_output("[nos] ");
+		_output("[nos, l=%s] ", id->id);
 	}else{
-		_output("[ncs] ");
+		_output("[ncs, l=%s] ", id->id);
 	}
 }
 
@@ -175,16 +175,13 @@ void _generateInductor(Identifier * id, ParameterList * params){
 		_generateValue(params);
 		_output("H$");
 	}
+	_generateLabel(id, params, "H");
 	_output("] ");
 }
 
 void _generateAcSource(Identifier * id, ParameterList * params){
-	_output("[sI");
-	if (params->current != NULL){
-		_output(", ");
-		_generateValue(params);
-		_output("A$");
-	}
+	_output("[sI, ");
+	_generateLabel(id, params, "A");
 	_output("] ");
 }
 
@@ -195,13 +192,10 @@ void _generateDcSource(Identifier * id, ParameterList * params){
 			_output("invert, ");
 		}
 		params = params->next;
-		if (params != NULL){
-			_generateValue(params);
-			_output("A$");
-		}
 	}else{
-		_output("invert");
+		_output("invert, ");
 	}
+	_generateLabel(id, params, "A");
 	_output("] ");
 }
 
@@ -228,57 +222,50 @@ void _generateMultiplier(UnitMultiplier multiplier){
 	}
 }
 
-void _generateValue(ParameterList * params){
+void _generateLabel(Identifier * id, ParameterList * params, char ** unit){
 	if (params != NULL && params->current != NULL){
 		_output("l=$%s", params->current->value);
 		params = params->next;
 		if (params != NULL){
 			_generateMultiplier(params->current->unitMultiplier);
 		}
+		_output("%s$", unit);
+	}else {
+		_output("l=%s", id);
 	}
 }
 
 void _generateResistor(Identifier * id, ParameterList * params){
 	switch (params->current->resistorType){
 	case REGULAR:
-		_output("[R");
+		_output("[R, ");
 		break;
 	case PHOTORESISTOR:
-		_output("[photoresistor");
+		_output("[photoresistor, ");
 		break;
 	case THERMISTOR:
-		_output("[thermistor");
+		_output("[thermistor, ");
 		break;
 	case POTENTIOMETER:
-		_output("[potentiometer");
+		_output("[potentiometer, ");
 		break;
 	}
 	params = params->next;
-	if (params != NULL){
-		_output(", ");
-		_generateValue(params);
-		_output("\\Omega$");
-	}
+	_generateLabel(id, params, "\\Omega");
 	_output("] ");
 }
 
 void _generateCapacitor(Identifier * id, ParameterList * params) {
 	if(params->current->type != POLARITY) {
-		_output("[C");
+		_output("[C, ");
 	} else {
-		_output("[eC");
+		_output("[eC, ");
 		if(params->current->polarity == POSITIVE_FIRST) {
-			_output(", invert");
-		} else {
-			_output(", ");
+			_output("invert, ");
 		}
 		params = params->next;
 	}
-	if(params->current != NULL) {
-		_output(", ");
-		_generateValue(params);
-		_output("F$");
-	}
+	_generateLabel(id, params, "F");
 	_output("] ");
 }
 
