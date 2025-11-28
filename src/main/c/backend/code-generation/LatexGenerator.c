@@ -17,7 +17,7 @@ static void _generateParallelBottom(Parallel * parallel);
 static void _generateParallelRight(Parallel * parallel);
 static void _generateParallelTop(Parallel * parallel);
 static void _generateComponent(Component * component);
-static void _generateLabel(Identifier * id, ParameterList * params, char ** unit);
+static void _generateLabel(Identifier * id, ParameterList * params, char * unit);
 static void _generateMultiplier(UnitMultiplier multiplier);
 static void _generateResistor(Identifier * id, ParameterList * params);
 static void _generateDcSource(Identifier * id, ParameterList * params);
@@ -217,7 +217,7 @@ void _generateMultiplier(UnitMultiplier multiplier){
 	}
 }
 
-void _generateLabel(Identifier * id, ParameterList * params, char ** unit){
+void _generateLabel(Identifier * id, ParameterList * params, char * unit){
 	if (params != NULL && params->current != NULL){
 		_output("l=$%s", params->current->value);
 		params = params->next;
@@ -254,9 +254,8 @@ void _generateCapacitor(Identifier * id, ParameterList * params) {
 	if(params->current == NULL || params->current->type != POLARITY) {
 		_output("[C, ");
 	} else {
-		_output("%POLARITY: %d%", params->current->polarity);
 		_output("[eC, ");
-		if(params->current->polarity == NEGATIVE_FIRST) {
+		if(params->current->polarity != NULL && *(params->current->polarity) == NEGATIVE_FIRST) {
 			_output("invert, ");
 		}
 		params = params->next;
