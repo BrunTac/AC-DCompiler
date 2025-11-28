@@ -144,16 +144,10 @@ elementListOpt:
     ;
 
 elementList:
-	  element                                               { $$ = NewElementListSemanticAction($1); }
-    | element COMMA element                                 { ElementList * toReturn = NewElementListSemanticAction($1);
-                                                              $$ = AppendElementSemanticAction(toReturn, $3); }
-    | element COMMA element COMMA element                   { ElementList * toReturn = NewElementListSemanticAction($1); 
-                                                              toReturn = AppendElementSemanticAction(toReturn, $3); 
-                                                              $$ = AppendElementSemanticAction(toReturn, $5); }
-    | element COMMA element COMMA element COMMA element     { ElementList * toReturn = NewElementListSemanticAction($1); 
-                                                              toReturn = AppendElementSemanticAction(toReturn, $3); 
-                                                              toReturn = AppendElementSemanticAction(toReturn, $5); 
-                                                              $$ = AppendElementSemanticAction(toReturn, $7); }
+	    element                                             { $$ = NewElementListSemanticAction($1); }
+    | element COMMA element                                 { $$ = TwoElementListSemanticAction($1, $3); }
+    | element COMMA element COMMA element                   { $$ = ThreeElementListSemanticAction($1, $3, $5); }
+    | element COMMA element COMMA element COMMA element     { $$ = FourElementListSemanticAction($1, $3, $5, $7); }
     ;
 
 /* Elementos posibles */
@@ -219,38 +213,23 @@ capacitorParams:
     | OPEN_PARENTHESIS valueParams CLOSE_PARENTHESIS                                                     { $$ = $2; }
 
 resistorParams:
-      OPEN_PARENTHESIS RESISTOR_TYPE_TOKEN CLOSE_PARENTHESIS                                        { Parameter * resistorType = ParameterResistorTypeSemanticAction($2); 
-                                                                                                      $$ = NewParameterListSemanticAction(resistorType); }
-    | OPEN_PARENTHESIS RESISTOR_TYPE_TOKEN COMMA valueParams CLOSE_PARENTHESIS                      { Parameter * resistorType = ParameterResistorTypeSemanticAction($2); 
-                                                                                                      ParameterList * toReturn = NewParameterListSemanticAction(resistorType); 
-                                                                                                      $$ = AppendParameterListSemanticAction(toReturn, $4); }
+      OPEN_PARENTHESIS RESISTOR_TYPE_TOKEN CLOSE_PARENTHESIS                                        { $$ = ResistorParamsSemanticAction($2); }
+    | OPEN_PARENTHESIS RESISTOR_TYPE_TOKEN COMMA valueParams CLOSE_PARENTHESIS                      { $$ = ResistorParamsWithValueSemanticAction($2, $4); }
 
 switchParams:
-      OPEN_PARENTHESIS SWITCH_STATE_TOKEN CLOSE_PARENTHESIS                                         { Parameter * switchState = ParameterSwitchStateSemanticAction($2); 
-                                                                                                      $$ = NewParameterListSemanticAction(switchState); }
+      OPEN_PARENTHESIS SWITCH_STATE_TOKEN CLOSE_PARENTHESIS                                         { $$ = SwitchParamsSemanticAction($2); }
 
 valueParams: 
-      REAL_VALUE_TOKEN                                                                              { Parameter * value = ParameterValueSemanticAction($1); 
-                                                                                                      $$ = NewParameterListSemanticAction(value); }
-    | REAL_VALUE_TOKEN COMMA UNIT_MULTIPLIER_TOKEN                                                  { Parameter * value = ParameterValueSemanticAction($1);
-                                                                                                      Parameter * unitMultiplier = ParameterUnitMultiplierSemanticAction($3);
-                                                                                                      ParameterList * toReturn = NewParameterListSemanticAction(value);
-                                                                                                      $$ = AppendParameterSemanticAction(toReturn, unitMultiplier); }
+      REAL_VALUE_TOKEN                                                                              { $$ = ValueParamsSemanticAction($1); }
+    | REAL_VALUE_TOKEN COMMA UNIT_MULTIPLIER_TOKEN                                                  { $$ = ValueParamsWithUnitSemanticAction($1, $3); }
 
 complexValueParams: 
-      COMPLEX_VALUE_TOKEN                                                                           { Parameter * value = ParameterValueSemanticAction($1); 
-                                                                                                      $$ = NewParameterListSemanticAction(value); }
-    | COMPLEX_VALUE_TOKEN COMMA UNIT_MULTIPLIER_TOKEN                                                          { Parameter * value = ParameterValueSemanticAction($1);
-                                                                                                      Parameter * unitMultiplier = ParameterUnitMultiplierSemanticAction($3);
-                                                                                                      ParameterList * toReturn = NewParameterListSemanticAction(value);
-                                                                                                      $$ = AppendParameterSemanticAction(toReturn, unitMultiplier); }
+      COMPLEX_VALUE_TOKEN                                                                           { $$ = ComplexValueParamsSemanticAction($1); }
+    | COMPLEX_VALUE_TOKEN COMMA UNIT_MULTIPLIER_TOKEN                                               { $$ = ComplexValueParamsWithUnitSemanticAction($1, $3); }
 
 polarityParams:
-      polarity                                                                                      { Parameter * polarity = ParameterPolaritySemanticAction($1); 
-                                                                                                      $$ = NewParameterListSemanticAction(polarity); }
-    | polarity COMMA valueParams                                                                    { Parameter * polarity = ParameterPolaritySemanticAction($1);
-                                                                                                      ParameterList * toReturn = NewParameterListSemanticAction(polarity);
-                                                                                                      $$ = AppendParameterListSemanticAction(toReturn, $3); }
+      polarity                                                                                      { $$ = PolarityParamsSemanticAction($1); }
+    | polarity COMMA valueParams                                                                    { $$ = PolarityParamsWithValueSemanticAction($1, $3); }
 
 emptyParams: %empty                                                                                 { $$ = EmptyParameterListSemanticAction(); }
     | OPEN_PARENTHESIS CLOSE_PARENTHESIS                                                            { $$ = EmptyParameterListSemanticAction(); }

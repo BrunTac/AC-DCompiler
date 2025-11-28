@@ -47,12 +47,13 @@ static void _shutdownLatexGeneratorModule() {
 }
 
 void _generateGeneralEpilogue(){
-	_output("\\end{document}");
+	_output("\\end{document}\n");
 }
 
 void _generateGeneralPrologue(){
 	_output("\\documentclass{article}\n");
 	_output("\\usepackage{circuitikz}\n");
+	_output("\\begin{document}\n");
 }
 
 void _generatePrologue(){
@@ -61,6 +62,7 @@ void _generatePrologue(){
  }
 
  void _generateEpilogue(){
+	_output(";\n");
 	_output("\\end{circuitikz}\n");
  }
 

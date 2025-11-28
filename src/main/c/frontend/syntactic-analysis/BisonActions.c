@@ -109,6 +109,24 @@ ElementList * AppendElementSemanticAction(ElementList * elementList, Element * e
 	return elementList;
 }
 
+ElementList * TwoElementListSemanticAction(Element * firstElement, Element * secondElement) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        ElementList * elementList = NewElementListSemanticAction(firstElement);
+        return AppendElementSemanticAction(elementList, secondElement);
+}
+
+ElementList * ThreeElementListSemanticAction(Element * firstElement, Element * secondElement, Element * thirdElement) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        ElementList * elementList = TwoElementListSemanticAction(firstElement, secondElement);
+        return AppendElementSemanticAction(elementList, thirdElement);
+}
+
+ElementList * FourElementListSemanticAction(Element * firstElement, Element * secondElement, Element * thirdElement, Element * fourthElement) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        ElementList * elementList = ThreeElementListSemanticAction(firstElement, secondElement, thirdElement);
+        return AppendElementSemanticAction(elementList, fourthElement);
+}
+
 Element * ComponentElementSemanticAction(Component * component) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Element * element = calloc(1, sizeof(Element));
@@ -284,6 +302,62 @@ ParameterList * AppendParameterListSemanticAction(ParameterList * baseParameterL
 	}
 	aux->next = newParameterList;
 	return baseParameterList;
+}
+
+ParameterList * ResistorParamsSemanticAction(ResistorType resistorType) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        Parameter * resistorTypeParameter = ParameterResistorTypeSemanticAction(resistorType);
+        return NewParameterListSemanticAction(resistorTypeParameter);
+}
+
+ParameterList * ResistorParamsWithValueSemanticAction(ResistorType resistorType, ParameterList * valueParameters) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        ParameterList * parameterList = ResistorParamsSemanticAction(resistorType);
+        return AppendParameterListSemanticAction(parameterList, valueParameters);
+}
+
+ParameterList * SwitchParamsSemanticAction(SwitchState switchState) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        Parameter * switchStateParameter = ParameterSwitchStateSemanticAction(switchState);
+        return NewParameterListSemanticAction(switchStateParameter);
+}
+
+ParameterList * ValueParamsSemanticAction(char * value) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        Parameter * valueParameter = ParameterValueSemanticAction(value);
+        return NewParameterListSemanticAction(valueParameter);
+}
+
+ParameterList * ValueParamsWithUnitSemanticAction(char * value, UnitMultiplier unitMultiplier) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        ParameterList * parameterList = ValueParamsSemanticAction(value);
+        Parameter * unitMultiplierParameter = ParameterUnitMultiplierSemanticAction(unitMultiplier);
+        return AppendParameterSemanticAction(parameterList, unitMultiplierParameter);
+}
+
+ParameterList * ComplexValueParamsSemanticAction(char * value) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        Parameter * valueParameter = ParameterValueSemanticAction(value);
+        return NewParameterListSemanticAction(valueParameter);
+}
+
+ParameterList * ComplexValueParamsWithUnitSemanticAction(char * value, UnitMultiplier unitMultiplier) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        ParameterList * parameterList = ComplexValueParamsSemanticAction(value);
+        Parameter * unitMultiplierParameter = ParameterUnitMultiplierSemanticAction(unitMultiplier);
+        return AppendParameterSemanticAction(parameterList, unitMultiplierParameter);
+}
+
+ParameterList * PolarityParamsSemanticAction(Polarity * polarity) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        Parameter * polarityParameter = ParameterPolaritySemanticAction(polarity);
+        return NewParameterListSemanticAction(polarityParameter);
+}
+
+ParameterList * PolarityParamsWithValueSemanticAction(Polarity * polarity, ParameterList * valueParameters) {
+        _logSyntacticAnalyzerAction(__FUNCTION__);
+        ParameterList * parameterList = PolarityParamsSemanticAction(polarity);
+        return AppendParameterListSemanticAction(parameterList, valueParameters);
 }
 
 Parameter * ParameterValueSemanticAction(char * value) {
