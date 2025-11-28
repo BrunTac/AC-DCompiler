@@ -254,6 +254,7 @@ void _generateCapacitor(Identifier * id, ParameterList * params) {
 	if(params->current == NULL || params->current->type != POLARITY) {
 		_output("[C, ");
 	} else {
+		_output("%POLARITY: %d%", params->current->polarity);
 		_output("[eC, ");
 		if(params->current->polarity == NEGATIVE_FIRST) {
 			_output("invert, ");
