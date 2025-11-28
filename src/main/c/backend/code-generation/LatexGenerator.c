@@ -183,7 +183,7 @@ void _generateAcSource(Identifier * id, ParameterList * params){
 void _generateDcSource(Identifier * id, ParameterList * params){
 	_output("[battery1, ");
 	if (params->current != NULL){
-		if(params->current->polarity == NEGATIVE_FIRST){
+		if(params->current->polarity == POSITIVE_FIRST){
 			_output("invert, ");
 		}
 		params = params->next;
@@ -255,7 +255,7 @@ void _generateCapacitor(Identifier * id, ParameterList * params) {
 		_output("[C, ");
 	} else {
 		_output("[eC, ");
-		if(params->current->polarity == POSITIVE_FIRST) {
+		if(params->current->polarity == NEGATIVE_FIRST) {
 			_output("invert, ");
 		}
 		params = params->next;
