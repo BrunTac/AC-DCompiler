@@ -232,7 +232,7 @@ switchParams:
 valueParams: 
       REAL_VALUE_TOKEN                                                                              { Parameter * value = ParameterValueSemanticAction($1); 
                                                                                                       $$ = NewParameterListSemanticAction(value); }
-    | REAL_VALUE_TOKEN COMMA UNIT_MULTIPLIER_TOKEN                                                             { Parameter * value = ParameterValueSemanticAction($1);
+    | REAL_VALUE_TOKEN COMMA UNIT_MULTIPLIER_TOKEN                                                  { Parameter * value = ParameterValueSemanticAction($1);
                                                                                                       Parameter * unitMultiplier = ParameterUnitMultiplierSemanticAction($3);
                                                                                                       ParameterList * toReturn = NewParameterListSemanticAction(value);
                                                                                                       $$ = AppendParameterSemanticAction(toReturn, unitMultiplier); }

@@ -54,7 +54,7 @@ Compiles a program:
 src/main/bash/run.sh <program>
 ```
 
-where `<program>` is the path to the file that represents its entry-point.
+where `<program>` is the path to the file that represents its entry-point. After the semantic analysis of the program, you will be able to copy and paste the resulting code into a LaTeX compiler directly to get your result.
 
 ### Test
 

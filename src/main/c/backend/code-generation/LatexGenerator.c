@@ -176,21 +176,21 @@ void _generateInductor(Identifier * id, ParameterList * params){
 
 void _generateAcSource(Identifier * id, ParameterList * params){
 	_output("[sI, ");
-	_generateLabel(id, params, "A");
+	_generateLabel(id, params, "V");
 	_output("] ");
 }
 
 void _generateDcSource(Identifier * id, ParameterList * params){
 	_output("[battery1, ");
-	if (params->current != NULL){
-		if(params->current->polarity == POSITIVE_FIRST){
+	if (params != NULL && params->current != NULL && params->current->type == POLARITY){
+		if(params->current->polarity != NULL && *(params->current->polarity) == POSITIVE_FIRST){
 			_output("invert, ");
 		}
 		params = params->next;
 	}else{
 		_output("invert, ");
 	}
-	_generateLabel(id, params, "A");
+	_generateLabel(id, params, "V");
 	_output("] ");
 }
 
@@ -218,7 +218,7 @@ void _generateMultiplier(UnitMultiplier multiplier){
 }
 
 void _generateLabel(Identifier * id, ParameterList * params, char * unit){
-	if (params != NULL && params->current != NULL){
+	if (params != NULL && params->current != NULL && params->current->type == VALUE){
 		_output("l=$%s", params->current->value);
 		params = params->next;
 		if (params != NULL){
@@ -226,7 +226,7 @@ void _generateLabel(Identifier * id, ParameterList * params, char * unit){
 		}
 		_output("%s$", unit);
 	}else {
-		_output("l=%s", id);
+		_output("l=%s", id->id);
 	}
 }
 
