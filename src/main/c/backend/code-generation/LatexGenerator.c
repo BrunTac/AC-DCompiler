@@ -170,11 +170,6 @@ void _generateAmmeter(Identifier * id){
 
 void _generateInductor(Identifier * id, ParameterList * params){
 	_output("[L");
-	if (params->current != NULL){
-		_output(", ");
-		_generateValue(params);
-		_output("H$");
-	}
 	_generateLabel(id, params, "H");
 	_output("] ");
 }
@@ -256,7 +251,7 @@ void _generateResistor(Identifier * id, ParameterList * params){
 }
 
 void _generateCapacitor(Identifier * id, ParameterList * params) {
-	if(params->current->type != POLARITY) {
+	if(params->current == NULL || params->current->type != POLARITY) {
 		_output("[C, ");
 	} else {
 		_output("[eC, ");
