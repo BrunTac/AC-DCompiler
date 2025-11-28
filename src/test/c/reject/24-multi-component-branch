@@ -1,0 +1,11 @@
+Circuit crowded_branch {
+    Parallel {
+        Branch OnlyBranch {
+            Resistor R1 (Regular, 5, kilo),
+            Capacitor C1 (+|-, 22, micro)
+        },
+        Branch Spare {
+            Resistor R2 (Regular, 10, kilo)
+        }
+    }
+}

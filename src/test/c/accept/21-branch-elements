@@ -1,13 +1,26 @@
 Circuit branch_elements {
     Parallel {
-        Branch B_left {
-            Resistor R1 (Regular, 47, kilo),
-            Capacitor C1 (33, nano),
+        Branch B_resistor {
+            Resistor R1 (Regular, 47, kilo)
+        },
+        Branch B_capacitor {
+            Capacitor C1 (33, nano)
+        }
+    },
+    Parallel {
+        Branch B_switch {
             Switch SW1 (Closed)
         },
-        Branch B_right {
-            DCSource S1 (+|-, 5, base),
+        Branch B_source {
+            DCSource S1 (+|-, 5, base)
+        }
+    },
+    Parallel {
+        Branch B_inductor {
             Inductor L1 (0.001, milli)
+        },
+        Branch B_monitor {
+            Voltmeter VM1
         }
     }
 }

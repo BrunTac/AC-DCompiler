@@ -1,0 +1,7 @@
+Circuit overcrowded {
+    Resistor R1 (Regular, 10, kilo),
+    Resistor R2 (Regular, 20, kilo),
+    Capacitor C1 (+|-, 10, micro),
+    Inductor L1 (5, milli),
+    Switch SW1 (Closed)
+}

@@ -1,37 +1,45 @@
 Circuit grid_balancer {
     DCSource MainBus (+|-, 48, kilo),
     Parallel {
-        Branch Regulator {
-            Resistor R_in (Regular, 1.2, kilo),
-            Capacitor C_hold (+|-, 470, micro),
-            Parallel {
-                Branch RegSlow {
-                    Inductor L_slow (120, milli)
-                },
-                Branch RegFast {
-                    Switch SW_fast (Open),
-                    Capacitor C_fast (+|-, 22, nano)
-                }
-            }
+        Branch RegInput {
+            Resistor R_in (Regular, 1.2, kilo)
         },
-        Branch Distribution {
-            Parallel {
-                Branch Node1 {
-                    Resistor R_node1 (Regular, 680, base),
-                    ACSource Sense1 (3.2-1.6i)
-                },
-                Branch Node2 {
-                    Resistor R_node2 (Regular, 680, base),
-                    ACSource Sense2 (3.2+1.6i)
-                },
-                Branch Node3 {
-                    Voltmeter VM_node3
-                }
-            }
+        Branch RegHold {
+            Capacitor C_hold (+|-, 470, micro)
         },
-        Branch Diagnostics {
-            Ammeter AM_diag,
+        Branch RegSlow {
+            Inductor L_slow (120, milli)
+        },
+        Branch RegFastSwitch {
+            Switch SW_fast (Open)
+        }
+    },
+    Parallel {
+        Branch FastCap {
+            Capacitor C_fast (+|-, 22, nano)
+        },
+        Branch Node1 {
+            Resistor R_node1 (Regular, 680, base)
+        },
+        Branch Node2 {
+            Resistor R_node2 (Regular, 680, base)
+        },
+        Branch SenseNodeA {
+            DCSource Sense1 (+|-, 3.2, base)
+        }
+    },
+    Parallel {
+        Branch DiagnosticsCurrent {
+            Ammeter AM_diag
+        },
+        Branch DiagnosticsResistor {
             Resistor R_diag (Thermistor, 15, kilo)
+        },
+        Branch SenseNodeB {
+            DCSource Sense2 (+|-, 1.6, base)
+        },
+        Branch MonitorVoltage {
+            Voltmeter VM_node3
         }
     }
 }

@@ -1,29 +1,28 @@
 Circuit signal_routing {
     ACSource Source_in (8.5e-1+2.2e-2j, base),
     Parallel {
-        Branch SplitA {
-            Resistor R_a (Regular, 330, base),
-            Parallel {
-                Branch AHigh {
-                    Capacitor C_a (+|-, 12, micro)
-                },
-                Branch ALow {
-                    Resistor R_trim (Potentiometer, 2.5, kilo),
-                    Inductor L_a (3.3, milli)
-                }
-            }
+        Branch SplitAResistor {
+            Resistor R_a (Regular, 330, base)
         },
-        Branch SplitB {
-            Switch SW_gate (Closed),
-            Parallel {
-                Branch BSense {
-                    Voltmeter VM_b,
-                    Resistor R_sense (Photoresistor)
-                },
-                Branch BShunt {
-                    DCSource Bias (+|-, 2.5, base)
-                }
-            }
+        Branch SplitACapacitor {
+            Capacitor C_a (+|-, 12, micro)
+        },
+        Branch TrimResistor {
+            Resistor R_trim (Potentiometer, 2.5, kilo)
+        }
+    },
+    Parallel {
+        Branch InductorPath {
+            Inductor L_a (3.3, milli)
+        },
+        Branch SenseVoltage {
+            Voltmeter VM_b
+        },
+        Branch SenseResistor {
+            Resistor R_sense (Photoresistor)
+        },
+        Branch BiasSource {
+            ACSource Bias (2.5, base)
         }
     },
     Ammeter IA_monitor

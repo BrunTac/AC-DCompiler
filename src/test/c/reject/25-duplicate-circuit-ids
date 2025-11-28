@@ -1,0 +1,6 @@
+Circuit repeated_name {
+    DCSource S1 (+|-, 5, base)
+},
+Circuit repeated_name {
+    ACSource S2 (3+1i, base)
+}

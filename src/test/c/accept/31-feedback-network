@@ -1,24 +1,29 @@
 Circuit feedback_network {
     DCSource Vref (+|-, 5, base),
-    Resistor R_bias (Regular, 10, kilo),
     Parallel {
-        Branch Sense {
-            Resistor R_sense (Potentiometer, 2.2, kilo),
-            Capacitor C_sense (+|-, 47, nano)
+        Branch SenseResistor {
+            Resistor R_sense (Potentiometer, 2.2, kilo)
         },
-        Branch Gain {
-            Parallel {
-                Branch GainHigh {
-                    ACSource Vin (2e+1-3e+0i, base)
-                },
-                Branch GainLow {
-                    Inductor L_gain (15, milli)
-                }
-            },
+        Branch SenseCapacitor {
+            Capacitor C_sense (+|-, 47, nano)
+        }
+    },
+    Parallel {
+        Branch GainSource {
+            DCSource Vin (+|-, 2, base)
+        },
+        Branch GainInductor {
+            Inductor L_gain (15, milli)
+        }
+    },
+    Parallel {
+        Branch GateControl {
             Switch GateSwitch (Closed)
         },
-        Branch Monitor {
-            Voltmeter Vm_output,
+        Branch VoltageMonitor {
+            Voltmeter Vm_output
+        },
+        Branch CurrentFeedback {
             Ammeter Ia_feedback
         }
     }

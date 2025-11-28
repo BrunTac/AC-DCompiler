@@ -1,12 +1,18 @@
 Circuit timed_branch {
     Parallel {
-        Branch Left {
-            ACSource S1 (6, base),
-            Switch SW1 (Open)
+        Branch LeftSource {
+            ACSource S1 (6, base)
         },
-        Branch Right {
+        Branch RightResistor {
             Resistor R1 (Potentiometer, 3.3, kilo)
         }
     },
-    Ammeter Meter1
+    Parallel {
+        Branch LeftControl {
+            Switch SW1 (Open)
+        },
+        Branch RightMeter {
+            Ammeter Meter1
+        }
+    }
 }

@@ -3,8 +3,10 @@ Circuit sensor_hub {
         Branch Input {
             DCSource V_in (4.8, base)
         },
-        Branch Monitor {
-            Voltmeter V_mon,
+        Branch MonitorVoltage {
+            Voltmeter V_mon
+        },
+        Branch MonitorResistor {
             Resistor R_mon (Regular, 1, kilo)
         }
     },
@@ -14,16 +16,20 @@ Circuit sensor_hub {
 Circuit actuator_array {
     ACSource Source_main (1.5e+2+3.5e+1i, kilo),
     Parallel {
-        Branch Motor {
-            Switch SW_motor (Closed),
-            Inductor L_motor (0.35, base)
+        Branch MotorSwitch {
+            Switch SW_motor (Closed)
         },
+        Branch MotorInductor {
+            Inductor L_motor (0.35, base)
+        }
+    },
+    Parallel {
         Branch Brake {
             Resistor R_brake (Thermistor, 5, kilo)
         },
-        Branch Sense {
-            Ammeter A_feedback,
-            Capacitor C_feedback (+|-, 10, micro)
+        Branch FeedbackCurrent {
+            Ammeter A_feedback
         }
-    }
+    },
+    Capacitor C_feedback (+|-, 10, micro)
 }
